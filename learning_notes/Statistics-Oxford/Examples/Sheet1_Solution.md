@@ -518,3 +518,27 @@ This concept of information loss due to rounding extends beyond just exponential
 - Calculate likelihood for rounded data
 - Find Fisher Information
 - Compare with original (unrounded) Fisher Information
+
+> Key Differences Across Distributions:
+>
+> - Heavy-tailed distributions might be less sensitive to rounding
+> - Symmetric distributions have different patterns of information loss
+> - The acceptable rounding threshold varies by distribution
+
+# Question 6:
+
+> Consider independent exponential random variables $X_1,...,X_n$ with parameter $\theta$. Let $\#A$ denote the number of elements of a set $A$, and consider two estimators:
+>
+> $$\tilde{p} = \frac{\#{i: X_i > 1}}{n} \quad \text{and} \quad \hat{p} = \bar{X}$$
+>
+> When $T_1$ and $T_2$ are estimators of a parameter $\theta$, the asymptotic efficiency of $T_1$ relative to $T_2$ is given by:
+>
+> $$\lim_{n \to \infty} \frac{\text{avar}(T_2)}{\text{avar}(T_1)}$$
+>
+> where $\text{avar}(T_j)$ denotes the asymptotic variance of the approximating normal distribution of $T_j$, $j = 1,2$.
+>
+> Find the asymptotic efficiency of $T_1 = -\log \tilde{p}$ relative to $T_2 = 1/\hat{p}$. Find the numerical value of the asymptotic efficiency when $\theta = 0.6, 1.6, 5.6$. Comment on the implications for using $T_1$ instead of $T_2$ to estimate $\theta$.
+
+# Question 7
+
+<img src="../Estimation/Code/Figures/qq.png" alt="alt text">
