@@ -550,3 +550,49 @@ This concept of information loss due to rounding extends beyond just exponential
 - Cauchy has the heaviest tails, hence the extreme deviations
 
 <img src="../Estimation/Code/Figures/qq.png" alt="alt text">
+
+# Question 9
+
+## Exponential Q-Q Plot for Interarrivals:
+
+- The first plot shows interarrival times (time between insurance claims)
+- There's a noticeable deviation from the red dashed line (which represents perfect exponential fit)
+- The points curve below the line, particularly for larger values
+
+This suggests that:
+
+- The data has lighter tails than an exponential distribution
+- Very long waiting times between claims are less common than an exponential model would predict
+- The actual distribution might be more "bunched up" around the mean
+
+For claim timing (interarrivals):
+
+- The process is not purely random (not perfectly exponential)
+- Claims tend to cluster more than a pure random process would suggest
+- This could indicate seasonality or other patterns in claim occurrence
+
+<img src="../Estimation/Code/Figures/interarrivals.png" alt="alt text">
+
+## Pareto Q-Q Plot for Claim Amounts:
+
+- This plot shows the logarithm of claim amounts
+- The fit to the red line is remarkably good for most of the range
+- There's only slight deviation at the very high end
+- This suggests that:
+
+  - Claim amounts follow a Pareto distribution quite well
+  - This is typical for insurance claims because:
+
+    - Most claims are for moderate amounts
+    - There are progressively fewer large claims
+    - But the potential for very large claims exists (heavy tail property)
+
+The Pareto distribution is particularly good at modeling this kind of "heavy-tailed" behavior
+
+<img src="../Estimation/Code/Figures/claims.png" alt="alt text">
+
+For claim amounts:
+
+- The Pareto fit suggests a significant probability of very large claims
+- This validates the need for reinsurance to protect against extreme events
+- It helps in pricing insurance policies and setting reserves
