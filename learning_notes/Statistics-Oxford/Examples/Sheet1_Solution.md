@@ -402,3 +402,119 @@ $$I_G(\theta) > I_B(\theta)$$
 The geometric distribution provides more information about $\theta$ and will give more precise inference. This is because each geometric observation provides more information about $\theta$ than a single Bernoulli trial, as it captures the entire sequence of trials until success.
 
 <img src="../Estimation/Code/Figures/fisher_geometric_bernoulli.png" alt="alt text">
+
+# Question 5:
+
+> Suppose a random sample $Y_1,...,Y_n$ from an exponential distribution with parameter $\lambda$ is rounded down to the nearest $\delta$, giving $Z_1,...,Z_n$ where $Z_j = \delta\lfloor Y_j/\delta \rfloor$. Show that the likelihood contribution from the $j$th rounded observation can be written $(1-e^{-\lambda\delta})e^{-\lambda z_j}$, and deduce that the expected information for $\lambda$ based on the entire sample is:
+>
+> $$\frac{n\delta^2e^{-\lambda\delta}}{(1-e^{-\lambda\delta})^2}$$
+>
+> Show that this has limit $n/\lambda^2$ as $\delta \to 0$, and that if $\lambda = 1$, the loss of information when data are rounded down to the nearest integer rather than recorded exactly, is less than 10%. Find the loss of information when $\delta = 0.1$, and comment briefly.
+
+## Solution: Information Loss in Rounded Exponential Data
+
+**Likelihood Contribution for a Rounded Observation**
+
+Each $Y_j$ follows an exponential distribution with parameter $\lambda$, and is rounded down to the nearest $\delta$ to form $Z_j = \delta\lfloor Y_j/\delta\rfloor$. The value of $Z_j$ is a discrete multiple of $\delta$: $Z_j \in \{0,\delta,2\delta,\dots\}$.
+
+For a specific $Z_j = z_j$ (where $z_j = k\delta$), the likelihood contribution comes from:
+
+$$P(Z_j = z_j) = P(k\delta \leq Y_j < (k+1)\delta)$$
+
+For an exponential random variable $Y_j$ with CDF:
+
+$$F(y;\lambda) = 1-e^{-\lambda y}, \quad y \geq 0$$
+
+The probability is:
+
+$$
+\begin{align*}
+P(Z_j = z_j) &= P(k\delta \leq Y_j < (k+1)\delta) \\
+&= F((k+1)\delta) - F(k\delta) \\
+&= (1-e^{-\lambda(k+1)\delta}) - (1-e^{-\lambda k\delta}) \\
+&= e^{-\lambda k\delta} - e^{-\lambda(k+1)\delta} \\
+&= e^{-\lambda k\delta}(1-e^{-\lambda\delta})
+\end{align*}
+$$
+
+Since $z_j = k\delta$, the likelihood contribution is:
+
+$$P(Z_j = z_j) = (1-e^{-\lambda\delta})e^{-\lambda z_j}$$
+
+The Fisher Information for $\lambda$ is:
+
+$$I(\lambda) = -E[\frac{\partial^2}{\partial\lambda^2}\log L(\lambda)]$$
+
+For a single observation $Z_j = z_j$, the log-likelihood is:
+
+$$\log P(Z_j = z_j) = \log(1-e^{-\lambda\delta}) - \lambda z_j$$
+
+Taking derivatives:
+
+First derivative:
+$$\frac{\partial}{\partial\lambda}\log P(Z_j = z_j) = \frac{-\delta e^{-\lambda\delta}}{1-e^{-\lambda\delta}} - z_j$$
+
+Second derivative:
+$$\frac{\partial^2}{\partial\lambda^2}\log P(Z_j = z_j) = -\frac{\delta^2 e^{-\lambda\delta}}{(1-e^{-\lambda\delta})^2}$$
+
+Therefore, the Fisher Information for a single observation is:
+
+$$I(\lambda) = \frac{\delta^2 e^{-\lambda\delta}}{(1-e^{-\lambda\delta})^2}$$
+
+For a sample of size $n$:
+
+$$I_n(\lambda) = n\cdot\frac{\delta^2 e^{-\lambda\delta}}{(1-e^{-\lambda\delta})^2}$$
+
+Using Taylor expansion:
+$$1-e^{-\lambda\delta} \approx \lambda\delta \text{ as } \delta \to 0$$
+
+Therefore:
+$$I_n(\lambda) \approx n\cdot\frac{\delta^2 e^{-\lambda\delta}}{(\lambda\delta)^2} \to \frac{n}{\lambda^2}$$
+
+### Loss of Information Analysis
+
+For $\delta = 1$ and $\lambda = 1$:
+
+- $1-e^{-1} \approx 0.6321$
+- $e^{-1} \approx 0.3679$
+- $I_n(\lambda) \approx 0.921n$
+- Loss = $1 - 0.921 = 0.079$ or 7.9%
+
+For $\delta = 0.1$:
+
+- $1-e^{-0.1} \approx 0.0952$
+- $e^{-0.1} \approx 0.9048$
+- $I_n(\lambda) \approx 0.998n$
+- Loss = $1 - 0.998 = 0.002$ or 0.2%
+
+### Comments
+
+1. As $\delta$ decreases, the loss of information becomes negligible
+2. For $\delta = 1$, the loss is small (<10%), making integer rounding reasonable
+3. For $\delta = 0.1$, the loss is nearly negligible (0.2%), ensuring very precise inference
+
+We learn the following from this question:
+
+1. **Information loss in Data Collection:**
+
+- Helps understand how much precision we lose when rounding measurements
+- Even rounding to integers ($\delta = 1$) only loses about 8% information
+
+2. **Fisher Information Interpretation:**
+
+- Demonstrates how Fisher Information measures the "quality" of parameter estimation
+- Helps understand the trade-off between data precision and statistical efficiency
+
+3. **Practical Applications:**
+
+- Data Storage: Justifies using rounded data to save storage space
+- Cost-Benefit Analysis: Balance between precision and resource constraints
+- Quality Control: Understanding impact of measurement precision on inference
+- For exponential data, even coarse rounding retains most information
+- More precise measurements (smaller $\delta$) give better parameter estimates
+
+This concept of information loss due to rounding extends beyond just exponential distributions.The specific amount of information loss will vary by distribution. The methodology remains similar:
+
+- Calculate likelihood for rounded data
+- Find Fisher Information
+- Compare with original (unrounded) Fisher Information
