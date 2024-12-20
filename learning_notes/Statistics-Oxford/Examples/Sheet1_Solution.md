@@ -80,27 +80,114 @@ where:
 ## Solution:
 
 **1. Properties of the Sample Mean $\bar{X}$**
+
 For $X_i \sim \text{Poisson}(\lambda)$:
 
-$E[\bar{X}] = \lambda$
-$\text{Var}(\bar{X}) = \frac{\lambda}{n}$
+- $E[\bar{X}] = \lambda$
+- $\text{Var}(\bar{X}) = \frac{\lambda}{n}$
 
 where $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$
 
 **2. Goal**
+
 We need to find $g(\bar{X})$ such that its asymptotic variance does not depend on $\lambda$. Since $\text{Var}(\bar{X}) = \frac{\lambda}{n}$, we need $g(\bar{X})$ to normalize $\lambda$ appropriately.
 
 **3. Define $g(\bar{X})$**
+
 Let:
 $$g(\bar{X}) = \sqrt{\bar{X}}$$
 
 **4. Delta Method Application**
+
 For large $n$, by the delta method:
+
 $$\text{Var}(g(\bar{X})) \approx \left(\frac{\partial g(\bar{X})}{\partial \bar{X}}\right)^2 \text{Var}(\bar{X})$$
+
 The derivative of $g(\bar{X}) = \sqrt{\bar{X}}$ is:
+
 $$\frac{\partial g(\bar{X})}{\partial \bar{X}} = \frac{1}{2\sqrt{\bar{X}}}$$
+
 As $n \to \infty$, $\bar{X} \to \lambda$ (by the Law of Large Numbers), so:
+
 $$\text{Var}(g(\bar{X})) \approx \left(\frac{1}{2\sqrt{\lambda}}\right)^2 \cdot \frac{\lambda}{n} = \frac{1}{4n}$$
 
 **5. Conclusion**
 The function $g(\bar{X}) = \sqrt{\bar{X}}$ ensures that the asymptotic variance of $g(\bar{X})$ is $\frac{1}{4n}$, which does not depend on $\lambda$.
+
+# Question 2:
+
+> Let $X_1,...,X_n$ be a random sample from a uniform distribution with probability density function
+>
+> $$f(x) = \begin{cases} 1 & \text{if } 0 < x < 1 \\ 0 & \text{otherwise} \end{cases}$$
+>
+> Show that if $X_{(r)}$ is the $r$th order statistic, then
+>
+> $$E(X_{(r)}) = \frac{r}{n+1}, \quad \text{var}(X_{(r)}) = \frac{r(n+1-r)}{(n+1)^2(n+2)}$$
+>
+> Define the median of the random sample, distinguishing between the two cases $n$ odd and $n$ even. Show that the median has expected value $\frac{1}{2}$ if the random sample is drawn from a uniform distribution on $(0,1)$. Find its variance in the case when $n$ is odd. What is the expected value of the median if the random sample is drawn from a uniform distribution on $(a,b)$?
+>
+> [Hint: remember that pdfs integrate to 1, there's no need to actually do any integration in this question.]
+
+## Solution
+
+Let's solve this step by step for the first part of the question, showing that $E(X_{(r)}) = \frac{r}{n+1}$ and $\text{var}(X_{(r)}) = \frac{r(n+1-r)}{(n+1)^2(n+2)}$.
+
+### 1. PDF of the r-th Order Statistic
+
+For a sample of size $n$ from $U(0,1)$, the PDF of the $r$-th order statistic $X_{(r)}$ is:
+
+$$f_{X_{(r)}}(x) = \frac{n!}{(r-1)!(n-r)!}x^{r-1}(1-x)^{n-r}, \quad 0 < x < 1$$
+
+### 2. Expected Value $E[X_{(r)}]$
+
+The expected value is given by:
+
+$$E[X_{(r)}] = \int_0^1 x \cdot f_{X_{(r)}}(x) dx$$
+
+Substituting the PDF:
+
+$$E[X_{(r)}] = \int_0^1 x \cdot \frac{n!}{(r-1)!(n-r)!}x^{r-1}(1-x)^{n-r} dx$$
+
+$$= \frac{n!}{(r-1)!(n-r)!}\int_0^1 x^r(1-x)^{n-r} dx$$
+
+This integral is a Beta function $B(a,b)$ with $a=r+1$ and $b=n-r+1$:
+
+$$\int_0^1 x^r(1-x)^{n-r} dx = B(r+1,n-r+1)$$
+
+where:
+$$B(a,b) = \frac{\Gamma(a)\Gamma(b)}{\Gamma(a+b)}$$
+
+Using the relation between Beta and Gamma functions:
+
+$$B(r+1,n-r+1) = \frac{\Gamma(r+1)\Gamma(n-r+1)}{\Gamma(n+2)}$$
+
+Substituting back:
+
+$$E[X_{(r)}] = \frac{n!}{(r-1)!(n-r)!} \cdot \frac{r!(n-r)!}{(n+1)!} = \frac{r}{n+1}$$
+
+### 3. Variance $\text{Var}(X_{(r)})$
+
+The variance is:
+
+$$\text{Var}(X_{(r)}) = E[X_{(r)}^2] - (E[X_{(r)}])^2$$
+
+Following similar steps for $E[X_{(r)}^2]$:
+
+$$E[X_{(r)}^2] = \frac{n!}{(r-1)!(n-r)!}\int_0^1 x^{r+1}(1-x)^{n-r} dx$$
+
+This gives:
+
+$$E[X_{(r)}^2] = \frac{r(r+1)}{(n+1)(n+2)}$$
+
+Therefore:
+
+$$\text{Var}(X_{(r)}) = \frac{r(r+1)}{(n+1)(n+2)} - (\frac{r}{n+1})^2$$
+
+After simplification:
+
+$$\text{Var}(X_{(r)}) = \frac{r(n+1-r)}{(n+1)^2(n+2)}$$
+
+Thus, we have proven both results:
+
+- $E[X_{(r)}] = \frac{r}{n+1}$
+- $\text{Var}(X_{(r)}) = \frac{r(n+1-r)}{(n+1)^2(n+2)}$
