@@ -541,4 +541,12 @@ This concept of information loss due to rounding extends beyond just exponential
 
 # Question 7
 
+> The figure below shows normal Q-Q plots for randomly generated samples of size 100 from four different densities: from a $N(0,1)$ density,
+> an exponential density, a uniform density, and a Cauchy density.
+
+- Normal distribution should look most linear as it's being compared to itself
+- Uniform has no tails, hence the S-shape as it's bounded
+- Exponential is right-skewed, hence the upward curve
+- Cauchy has the heaviest tails, hence the extreme deviations
+
 <img src="../Estimation/Code/Figures/qq.png" alt="alt text">
