@@ -333,4 +333,72 @@ This provides a graphical method to:
 1. Verify if data follows Weibull distribution (check linearity)
 2. Estimate parameters $\alpha$ and $\lambda$ from slope and intercept
 
-<img src="../Estimation/Code/Figures/weibull.png" alt="alt text" width="500">
+<img src="../Estimation/Code/Figures/weibull.png" alt="alt text">
+
+# Question 4:
+
+> Find the expected information for $\theta$, where $0 < \theta < 1$, based on a random sample $X_1,...,X_n$ from:
+>
+> (a) the geometric distribution
+> $$f(x;\theta) = \theta(1-\theta)^{x-1}, \quad x = 1,2,...$$
+>
+> (b) the Bernoulli distribution
+> $$f(x;\theta) = \theta^x(1-\theta)^{1-x}, \quad x = 0,1$$
+>
+> A statistician has a choice between observing random samples from the geometric or Bernoulli distributions with the same $\theta$. Which will give the more precise inference about $\theta$?
+
+## Solution: Expected Information for Geometric and Bernoulli Distributions
+
+Let's solve this step by step for both distributions.
+
+### Part (a): Geometric Distribution
+
+The expected information is given by:
+$$I(\theta) = -E\left[\frac{\partial^2}{\partial\theta^2}\log f(X;\theta)\right]$$
+
+$$\log f(x;\theta) = \log\theta + (x-1)\log(1-\theta)$$
+
+$$\frac{\partial}{\partial\theta}\log f(x;\theta) = \frac{1}{\theta} - \frac{x-1}{1-\theta}$$
+
+$$\frac{\partial^2}{\partial\theta^2}\log f(x;\theta) = -\frac{1}{\theta^2} - \frac{x-1}{(1-\theta)^2}$$
+
+We know $E[X] = \frac{1}{\theta}$ for geometric distribution
+
+$$I_G(\theta) = \frac{1}{\theta^2} + \frac{E[X]-1}{(1-\theta)^2}$$
+$$= \frac{1}{\theta^2} + \frac{\frac{1}{\theta}-1}{(1-\theta)^2}$$
+$$= \frac{1}{\theta^2} + \frac{1}{\theta(1-\theta)^2}$$
+$$= \frac{1}{\theta^2(1-\theta)}$$
+
+For n observations, multiply by n:
+$$I_G(\theta) = \frac{n}{\theta^2(1-\theta)}$$
+
+### Part (b): Bernoulli Distribution
+
+$$\log f(x;\theta) = x\log\theta + (1-x)\log(1-\theta)$$
+
+$$\frac{\partial}{\partial\theta}\log f(x;\theta) = \frac{x}{\theta} - \frac{1-x}{1-\theta}$$
+
+$$\frac{\partial^2}{\partial\theta^2}\log f(x;\theta) = -\frac{x}{\theta^2} - \frac{1-x}{(1-\theta)^2}$$
+
+For Bernoulli, $E[X] = \theta$
+
+$$I_B(\theta) = \frac{\theta}{\theta^2} + \frac{1-\theta}{(1-\theta)^2}$$
+$$= \frac{1}{\theta} + \frac{1}{1-\theta}$$
+$$= \frac{1}{\theta(1-\theta)}$$
+
+For n observations:
+$$I_B(\theta) = \frac{n}{\theta(1-\theta)}$$
+
+### Comparison and Conclusion
+
+Comparing the two expressions:
+
+- Geometric: $I_G(\theta) = \frac{n}{\theta^2(1-\theta)}$
+- Bernoulli: $I_B(\theta) = \frac{n}{\theta(1-\theta)}$
+
+Since $0 < \theta < 1$, we have $\frac{1}{\theta} > 1$, therefore:
+$$I_G(\theta) > I_B(\theta)$$
+
+The geometric distribution provides more information about $\theta$ and will give more precise inference. This is because each geometric observation provides more information about $\theta$ than a single Bernoulli trial, as it captures the entire sequence of trials until success.
+
+<img src="../Estimation/Code/Figures/fisher_geometric_bernoulli.png" alt="alt text">
