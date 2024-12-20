@@ -128,7 +128,7 @@ The function $g(\bar{X}) = \sqrt{\bar{X}}$ ensures that the asymptotic variance 
 >
 > [Hint: remember that pdfs integrate to 1, there's no need to actually do any integration in this question.]
 
-## Solution
+## Solution Part a:
 
 Let's solve this step by step for the first part of the question, showing that $E(X_{(r)}) = \frac{r}{n+1}$ and $\text{var}(X_{(r)}) = \frac{r(n+1-r)}{(n+1)^2(n+2)}$.
 
@@ -191,3 +191,146 @@ Thus, we have proven both results:
 
 - $E[X_{(r)}] = \frac{r}{n+1}$
 - $\text{Var}(X_{(r)}) = \frac{r(n+1-r)}{(n+1)^2(n+2)}$
+
+## Solution Part b: Median of Uniform Distribution Sample
+
+Let's define the median for both cases:
+
+**Case 1: n odd**
+When $n$ is odd, let $n = 2k + 1$ for some $k \in \mathbb{N}$
+
+- Median = $X_{(k+1)}$ (the $(k+1)$ th order statistic)
+
+**Case 2: n even**
+When $n$ is even, let $n = 2k$ for some $k \in \mathbb{N}$
+
+- Median = $\frac{X_{(k)} + X_{(k+1)}}{2}$ (average of $k$ th and $(k+1)$ th order statistics)
+
+### 2. Expected Value for U(0,1)
+
+**Case 1: n odd $(n = 2k + 1)$**
+
+Using the result from part 1, for the $(k+1)$ th order statistic:
+
+$$E[X_{(k+1)}] = \frac{k+1}{n+1} = \frac{k+1}{2k+2} = \frac{1}{2}$$
+
+**Case 2: n even $(n = 2k)$**
+The median is the average of two order statistics:
+
+$$E[\text{Median}] = E[\frac{X_{(k)} + X_{(k+1)}}{2}] = \frac{1}{2}(E[X_{(k)}] + E[X_{(k+1)}])$$
+
+Using the previous result:
+$$= \frac{1}{2}(\frac{k}{n+1} + \frac{k+1}{n+1}) = \frac{1}{2}(\frac{k + (k+1)}{2k+1}) = \frac{1}{2}$$
+
+### 3. Variance for n odd
+
+For $n = 2k + 1$, the median is $X_{(k+1)}$, so:
+
+$$\text{Var}(X_{(k+1)}) = \frac{(k+1)(n+1-(k+1))}{(n+1)^2(n+2)}$$
+
+Substituting $k = \frac{n-1}{2}$:
+
+$$= \frac{(\frac{n+1}{2})(n+1-\frac{n+1}{2})}{(n+1)^2(n+2)}$$
+
+$$= \frac{(\frac{n+1}{2})(\frac{n+1}{2})}{(n+1)^2(n+2)}$$
+
+$$= \frac{1}{4(n+2)}$$
+
+### 4. Expected Value for U(a,b)
+
+For a uniform distribution on $(a,b)$, we can use the linear transformation property:
+
+- If $X \sim U(0,1)$, then $Y = a + (b-a)X \sim U(a,b)$
+
+Therefore:
+
+- $E[Y_{(r)}] = a + (b-a)E[X_{(r)}]$
+
+For the median (when $n$ is odd or even):
+$$E[\text{Median}] = a + (b-a)\frac{1}{2} = \frac{a+b}{2}$$
+
+This makes intuitive sense as it's the midpoint of the interval $(a,b)$.
+
+Therefore:
+
+- For $U(0,1)$: The median has expected value $\frac{1}{2}$
+- For $U(a,b)$: The median has expected value $\frac{a+b}{2}$
+- For odd $n$: The variance of the median is $\frac{1}{4(n+2)}$
+
+# Question 3:
+
+> Let $X$ be a continuous random variable with cumulative distribution function $F$ which is strictly increasing. If $Y = F(X)$, show that $Y$ is uniformly distributed on the interval $(0,1)$.
+>
+> The Weibull distribution with parameters $\alpha > 0$ and $\lambda > 0$ has cumulative distribution function:
+>
+> $$
+> F(x) = \begin{cases}
+> 0 & \text{if } x < 0 \\
+> 1-\exp(-(x/\lambda)^\alpha) & \text{if } x > 0
+> \end{cases}
+> $$
+>
+> Explain why a probability plot for the Weibull distribution may be based on plotting the logarithm of the $r$th order statistic against $\log[-\log(1-\frac{r}{n+1})]$ and give the slope and intercept of such a plot.
+
+## Solution: Weibull Distribution and Probability Plots
+
+### Part 1: Uniform Distribution of $Y = F(X)$
+
+- Since $F$ is a CDF, we know that $0 \leq F(x) \leq 1$ for all $x$
+- Therefore, $Y = F(X)$ must be in $(0,1)$
+
+For any $y \in (0,1)$:
+$$P(Y \leq y) = P(F(X) \leq y)$$
+
+Since $F$ is strictly increasing, it has an inverse $F^{-1}$:
+$$P(F(X) \leq y) = P(X \leq F^{-1}(y))$$
+
+By definition of CDF:
+$$P(X \leq F^{-1}(y)) = F(F^{-1}(y)) = y$$
+
+Therefore, $Y$ has CDF:
+$$F_Y(y) = y \text{ for } y \in (0,1)$$
+
+This is the CDF of $U(0,1)$, proving $Y \sim U(0,1)$
+
+### Part 2: Weibull Probability Plot
+
+For $x > 0$:
+$$F(x) = 1-\exp(-(x/\lambda)^\alpha)$$
+
+Take complement:
+$$1-F(x) = \exp(-(x/\lambda)^\alpha)$$
+
+Take log of both sides:
+$$\log(1-F(x)) = -(x/\lambda)^\alpha$$
+
+Take log again:
+$$\log[-\log(1-F(x))] = \alpha\log(x) - \alpha\log(\lambda)$$
+
+For the $r$ th order statistic:
+
+- $E[X_{(r)}]$ represents expected value of the $r$th order statistic
+- From previous results, $F(E[X_{(r)}]) \approx \frac{r}{n+1}$
+
+Therefore:
+$$\log[-\log(1-\frac{r}{n+1})] = \alpha\log(E[X_{(r)}]) - \alpha\log(\lambda)$$
+
+Plotting $\log(X_{(r)})$ against $\log[-\log(1-\frac{r}{n+1})]$ gives:
+
+- Slope = $\frac{1}{\alpha}$
+- Intercept = $\log(\lambda)$
+
+This creates a linear plot if the data follows a Weibull distribution, with:
+
+- $y = \log(X_{(r)})$
+- $x = \log[-\log(1-\frac{r}{n+1})]$
+
+The resulting line has equation:
+$$y = \frac{1}{\alpha}x + \log(\lambda)$$
+
+This provides a graphical method to:
+
+1. Verify if data follows Weibull distribution (check linearity)
+2. Estimate parameters $\alpha$ and $\lambda$ from slope and intercept
+
+<img src="../Estimation/Code/Figures/weibull.png" alt="alt text" width="500">
