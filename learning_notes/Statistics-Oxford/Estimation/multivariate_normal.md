@@ -1,4 +1,4 @@
-# Multivariate Normal Distribution in Quantitative Finance
+# Multivariate Normal Distribution
 
 ## Overview
 
