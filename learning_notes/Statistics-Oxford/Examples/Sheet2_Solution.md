@@ -166,3 +166,25 @@ The confidence interval uses:
 - Width: $1.96 \times 0.00344 = 0.0067$
 
 These results provide strong evidence that $\theta$ is approximately 0.42, with high precision given the narrow confidence interval.
+
+# Question 2: Estimation of Log-Standard Deviation in Normal Distribution
+
+> Consider independent normal random variables $X_1,...,X_n \sim N(\mu,\sigma^2)$ where:
+>
+> - $\mu$ is known
+> - $\sigma$ is unknown
+> - We want to estimate $\psi = \log \sigma$
+>
+> Solve the following:
+>
+> **(a)** Find:
+>
+> 1. The maximum likelihood estimator $\hat{\sigma}$
+> 2. The asymptotic normal approximation to the distribution of $\hat{\sigma}$
+>
+> **(b)** Using the delta method:
+>
+> 1. Find the asymptotic distribution of $\hat{\psi}$
+> 2. Construct an approximate 95% confidence interval for $\psi$
+>
+> **(c)** Explain how to convert the confidence interval for $\psi$ into an approximate confidence interval for $\sigma$
