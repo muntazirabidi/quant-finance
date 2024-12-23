@@ -188,3 +188,120 @@ These results provide strong evidence that $\theta$ is approximately 0.42, with 
 > 2. Construct an approximate 95% confidence interval for $\psi$
 >
 > **(c)** Explain how to convert the confidence interval for $\psi$ into an approximate confidence interval for $\sigma$
+
+## Solution Part (a):
+
+### 1. Finding the MLE $\hat{\sigma}$
+
+For $X_i \sim N(\mu,\sigma^2)$ independently:
+
+$L(\sigma) = \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left(-\frac{(x_i-\mu)^2}{2\sigma^2}\right)$
+
+$\ell(\sigma) = -\frac{n}{2}\log(2\pi) - n\log(\sigma) - \frac{1}{2\sigma^2}\sum_{i=1}^n(x_i-\mu)^2$
+
+$\frac{\partial \ell}{\partial \sigma} = -\frac{n}{\sigma} + \frac{1}{\sigma^3}\sum_{i=1}^n(x_i-\mu)^2$
+
+$-\frac{n}{\sigma} + \frac{1}{\sigma^3}\sum_{i=1}^n(x_i-\mu)^2 = 0$
+
+Simplifying:
+$\hat{\sigma}^2 = \frac{1}{n}\sum_{i=1}^n(x_i-\mu)^2$
+
+Therefore:
+$\hat{\sigma} = \sqrt{\frac{1}{n}\sum_{i=1}^n(x_i-\mu)^2}$
+
+### 2. Finding Asymptotic Distribution
+
+$\frac{\partial^2 \ell}{\partial \sigma^2} = \frac{n}{\sigma^2} - \frac{3}{\sigma^4}\sum_{i=1}^n(x_i-\mu)^2$
+
+At $\hat{\sigma}$, this is negative, confirming we have a maximum.
+
+$I(\sigma) = -E\left[\frac{\partial^2 \ell}{\partial \sigma^2}\right] = \frac{2n}{\sigma^2}$
+
+For large $n$, the MLE is approximately normally distributed:
+
+$\hat{\sigma} \stackrel{a}{\sim} N\left(\sigma, \frac{1}{nI(\sigma)}\right)$
+
+Therefore:
+$\hat{\sigma} \stackrel{a}{\sim} N\left(\sigma, \frac{\sigma^2}{2n}\right)$
+
+This means:
+$\sqrt{n}(\hat{\sigma} - \sigma) \stackrel{d}{\to} N\left(0, \frac{\sigma^2}{2}\right)$
+
+---
+
+The MLE $\hat{\sigma}$ is therefore:
+
+1. Consistent (converges to true value)
+2. Asymptotically normal
+3. Has variance decreasing at rate $1/n$
+
+## Solution Part (b): Applying Delta Method and Confidence Interval
+
+### 1. Finding Asymptotic Distribution of $\hat{\psi}$
+
+We want to find distribution of $\hat{\psi} = \log(\hat{\sigma})$
+where $g(\sigma) = \log(\sigma)$
+
+For $g'(\sigma) = \frac{1}{\sigma}$, the delta method states:
+
+$\sqrt{n}(\hat{\psi} - \psi) \stackrel{d}{\to} N(0, [g'(\sigma)]^2 \cdot \frac{\sigma^2}{2})$
+
+Substituting $g'(\sigma) = \frac{1}{\sigma}$:
+
+$\text{Var}(\hat{\psi}) \approx \frac{1}{n} \cdot (\frac{1}{\sigma})^2 \cdot \frac{\sigma^2}{2} = \frac{1}{2n}$
+
+Therefore:
+$\hat{\psi} \stackrel{a}{\sim} N(\psi, \frac{1}{2n})$
+
+### 2. Constructing 95% Confidence Interval
+
+For 95% confidence, we use $z_{0.025} = 1.96$
+
+$\hat{\psi} \pm z_{0.025} \sqrt{\frac{1}{2n}}$
+
+Therefore, the 95% confidence interval for $\psi$ is:
+
+$\left(\log(\hat{\sigma}) - \frac{1.96}{\sqrt{2n}}, \log(\hat{\sigma}) + \frac{1.96}{\sqrt{2n}}\right)$
+
+---
+
+Key observations:
+
+1. The variance of $\hat{\psi}$ is constant (doesn't depend on $\sigma$)
+2. The interval is symmetric around $\log(\hat{\sigma})$
+3. Width of interval shrinks at rate $1/\sqrt{n}$
+
+This provides a theoretically elegant result as the confidence interval has constant width on the log scale.
+
+## Solution Part (c): Converting Confidence Intervals
+
+Since $\psi = \log(\sigma)$, we can transform the confidence interval for $\psi$ to get one for $\sigma$ by applying the exponential function.
+
+If $(L, U)$ is a 95% CI for $\psi = \log(\sigma)$, then:
+$(e^L, e^U)$ is a 95% CI for $\sigma$
+
+### Detailed Steps
+
+1. From part (b), our CI for $\psi$ was:
+   $\left(\log(\hat{\sigma}) - \frac{1.96}{\sqrt{2n}}, \log(\hat{\sigma}) + \frac{1.96}{\sqrt{2n}}\right)$
+
+2. Apply exponential function:
+   $\left(\hat{\sigma} \cdot e^{-1.96/\sqrt{2n}}, \hat{\sigma} \cdot e^{1.96/\sqrt{2n}}\right)$
+
+### Key Properties
+
+1. **Asymmetry**:
+
+   - Unlike the interval for $\psi$, this interval is not symmetric around $\hat{\sigma}$
+   - This reflects the skewed nature of the distribution of $\hat{\sigma}$
+
+2. **Interpretation**:
+
+   - The interval gives positive values only (appropriate for $\sigma$)
+   - The multiplicative nature of the interval reflects the log-normal behavior
+
+3. **Width**:
+   - The relative width (ratio of upper to lower bound) remains constant
+   - This is often more appropriate for scale parameters like $\sigma$
+
+This transformation maintains the 95% confidence level while ensuring the interval is appropriate for the scale parameter $\sigma$.
