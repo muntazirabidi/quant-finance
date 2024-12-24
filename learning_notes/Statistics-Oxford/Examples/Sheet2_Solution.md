@@ -943,6 +943,7 @@ The Q-Q plot shows how well our data matches an exponential distribution. The bl
 ### Numerical Evidence:
 
 The R-squared value of 0.9831 is quite impressive – it tells us that about 98.31% of the variation in our ordered data can be explained by the exponential model. This is strong evidence in favor of the exponential assumption.
+
 <img src="../Confidence Intervals/Code/Figures/qq_quakes.png" alt="alt text">
 
 > **Confidence Intervals:**
@@ -965,3 +966,126 @@ The exponential model appears to be a reasonable assumption for this dataset. Wh
 - The generally good alignment in the Q-Q plot, especially for smaller and medium-sized earthquakes
 
 This means we can use exponential distribution properties to make predictions about earthquake occurrences, though we should be slightly cautious about predictions involving very large earthquakes, as these show some deviation from the model.
+
+# Question 9:
+
+## Solution
+
+_Checkout the Notebook in Code folder_
+
+### Mathematical Foundations of Confidence Intervals for Exponential Distribution
+
+The exponential distribution with parameter $\lambda$ has probability density function:
+
+$$f(x; \lambda) = \lambda e^{-\lambda x}, \quad x \geq 0$$
+
+Key properties:
+
+- Mean: $E(X) = \frac{1}{\lambda}$
+- Variance: $Var(X) = \frac{1}{\lambda^2}$
+- For $n$ independent observations, their sum follows a gamma distribution with shape parameter $n$ and scale parameter $\frac{1}{\lambda}$
+
+### 1. Exact Method (Gamma-based)
+
+This method leverages the relationship between exponential and gamma distributions.
+
+For independent $X_1, ..., X_n \sim Exp(\lambda)$:
+
+$$2\lambda\sum_{i=1}^n X_i \sim \chi^2_{2n}$$
+
+Equivalently:
+
+$$\lambda\sum_{i=1}^n X_i \sim Gamma(n,1)$$
+
+For a 95% confidence interval:
+
+$$P(a \leq \lambda\sum_{i=1}^n X_i \leq b) = 0.95$$
+
+where $a$ and $b$ are the 0.025 and 0.975 quantiles of $Gamma(n,1)$.
+
+Solving for $\lambda$:
+
+$$P\left(\frac{a}{\sum_{i=1}^n X_i} \leq \lambda \leq \frac{b}{\sum_{i=1}^n X_i}\right) = 0.95$$
+
+Therefore, the exact 95% confidence interval is:
+
+$$\left[\frac{a}{\sum_{i=1}^n X_i}, \frac{b}{\sum_{i=1}^n X_i}\right]$$
+
+### 2. First Approximation (Fisher Information)
+
+This method uses asymptotic normality of the maximum likelihood estimator (MLE):
+
+$$\hat{\lambda} = \frac{1}{\bar{X}}$$
+
+The Fisher Information for an exponential distribution is:
+
+$$I(\lambda) = \frac{n}{\lambda^2}$$
+
+By asymptotic normality:
+
+$$\hat{\lambda} \stackrel{approx}{\sim} N\left(\lambda, \frac{\lambda^2}{n}\right)$$
+
+Therefore:
+
+$$\frac{\hat{\lambda} - \lambda}{\sqrt{\lambda^2/n}} \stackrel{approx}{\sim} N(0,1)$$
+
+Leading to the confidence interval:
+
+$$\hat{\lambda} \pm 1.96\sqrt{\hat{\lambda}^2/n} = \hat{\lambda}(1 \pm 1.96/\sqrt{n})$$
+
+### 3. Second Approximation (Alternative)
+
+This method modifies the first approximation by not replacing $\lambda$ with $\hat{\lambda}$ in the variance term.
+
+Instead of using:
+
+$$Var(\hat{\lambda}) \approx \frac{\hat{\lambda}^2}{n}$$
+
+It uses:
+
+$$Var(\hat{\lambda}) = \frac{\lambda^2}{n}$$
+
+This leads to solving:
+
+$$|\hat{\lambda} - \lambda| \leq 1.96\lambda/\sqrt{n}$$
+
+Resulting in the confidence interval:
+
+$$\left[\frac{\hat{\lambda}}{1 + 1.96/\sqrt{n}}, \frac{\hat{\lambda}}{1 - 1.96/\sqrt{n}}\right]$$
+
+### Convergence Properties
+
+As sample size $n$ increases:
+
+1. By the Central Limit Theorem:
+
+   $$\sqrt{n}(\hat{\lambda} - \lambda) \stackrel{d}{\rightarrow} N(0, \lambda^2)$$
+
+2. The gamma distribution approaches normality through the following relationship:
+
+   $$\frac{Gamma(n,1) - n}{\sqrt{n}} \stackrel{d}{\rightarrow} N(0,1)$$
+
+3. The variance estimates become more precise:
+
+   $$\frac{\hat{\lambda}}{\lambda} \stackrel{p}{\rightarrow} 1$$
+
+This explains why all three methods converge for large $n$, as observed in our simulation study with $n = 50$.
+
+### Practical Implications
+
+1. For small samples ($n \approx 10$):
+
+   - The exact method provides better coverage
+   - Asymptotic approximations may be unreliable
+   - Width of intervals reflects true uncertainty
+
+2. For medium samples ($n \approx 20$):
+
+   - Transition phase where normal approximation isn't fully reliable
+   - All methods may undercover due to skewness effects
+   - Variance estimates still unstable
+
+3. For large samples ($n \geq 50$):
+   - All methods become practically equivalent
+   - Normal approximation is reliable
+   - Interval widths properly reflect precision
