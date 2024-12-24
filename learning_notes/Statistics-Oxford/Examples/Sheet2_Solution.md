@@ -305,3 +305,63 @@ $(e^L, e^U)$ is a 95% CI for $\sigma$
    - This is often more appropriate for scale parameters like $\sigma$
 
 This transformation maintains the 95% confidence level while ensuring the interval is appropriate for the scale parameter $\sigma$.
+
+# Question 3:
+
+A sequence of estimators $T_n$, $n \geq 1$, of a scalar parameter $\theta$ is called consistent if, for all $\theta$ (i.e., whatever the true value of $\theta$), we have that $T_n$ converges in probability to $\theta$ as $n \to \infty$.
+Suppose $T_n$ is a sequence of estimators of $\theta$ satisfying:
+
+$\text{bias}(T_n) \to 0$ and
+$\text{var}(T_n) \to 0$ as $n \to \infty$
+
+Show that $T_n$ is consistent for $\theta$.
+[Hint: Chebyshev's inequality]
+
+## Solution: Consistency of Estimators
+
+Let's prove this step by step using Chebyshev's inequality.
+
+We need to show that $T_n$ converges in probability to $\theta$, i.e.,
+$P(|T_n - \theta| > \epsilon) \to 0$ as $n \to \infty$ for any $\epsilon > 0$
+
+For any random variable $X$ with mean $\mu$ and variance $\sigma^2$, and any $k > 0$:
+
+$P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}$
+
+Let's express $|T_n - \theta|$ in terms of bias:
+
+$T_n - \theta = (T_n - E[T_n]) + (E[T_n] - \theta)$
+$= (T_n - E[T_n]) + \text{bias}(T_n)$
+
+For any $\epsilon > 0$:
+
+$P(|T_n - \theta| > \epsilon) = P(|(T_n - E[T_n]) + \text{bias}(T_n)| > \epsilon)$
+$\leq P(|T_n - E[T_n]| + |\text{bias}(T_n)| > \epsilon)$
+
+Let $b_n = |\text{bias}(T_n)|$. Then:
+
+$P(|T_n - E[T_n]| > \epsilon - b_n) \leq \frac{\text{var}(T_n)}{(\epsilon - b_n)^2}$
+
+Given:
+
+- $\text{bias}(T_n) \to 0$ as $n \to \infty$, so $b_n \to 0$
+- $\text{var}(T_n) \to 0$ as $n \to \infty$
+
+Therefore, for sufficiently large $n$:
+
+- $\epsilon - b_n > 0$ (since $b_n \to 0$)
+- $\frac{\text{var}(T_n)}{(\epsilon - b_n)^2} \to 0$ (since $\text{var}(T_n) \to 0$ and $\epsilon - b_n$ converges to a positive constant)
+
+Thus, for any $\epsilon > 0$:
+
+$\lim_{n \to \infty} P(|T_n - \theta| > \epsilon) = 0$
+
+This proves that $T_n$ is consistent for $\theta$.
+
+### Key Insights
+
+1. The convergence of both bias and variance to zero is crucial for consistency.
+2. Chebyshev's inequality provides the probabilistic bound needed to show convergence in probability.
+3. The proof combines both the bias and variance components to show overall consistency.
+
+This completes the proof of consistency for the sequence of estimators $T_n$.
