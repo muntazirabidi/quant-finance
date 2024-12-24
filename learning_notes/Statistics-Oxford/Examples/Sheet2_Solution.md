@@ -793,3 +793,13 @@ Key intuitions from this simulation:
 The $\chi^2$ distribution looks like a normal distribution due to central limit theorem is we increase the degrees of freedom
 
 <img src="../Confidence Intervals/Code/Figures/chi.png" alt="alt text">
+
+# Question 7:
+
+> Ten students were asked to guess the width of a lecture room.  
+> Their guesses (in metres)were: 10, 11, 12, 13, 15, 16, 17, 18, 19, 25.  
+> The actual width of the room was 13.1 m.
+>
+> - (a) Assuming the data arise from a normal distribution, how would you test whether this distribution has the correct mean? State the appropriate null and alternative hypotheses, and any assumptions you need to make for the hypothesis test to be appropriate.
+> - (b) Carry out the test you suggested in (i) and state your conclusions.
+> - (c) Modify your test to test whether the data are from a distribution with a mean value higher than the true value and re-state your conclusions.
