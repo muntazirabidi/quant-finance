@@ -929,3 +929,39 @@ The one-sided test reveals something interesting: While we still can't formally 
 3. One-sided tests have more power to detect effects in a specific direction
 4. Failing to reject $H_0$ doesn't prove the null hypothesis; it just means we don't have enough evidence to conclude otherwise
 5. P-values close to $\alpha$ warrant careful interpretation and discussion
+
+# Question 8:
+
+## SOLUTION
+
+Let's analyze this evidence step by step:
+
+### Visual Assessment (Q-Q Plot):
+
+The Q-Q plot shows how well our data matches an exponential distribution. The blue dots represent our actual data points, while the red line represents what we'd expect if the data were perfectly exponential (with slope = 437.21, which is our sample mean). For smaller values (up to about -log[1 - k/(n+1)] ≈ 2), the points follow the line quite closely. However, we see some deviation for larger values, particularly the last few points which represent the most extreme earthquake measurements. This pattern suggests that very large earthquakes might occur slightly more frequently than an exponential model would predict.
+
+### Numerical Evidence:
+
+The R-squared value of 0.9831 is quite impressive – it tells us that about 98.31% of the variation in our ordered data can be explained by the exponential model. This is strong evidence in favor of the exponential assumption.
+<img src="../Confidence Intervals/Code/Figures/qq_quakes.png" alt="alt text">
+
+> **Confidence Intervals:**
+>
+> - Exact CI: [0.001754, 0.002891]
+> - Approx CI (Method 1): [0.001718, 0.002857]
+> - Approx CI (Method 2): [0.001831, 0.003045]
+>
+> **Exponential Fit Assessment:**
+>
+> - R-squared: 0.9831
+> - KS-test statistic: 0.0745
+> - KS-test p-value: 0.8562
+
+The exponential model appears to be a reasonable assumption for this dataset. While there are some deviations for the largest earthquakes, the overall fit is strong, as evidenced by:
+
+- The high R-squared value
+- The non-significant KS test
+- The consistency of the confidence intervals
+- The generally good alignment in the Q-Q plot, especially for smaller and medium-sized earthquakes
+
+This means we can use exponential distribution properties to make predictions about earthquake occurrences, though we should be slightly cautious about predictions involving very large earthquakes, as these show some deviation from the model.
