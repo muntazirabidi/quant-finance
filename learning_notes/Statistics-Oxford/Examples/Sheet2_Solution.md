@@ -794,7 +794,7 @@ The $\chi^2$ distribution looks like a normal distribution due to central limit 
 
 <img src="../Confidence Intervals/Code/Figures/chi.png" alt="alt text">
 
-# Question 7:
+# Question 7: Understanding the One-Sample T-Test
 
 > Ten students were asked to guess the width of a lecture room.  
 > Their guesses (in metres)were: 10, 11, 12, 13, 15, 16, 17, 18, 19, 25.  
@@ -803,3 +803,129 @@ The $\chi^2$ distribution looks like a normal distribution due to central limit 
 > - (a) Assuming the data arise from a normal distribution, how would you test whether this distribution has the correct mean? State the appropriate null and alternative hypotheses, and any assumptions you need to make for the hypothesis test to be appropriate.
 > - (b) Carry out the test you suggested in (i) and state your conclusions.
 > - (c) Modify your test to test whether the data are from a distribution with a mean value higher than the true value and re-state your conclusions.
+
+## Solution
+
+Imagine we've asked a group of students to estimate the width of a room that's actually 13.1 meters wide. We want to know: Are their collective guesses generally accurate, or are they systematically over or underestimating? This is where the one-sample t-test comes in handy.
+
+We're trying to determine if the average (mean) of student guesses is meaningfully different from the true width of 13.1 meters. Think of it like this: If students were perfectly accurate on average, with only random errors, their mean guess should be close to 13.1m. But how close is "close enough"?
+
+Let's frame our question formally:
+
+**Null Hypothesis** ($H_0$): The true mean of the guesses equals 13.1m ($\mu = 13.1$)
+
+- This represents the case where students are, on average, accurate
+- Any differences from 13.1m are just due to random chance
+
+**Alternative Hypothesis** ($H_1$): The true mean of the guesses is not 13.1m ($\mu \neq 13.1$)
+
+- This represents the case where students are systematically off
+- The differences from 13.1m reflect a real tendency to over- or under-estimate
+
+### Key Assumptions
+
+1. **Normality**: The guesses follow a normal distribution
+
+   - Think of this as saying extreme guesses become increasingly rare in both directions
+   - Perfect normality isn't required, but severe violations can affect our conclusions
+
+2. **Independence**: Each student's guess doesn't influence others
+   - Students shouldn't be sharing answers or influencing each other
+   - This ensures each guess provides new information
+
+### 1. Sample Mean ($\bar{x}$)
+
+The average of all guesses:
+
+$\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n} = \frac{156}{10} = 15.6$
+
+This tells us students typically overestimated by about 2.5 meters (15.6 - 13.1).
+
+### 2. Sample Standard Deviation (s)
+
+This measures how spread out the guesses are:
+
+$s = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \bar{x})^2}{n-1}} = 4.48$
+
+The relatively large standard deviation (4.48 meters) suggests considerable variability in the guesses. Some students were quite close to the true value, while others were far off.
+
+### 3. The t-statistic
+
+This is our key measure of how far the sample mean is from our hypothesized value, accounting for both sample size and variability:
+
+$t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}} = \frac{15.6 - 13.1}{4.48/\sqrt{10}} \approx 1.76$
+
+Think of this as a "standardized difference":
+
+- Numerator (15.6 - 13.1 = 2.5): How far off are we?
+- Denominator (4.48/√10 ≈ 1.42): How much uncertainty is there?
+- The ratio (1.76) tells us we're about 1.76 standard errors away from our target
+
+The p-value for our t-statistic is 0.115. This means:
+
+- If students were really accurate on average (H₀ true), we'd see a difference this large or larger about 11.5% of the time
+- Since this is above our significance level (α = 0.05), we fail to reject H₀
+
+While the students' average guess (15.6m) seems high compared to the true width (13.1m), we can't conclude this difference is systematic because:
+
+1. We have relatively few guesses (n = 10)
+2. There's considerable variation in the guesses (s = 4.48)
+3. The observed difference could reasonably occur by chance (p = 0.115)
+
+### Two-Sided Test Results
+
+In our initial two-sided test, we found:
+
+- Test statistic: $t = 1.76$
+- Degrees of freedom: $df = 9$
+- P-value: $p = 0.115$
+- Decision: Failed to reject $H_0$ at $\alpha = 0.05$
+
+This two-sided test examined whether the mean guess differed from 13.1m in either direction (higher or lower). The relatively high p-value (0.115) suggested insufficient evidence to conclude the guesses were systematically different from the true width.
+
+### Modified Hypotheses
+
+We can refine our question to specifically ask: "Are students systematically overestimating the room's width?"
+
+**Null Hypothesis** ($H_0$): $\mu \leq 13.1$ (Students don't overestimate on average)
+
+**Alternative Hypothesis** ($H_1$): $\mu > 13.1$ (Students do overestimate on average)
+
+### Why Change to a One-Sided Test?
+
+The one-sided test has several important differences from our original test:
+
+1. It focuses only on overestimation, ignoring the possibility of underestimation
+2. It has more statistical power for detecting overestimation
+3. It requires a different critical value and p-value calculation
+
+We use the same t-statistic as before:
+
+$t = \frac{15.6 - 13.1}{4.48/\sqrt{10}} \approx 1.76$
+
+However, the p-value interpretation changes:
+
+- For a one-sided test, we only consider the probability of getting a t-value this large or larger
+- P-value = 0.115/2 = 0.0575 (half the two-sided p-value)
+
+With $\alpha = 0.05$ and p-value = 0.0575:
+
+- We still fail to reject $H_0$, but it's a much closer decision
+- The evidence for overestimation is stronger than it appeared in the two-sided test
+- We're nearly 94.25% confident that students tend to overestimate
+
+### Practical Interpretation
+
+The one-sided test reveals something interesting: While we still can't formally conclude that students overestimate the room's width (at the conventional 5% significance level), we're very close to being able to make that claim. This suggests that:
+
+1. There might be a tendency to overestimate room widths
+2. A larger sample size might have led to a significant result
+3. The choice between one-sided and two-sided tests can materially affect our conclusions
+
+### Key Takeaways
+
+1. Statistical significance isn't just about the size of a difference
+2. The choice between one-sided and two-sided tests should be based on your research question
+3. One-sided tests have more power to detect effects in a specific direction
+4. Failing to reject $H_0$ doesn't prove the null hypothesis; it just means we don't have enough evidence to conclude otherwise
+5. P-values close to $\alpha$ warrant careful interpretation and discussion
