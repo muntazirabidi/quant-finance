@@ -583,3 +583,133 @@ This interval is indeed quite close to the exact interval $(0.0018, 0.0029)$ obt
 Both intervals suggest similar conclusions about the precision of our estimate of $\lambda$.
 
 <img src="../Confidence Intervals/Code/Figures/fisher.png" alt="alt text">
+
+# Question 5: Confidence Intervals for Variance
+
+> Let $X_1,...,X_n$ be a random sample from a normal distribution with known mean $\mu$ and unknown variance >$\sigma^2$. Three possible confidence intervals for $\sigma^2$ are:
+>
+> (a) $\left(\frac{\sum_{i=1}^n(X_i-\bar{X})^2}{a_1}, \frac{\sum_{i=1}^n(X_i-\bar{X})^2}{a_2}\right)$
+>
+> (b) $\left(\frac{\sum_{i=1}^n(X_i-\mu)^2}{b_1}, \frac{\sum_{i=1}^n(X_i-\mu)^2}{b_2}\right)$
+>
+> (c) $\left(\frac{n(\bar{X}-\mu)^2}{c_1}, \frac{n(\bar{X}-\mu)^2}{c_2}\right)$
+>
+> where $a_1, a_2, b_1, b_2, c_1, c_2$ are constants.
+>
+> 1.  Find values of these six constants which give confidence level 0.90 for each of the three intervals when >$n = 10$ and compare the expected widths of the three intervals in this case.
+>
+> 2.  With $\sigma^2 = 1$, what value of $n$ is required to achieve a 90% confidence interval of expected width >less than 2 in cases (b) and (c) above?
+>
+> _Note: For a $\chi^2$ with e.g. 6 degrees of freedom, you can use `qchisq(0.05, 6)` to find the 0.05 >quantile._
+
+## Solution
+
+### Step 1: Constants for 90% Confidence Intervals
+
+To construct confidence intervals, we use the quantiles of the chi-square distribution:
+
+Let $q_{\alpha, k}$ denote the quantile of the chi-square distribution with $k$ degrees of freedom at probability $\alpha$.
+
+For a 90% confidence level:
+$$\alpha_1 = 0.05, \quad \alpha_2 = 0.95$$
+
+#### Case (a)
+
+We know that:
+$$\sum_{i=1}^n (X_i - \bar{X})^2 \sim \sigma^2 \chi^2_{n-1}, \quad n-1 = 9$$
+
+The constants are:
+$$a_1 = \frac{1}{q_{0.95, 9}}, \quad a_2 = \frac{1}{q_{0.05, 9}}$$
+
+#### Case (b)
+
+We know that:
+$$\sum_{i=1}^n (X_i - \mu)^2 \sim \sigma^2 \chi^2_n, \quad n = 10$$
+
+The constants are:
+$$b_1 = \frac{1}{q_{0.95, 10}}, \quad b_2 = \frac{1}{q_{0.05, 10}}$$
+
+#### Case (c)
+
+We know that:
+$$n(\bar{X} - \mu)^2 \sim \sigma^2 \chi^2_1$$
+
+The constants are:
+$$c_1 = \frac{1}{q_{0.95, 1}}, \quad c_2 = \frac{1}{q_{0.05, 1}}$$
+
+### Step 2: Expected Width of Confidence Intervals
+
+The expected width of a confidence interval is:
+$$\text{Width} = \text{Upper Bound} - \text{Lower Bound}$$
+
+For each case:
+
+#### Case (a)
+
+$$\text{Width}_a = \left(\frac{1}{q_{0.05, 9}} - \frac{1}{q_{0.95, 9}}\right) \cdot (n-1)\sigma^2$$
+
+#### Case (b)
+
+$$\text{Width}_b = \left(\frac{1}{q_{0.05, 10}} - \frac{1}{q_{0.95, 10}}\right) \cdot n\sigma^2$$
+
+#### Case (c)
+
+$$\text{Width}_c = \left(\frac{1}{q_{0.05, 1}} - \frac{1}{q_{0.95, 1}}\right) \cdot \sigma^2$$
+
+### Step 3: Required Sample Size for Width < 2
+
+For cases (b) and (c), with $\sigma^2 = 1$, solve:
+
+#### Case (b)
+
+$$\text{Width}_b < 2 \implies n \geq \text{calculated value}$$
+
+#### Case (c)
+
+$$\text{Width}_c < 2 \implies n \geq \text{calculated value}$$
+
+### Insights
+
+1. **Precision of Intervals:**
+
+   - Case (b) produces narrower intervals than case (a) because it uses the true mean $\mu$, avoiding the uncertainty of estimating $\bar{X}$
+   - Case (c) produces much wider intervals for small $n$ due to fewer degrees of freedom
+
+2. **Sample Size Trade-Off:**
+
+   - Larger $n$ reduces the width of all intervals, but the rate of reduction depends on degrees of freedom
+   - Case (c) requires much larger $n$ for precision comparable to cases (a) and (b)
+
+3. **Practical Use:**
+   - This exercise illustrates the importance of choosing the right statistic for variance estimation and balancing trade-offs between precision and computational efficiency
+
+### Numerical Results
+
+For $n = 10$:
+
+- $\text{Width}_a = 2.175$
+- $\text{Width}_b = 1.992$
+- $\text{Width}_c = 254.054$
+
+Minimum $n$ for $\text{Width} < 2$:
+
+- Case (b): $n = 10$
+- Case (c): $n$ is very large (outside practical range)
+
+# Questions 6:
+
+> Let $X_1,...,X_m$ and $Y_1,...,Y_n$ be independent random samples from normal distributions $N(\mu_1,>\sigma^2)$ and $N(\mu_2,\sigma^2)$, respectively, where the parameters $\mu_1, \mu_2, \sigma^2$ are unknown. >Let:
+>
+> $$S^2 = \frac{1}{m+n-2}\left(\sum_{i=1}^m(X_i-\bar{X})^2 + \sum_{j=1}^n(Y_j-\bar{Y})^2\right)$$
+>
+> 1.  Determine the distributions of both:
+>
+> - $\frac{(m+n-2)S^2}{\sigma^2}$
+> - $\frac{\bar{X}-\bar{Y}-(\mu_1-\mu_2)}{S\sqrt{\frac{1}{m}+\frac{1}{n}}}$
+>
+> 2.  Show how to construct a confidence interval for $\mu_1-\mu_2$.
+
+## Solution
+
+$$
+$$
