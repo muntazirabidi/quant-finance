@@ -711,5 +711,85 @@ Minimum $n$ for $\text{Width} < 2$:
 
 ## Solution
 
-$$
-$$
+### a. Distribution of $\frac{(m+n-2)S^2}{\sigma^2}$
+
+The pooled sample variance $S^2$ is:
+
+$S^2 = \frac{1}{m+n-2}(\sum_{i=1}^m(X_i-\bar{X})^2 + \sum_{j=1}^n(Y_j-\bar{Y})^2)$
+
+Since:
+
+- $\sum_{i=1}^m(X_i-\bar{X})^2 \sim \sigma^2\chi^2_{m-1}$
+- $\sum_{j=1}^n(Y_j-\bar{Y})^2 \sim \sigma^2\chi^2_{n-1}$
+- Samples are independent
+
+The sum $\sum_{i=1}^m(X_i-\bar{X})^2 + \sum_{j=1}^n(Y_j-\bar{Y})^2$ follows $\sigma^2\chi^2_{m+n-2}$
+
+Therefore, $\frac{(m+n-2)S^2}{\sigma^2} \sim \chi^2_{m+n-2}$
+
+### b. Distribution of $\frac{\bar{X}-\bar{Y}-(\mu_1-\mu_2)}{S\sqrt{\frac{1}{m}+\frac{1}{n}}}$
+
+Given:
+
+- $\bar{X} \sim N(\mu_1,\frac{\sigma^2}{m})$
+- $\bar{Y} \sim N(\mu_2,\frac{\sigma^2}{n})$
+
+Then $\bar{X}-\bar{Y} \sim N(\mu_1-\mu_2,\sigma^2(\frac{1}{m}+\frac{1}{n}))$
+
+With $T = \frac{\bar{X}-\bar{Y}-(\mu_1-\mu_2)}{S\sqrt{\frac{1}{m}+\frac{1}{n}}}$, since $S^2$ is independent of $\bar{X}$ and $\bar{Y}$:
+
+$T \sim t_{m+n-2}$
+
+### 2. Confidence Interval for $\mu_1-\mu_2$
+
+The $100(1-\alpha)\%$ confidence interval is:
+
+$(\bar{X}-\bar{Y}) \pm t_{m+n-2,1-\alpha/2} \cdot S\sqrt{\frac{1}{m}+\frac{1}{n}}$
+
+where $t_{m+n-2,1-\alpha/2}$ is the critical value from the t-distribution with $m+n-2$ degrees of freedom.
+
+**What Are We Doing?**
+
+1. Estimating the Common Variance ($\sigma^2$):
+
+   - Since both populations are assumed to have the same variance ($\sigma^2$), we pool the variance from the two samples to get a single estimate of $\sigma^2$. This pooled estimate is a weighted average of the variances within each sample.
+   - The pooled variance $S^2$ serves as a critical component for constructing the $t$-statistic and confidence intervals.
+
+2. Testing the Difference Between Two Means:
+
+   - The ultimate goal is to make inferences about the difference between the two population means ($\mu_1-\mu_2$): Does $\mu_1$ differ significantly from $\mu_2$?
+
+   - How large is the difference, and how confident can we be about it? We use the pooled variance to standardize the difference between the sample means $\bar{X}$ and $\bar{Y}$, forming a $t$-statistic. This $t$-statistic lets us test hypotheses or construct confidence intervals about ($\mu_1-\mu_2$).
+
+## Important Key points:
+
+**1. Pooling Variance for Efficient Estimation:**
+
+- By pooling the variances of two independent samples ($S^2$), we achieve a more reliable estimate of the population variance ($\sigma^2$ ) compared to using the variances from each sample separately. This is a fundamental idea in hypothesis testing and confidence interval construction for two-sample problems.
+
+- The pooling approach minimizes uncertainty and incorporates information from both datasets, which is central to efficient statistical analysis.
+
+**2. Distributional Properties in Statistical Inference:**
+
+- The derived distributions (e.g., $\chi^2$ for the pooled variance and $t$-distribution for the test statistic) are cornerstones of classical statistics.
+
+- These results showcase how sample statistics behave under the assumption of normally distributed data, giving us the ability to make precise probabilistic statements about unknown parameters.
+
+**3. Practical Relevance:**
+
+- This scenario is widely applicable in comparing two groups, such as treatment vs. control in clinical trials, or two experimental setups in scientific research.
+- The methodology is a stepping stone for understanding more complex analyses, such as ANOVA or Bayesian approaches, where variance and mean comparisons are central.
+
+<img src="../Confidence Intervals/Code/Figures/two_samples.png" alt="alt text">
+
+Key intuitions from this simulation:
+
+- The difference of means follows a normal distribution centered at $\mu_1 - \mu_2$
+- The pooled variance follows a scaled chi-square distribution
+- The $t$-statistic follows a $t$-distribution with $m+n-2$ degrees of freedom
+- Larger sample sizes narrow the confidence interval
+- The $t$-distribution approaches normal distribution as sample sizes increase
+
+The $\chi^2$ distribution looks like a normal distribution due to central limit theorem is we increase the degrees of freedom
+
+<img src="../Confidence Intervals/Code/Figures/chi.png" alt="alt text">
