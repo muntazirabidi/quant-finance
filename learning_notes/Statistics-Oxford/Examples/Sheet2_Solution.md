@@ -365,3 +365,221 @@ This proves that $T_n$ is consistent for $\theta$.
 3. The proof combines both the bias and variance components to show overall consistency.
 
 This completes the proof of consistency for the sequence of estimators $T_n$.
+
+# Question 4: Earthquake Time Interval Analysis Problem
+
+## Problem Statement
+
+The following data are time intervals in days between earthquakes which either registered magnitudes greater than 7.5 on the Richter scale or produced over 1,000 fatalities. Recording starts on 16 December, 1902 and ends on 4 March, 1977, a total period of 27,107 days. There were 63 earthquakes in all, and therefore 62 recorded time intervals.
+
+## Data
+
+```
+840 190 140 139 246 157 695 1336 780 1617 145 294 335 203 638
+44 562 1354 436 937 337 21 454 30 735 121 763 6 384 381 507
+10 667 129 365 280 464 099 243 440 2 20 982 736 194 995 992
+205 847 595 56 304 838 87 319 375 832 263 460 567 328
+```
+
+## Parts:
+
+**1. Maximum Likelihood Estimation**
+Assuming the data to be a random sample $X_1,...,X_n$ from an exponential distribution with parameter $\lambda$, obtain the maximum likelihood estimator $\hat{\lambda}$ of $\lambda$ and calculate the maximum likelihood estimate.
+
+**2. Distribution of Sum**
+Given that the moment generating function of a gamma distribution with parameters $(n,\lambda)$ is:
+
+$$M_n(t) = \left(\frac{\lambda}{\lambda-t}\right)^n$$
+
+Show that $Y = \sum_{i=1}^n X_i$ has a gamma distribution.
+
+**3. Confidence Intervals**
+Show that $(a_n x, b_n x)$ is an exact 95% central confidence interval for $\lambda$ if:
+
+$$\int_0^a \frac{y^{n-1}e^{-y}}{\Gamma(n)}dy = \int_\infty^b \frac{y^{n-1}e^{-y}}{\Gamma(n)}dy = 0.025$$
+
+**4. Fisher Information**
+Obtain Fisher's information for $\lambda$ and use it to find an approximate 95% confidence interval for $\lambda$.
+
+The interval given by the exact method above is $(0.0018, 0.0029)$. Verify numerically that your approximate interval is close to this.
+
+## Solution:
+
+### 1. Maximum Likelihood Estimation
+
+For an exponential distribution with parameter λ, the probability density function is:
+f(x) = λe^(-λx) for x ≥ 0
+
+Let's solve this:
+
+1. First, let's write the likelihood function for n independent observations:
+   L(λ) = ∏(i=1 to n) λe^(-λx_i)
+   = λ^n \* e^(-λ∑x_i)
+
+2. Take the natural logarithm to get the log-likelihood:
+   ln L(λ) = n ln(λ) - λ∑x_i
+
+3. To find the MLE, take the derivative with respect to λ and set it to zero:
+   d/dλ[ln L(λ)] = n/λ - ∑x_i = 0
+
+4. Solve for λ:
+   n/λ = ∑x_i
+   λ = n/∑x_i
+
+Therefore, the maximum likelihood estimator is:
+λ̂ = n/∑x_i
+
+Let's calculate the actual estimate using our data:
+
+Therefore:
+
+- The maximum likelihood estimator (MLE) formula is λ̂ = n/∑x_i
+- With our data:
+  - n = 61 observations
+  - ∑x_i = 27,521 days
+  - The maximum likelihood estimate is λ̂ ≈ 0.002216
+
+This estimate represents the rate parameter of the exponential distribution, which is the inverse of the mean waiting time between earthquakes. The small value indicates relatively long average waiting times between events, which makes sense given these are major earthquakes.
+
+## (2) Moment Generating Function:
+
+Let's solve this step by step using the properties of moment generating functions (MGFs).
+
+1. For independent random variables $X$ and $Y$:
+   $$M_{X+Y}(t) = M_X(t) \times M_Y(t)$$
+
+2. If two random variables have the same MGF, they have the same distribution
+
+For our exponential variables $X_i$ with parameter $\lambda$:
+
+$$
+\begin{aligned}
+M_X(t) &= \int_0^\infty e^{tx} \lambda e^{-\lambda x} dx \\
+&= \lambda \int_0^\infty e^{(t-\lambda)x} dx \\
+&= \frac{\lambda}{\lambda-t} \text{ for } t < \lambda
+\end{aligned}
+$$
+
+For $Y = \sum X_i$, since the $X_i$ are independent:
+
+$$
+\begin{aligned}
+M_Y(t) &= M_{X_1+X_2+...+X_n}(t) \\
+&= M_{X_1}(t) \times M_{X_2}(t) \times ... \times M_{X_n}(t) \\
+&= \left[\frac{\lambda}{\lambda-t}\right]^n
+\end{aligned}
+$$
+
+### Comparison with Gamma Distribution
+
+The given MGF of the gamma distribution with parameters $(n,\lambda)$ is:
+
+$$M_n(t) = \left(\frac{\lambda}{\lambda-t}\right)^n$$
+
+Since $Y = \sum X_i$ has exactly the same MGF as a gamma distribution with parameters $(n,\lambda)$, we can conclude that $Y$ follows a gamma distribution with these parameters.
+
+### Intuitive Understanding
+
+This result makes sense because:
+
+- The gamma distribution represents the waiting time until the $n$th event in a Poisson process
+- Each $X_i$ represents one waiting time in our sequence
+- Their sum represents the total waiting time for all $n$ events
+- The parameter $\lambda$ remains the same as in our original exponential distribution
+- The parameter $n$ corresponds to the number of exponential variables we're summing
+
+### Conclusion
+
+Therefore, we have proven that $Y = \sum X_i$ follows a gamma distribution with parameters $(n,\lambda)$. This is a special case of a more general property: the sum of $n$ independent exponential random variables with the same parameter $\lambda$ follows a gamma distribution with shape parameter $n$ and rate parameter $\lambda$.
+
+### (3) Confidence Intervals
+
+Let's prove why $(a_n x, b_n x)$ is an exact 95% confidence interval for $\lambda$.
+
+From part 2, we know that $\sum X_i$ follows a gamma distribution with parameters $(n,\lambda)$.
+Let $S = \sum X_i$
+
+For the gamma distribution, if:
+$$Y \sim \text{Gamma}(n,1), \text{ then } \frac{Y}{\lambda} \sim \text{Gamma}(n,\lambda)$$
+
+Therefore:
+$$\lambda S \sim \text{Gamma}(n,1)$$
+
+The given integrals represent tail probabilities of a standard $\text{Gamma}(n,1)$ distribution:
+
+$$P(\lambda S < a) = \int_0^a \frac{y^{n-1}e^{-y}}{\Gamma(n)}dy = 0.025$$
+
+$$P(\lambda S > b) = \int_b^\infty \frac{y^{n-1}e^{-y}}{\Gamma(n)}dy = 0.025$$
+
+This gives us:
+$$P(a < \lambda S < b) = 0.95$$
+
+We can rewrite this in terms of $\lambda$:
+$$P(a < \lambda S < b) = P(\frac{a}{S} < \lambda < \frac{b}{S}) = 0.95$$
+
+Therefore, $(\frac{a}{S}, \frac{b}{S})$ is a 95% confidence interval for $\lambda$
+
+Since $S = n\bar{x}$ (where $\bar{x}$ is the sample mean), we can write:
+$$(\frac{a}{n\bar{x}}, \frac{b}{n\bar{x}}) = (a_n x, b_n x)$$
+where $a_n = \frac{a}{n}$ and $b_n = \frac{b}{n}$
+
+### Conclusion
+
+$(a_n x, b_n x)$ is an exact 95% confidence interval for $\lambda$ because:
+
+- It contains $\lambda$ with probability 0.95
+- The distribution used is exactly gamma, not an approximation
+- The confidence level comes directly from the specified tail probabilities (0.025 + 0.025 = 0.05, giving us 0.95 confidence)
+
+The interval $(0.0018, 0.0029)$ can be verified by:
+
+1. Calculating $\bar{x}$ from our data
+2. Finding $a$ and $b$ from gamma distribution tables or numerical methods
+3. Computing $a_n = \frac{a}{n}$ and $b_n = \frac{b}{n}$
+4. Multiplying these by $\bar{x}$ to get our interval
+
+## (4) Fisher Information and Approximate Confidence Interval
+
+For an exponential distribution with parameter $\lambda$, the probability density function is:
+$$f(x|\lambda) = \lambda e^{-\lambda x}, \quad x \geq 0$$
+
+The log-likelihood for a single observation is:
+$$\ell(\lambda|x) = \ln(\lambda) - \lambda x$$
+
+Taking the second derivative with respect to $\lambda$:
+$$\frac{\partial \ell}{\partial \lambda} = \frac{1}{\lambda} - x$$
+$$\frac{\partial^2 \ell}{\partial \lambda^2} = -\frac{1}{\lambda^2}$$
+
+Fisher Information for a single observation is:
+$$I(\lambda) = -E\left[\frac{\partial^2 \ell}{\partial \lambda^2}\right] = \frac{1}{\lambda^2}$$
+
+For $n$ independent observations, Fisher Information is:
+$$I_n(\lambda) = \frac{n}{\lambda^2}$$
+
+Using the asymptotic normality of MLE:
+$$\hat{\lambda} \sim N\left(\lambda, \frac{1}{I_n(\lambda)}\right)$$
+
+Therefore:
+$$\hat{\lambda} \sim N\left(\lambda, \frac{\lambda^2}{n}\right)$$
+
+A 95% confidence interval is given by:
+$$\hat{\lambda} \pm 1.96 \sqrt{\frac{\hat{\lambda}^2}{n}}$$
+
+Let's calculate using our data:
+
+1. From Part 1, we found $\hat{\lambda} = 0.002216$
+2. Number of observations $n = 61$
+3. Standard error: $SE(\hat{\lambda}) = \sqrt{\frac{\hat{\lambda}^2}{n}} = 2.8373 \times 10^{-4}$
+
+The approximate 95% confidence interval is:
+$(0.001660, 0.002772)$
+
+This interval is indeed quite close to the exact interval $(0.0018, 0.0029)$ obtained by the previous method. The small difference is due to:
+
+- The asymptotic nature of the Fisher Information method
+- The normal approximation used in deriving the interval
+- Rounding in numerical calculations
+
+Both intervals suggest similar conclusions about the precision of our estimate of $\lambda$.
+
+<img src="../Confidence Intervals/Code/Figures/fisher.png" alt="alt text">
