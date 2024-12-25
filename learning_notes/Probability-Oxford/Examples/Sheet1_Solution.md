@@ -243,3 +243,154 @@ $$0.00595 \times 1000 \approx 6 \text{ entries}$$
 > Insight: Chebyshev's inequality is especially powerful when the variance is small relative to the threshold. However, it assumes the variable is centered around the mean, so it may not perform well for highly skewed distributions.
 
 </div>
+
+# Question 3:
+
+> For $\geq 1$, let $Y_n$ be uniform on $\{1,2,\dots,n\}$ (i.e. taking each value with probability $1/n$). Draw the distribution function of $Y_n/n$. Show that the sequence $Y_n/n$ converges in distribution as $n\rightarrow \infty$. What is the limit?
+
+## Solution:
+
+### 1. Distribution of $Y_n/n$
+
+The random variable $Y_n$ is uniform on $\{1,2,\dots,n\}$. For a fixed $n$, the random variable $Y_n/n$ takes the values:
+
+$$\frac{1}{n}, \frac{2}{n}, \dots, \frac{n}{n}$$
+
+Each of these values has equal probability $\frac{1}{n}$. Thus, the probability mass function (PMF) of $Y_n/n$ is:
+
+$$P\left(\frac{Y_n}{n}=\frac{k}{n}\right)=\frac{1}{n}, \quad k=1,2,\dots,n$$
+
+### 2. Cumulative Distribution Function (CDF)
+
+The cumulative distribution function (CDF) of $Y_n/n$, denoted $F_n(x)$, is:
+
+$$F_n(x)=P\left(\frac{Y_n}{n}\leq x\right)$$
+
+For any $x\in[0,1]$:
+
+$$
+F_n(x) = \begin{cases}
+0 & \text{if } x < \frac{1}{n} \\
+\frac{k}{n} & \text{if } \frac{k}{n} \leq x < \frac{k+1}{n} \\
+1 & \text{if } x \geq 1
+\end{cases}
+$$
+
+### 3. Distribution Function Visualization
+
+The CDF $F_n(x)$ for $Y_n/n$ is a step function with $n$ steps between $0$ and $1$. Each step has height $\frac{1}{n}$ at points $\frac{k}{n}$ for $k=1,2,\dots,n$.
+
+### 4. Convergence in Distribution
+
+A sequence of random variables $X_n$ converges in distribution to a random variable $X$ if:
+
+$$\lim_{n\to\infty} F_n(x)=F(x)$$
+
+for all $x$ where $F(x)$ is continuous.
+
+### 5. Limit Distribution
+
+As $n\to\infty$, the steps of $F_n(x)$ become infinitely fine. The limiting CDF is:
+
+$$
+F(x) = \begin{cases}
+0 & \text{if } x < 0 \\
+x & \text{if } 0 \leq x \leq 1 \\
+1 & \text{if } x > 1
+\end{cases}
+$$
+
+This corresponds to a **Uniform(0,1)** distribution. We can write this convergence as:
+
+$$\frac{Y_n}{n} \xrightarrow{d} \text{Uniform}(0,1)$$
+
+### 6. Intuition
+
+As $n\to\infty$, the values $\frac{Y_n}{n}$ become equally spaced over $[0,1]$ with probabilities converging to a uniform density. This demonstrates how discrete random variables can converge to a continuous random variable in distribution.
+
+<img src="Code/Figures/uniform.png" alt="alt text">
+
+# Question 4:
+
+> Let $X_i,i\geq 1$, be i.i.d. uniform on $[0,1]$. Let $M_n= max{X_1,...,X_n}$.
+>
+> - (a) Show that $M_n\rightarrow 1$ in probability as $n\rightarrow \infty$.
+>
+> - (b) Show that $n(1−M_n)$ converges in distribution as $n\rightarrow \infty$. What is the limit?
+
+## Solution
+
+### 1. Setup and Definitions
+
+Let $X_i, i \geq 1$ be independent and identically distributed (i.i.d.) random variables following a Uniform[0,1] distribution. We define:
+
+$$M_n = \max\{X_1, \ldots, X_n\}$$
+
+### 2. Part (a): Convergence in Probability
+
+First, let's derive the cumulative distribution function (CDF) of $M_n$. For any $x$:
+
+$$F_{M_n}(x) = P(M_n \leq x) = P(X_1 \leq x, X_2 \leq x, \ldots, X_n \leq x)$$
+
+Since the variables are independent:
+
+$$F_{M_n}(x) = P(X_1 \leq x)^n$$
+
+For Uniform[0,1] variables, we know that $P(X_i \leq x) = x$ for $x \in [0,1]$, giving us:
+
+$$F_{M_n}(x) = x^n, \quad x \in [0,1]$$
+
+The corresponding probability density function (PDF) is:
+
+$$f_{M_n}(x) = \frac{d}{dx}F_{M_n}(x) = nx^{n-1}, \quad x \in [0,1]$$
+
+#### Proving Convergence in Probability
+
+To show $M_n \to 1$ in probability, we need to prove that for any $\epsilon > 0$:
+
+$$\lim_{n \to \infty} P(|M_n - 1| \geq \epsilon) = 0$$
+
+Note that:
+
+$$P(|M_n - 1| \geq \epsilon) = P(M_n \leq 1-\epsilon)$$
+
+Using our CDF:
+
+$$P(M_n \leq 1-\epsilon) = (1-\epsilon)^n \to 0 \text{ as } n \to \infty$$
+
+This proves convergence in probability to 1.
+
+### 3. Part (b): Distributional Convergence
+
+Let's define $Y_n = n(1-M_n)$ and find its limiting distribution. For any $y \geq 0$:
+
+$$P(Y_n \leq y) = P(n(1-M_n) \leq y) = P(M_n \geq 1-\frac{y}{n})$$
+
+Using the complement rule and our CDF:
+
+$$P(M_n \geq 1-\frac{y}{n}) = 1 - P(M_n \leq 1-\frac{y}{n}) = 1 - (1-\frac{y}{n})^n$$
+
+As $n \to \infty$, we can use the exponential limit:
+
+$$(1-\frac{y}{n})^n \to e^{-y}$$
+
+Therefore:
+
+$$\lim_{n \to \infty} P(Y_n \leq y) = 1 - e^{-y}, \quad y \geq 0$$
+
+This is the CDF of an Exponential(1) distribution.
+
+### 4. Final Results
+
+We have shown two important convergence results:
+
+1. $M_n \xrightarrow{P} 1$ as $n \to \infty$ (convergence in probability)
+2. $n(1-M_n) \xrightarrow{d} \text{Exponential}(1)$ as $n \to \infty$ (convergence in distribution)
+
+This interesting result shows that while the maximum converges to 1, when properly scaled, the difference from 1 follows an exponential distribution in the limit.
+
+When we look at the maximum of uniform random variables, we discover something fascinating: as we take more and more samples (as n increases), the maximum value approaches 1 with increasing certainty. This makes intuitive sense if we think about it - with more samples, we're more likely to get a value very close to 1, and once we do, that becomes our maximum.
+
+But there's something deeper here. The convergence to 1 happens in a very specific way. The rate at which our maximum approaches 1 is precisely characterized by the exponential distribution. This tells us that even when we know the maximum is getting close to 1, there's still randomness in exactly how close it gets, and this randomness follows a predictable pattern.
+
+> This example is part of a larger theory of extreme value distributions. Just as the Central Limit Theorem tells us about the behavior of averages, extreme value theory tells us about the behavior of maxima and minima. The fact that we get an exponential distribution in the limit is not a coincidence - it's related to the broader family of extreme value distributions that arise in different contexts.
