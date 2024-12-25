@@ -127,3 +127,119 @@ The 99% confidence level requirement mirrors financial regulations like Basel re
 # Question 2:
 
 > A list consists of 1000 non-negative numbers. The sum of the entries is 9000 and the sumof the squares of the entries of 91000. Let $X$ represent an entry picked at random fromthe list. Find the mean of $X$, the mean of $X^2$, and the variance of $X$. Using Markov’sinequality, show that the number of entries in the list greater than or equal to 50 is atmost 180. What is the corresponding bound from applying Markov’s inequality to the random variable $X2$? What is the corresponding bound using Chebyshev’s inequality?
+
+## Solution:
+
+### 1. Calculating Mean of X
+
+The mean $\mu = E[X]$ is calculated from the sum of entries divided by their count:
+
+$$\mu = E[X] = \frac{\text{Sum of entries}}{\text{Number of entries}} = \frac{9000}{1000} = 9$$
+
+### 2. Calculating Mean of $X^2$
+
+The mean of squared values $E[X^2]$ is given by:
+
+$$E[X^2] = \frac{\text{Sum of squares of entries}}{\text{Number of entries}} = \frac{91000}{1000} = 91$$
+
+### 3. Computing Variance of X
+
+The variance $Var(X)$ is calculated using:
+
+$$Var(X) = E[X^2] - (E[X])^2 = 91 - (9)^2 = 91 - 81 = 10$$
+
+### 4. Applying Markov's Inequality to X
+
+Using Markov's inequality:
+
+$$P(X \geq a) \leq \frac{E[X]}{a}$$
+
+For $a = 50$:
+
+$$P(X \geq 50) \leq \frac{9}{50} = 0.18$$
+
+Therefore, maximum number of entries $\geq 50$ is:
+
+$$0.18 \times 1000 = 180 \text{ entries}$$
+
+### 5. Applying Markov's Inequality to $X^2$
+
+For $a = 50^2 = 2500$:
+
+$$P(X^2 \geq 2500) \leq \frac{E[X^2]}{2500} = \frac{91}{2500} = 0.0364$$
+
+Maximum number of entries with $X^2 \geq 2500$:
+
+$$0.0364 \times 1000 = 36.4 \text{ entries} \approx \text{37 entries}$$
+
+### 6. Applying Chebyshev's Inequality
+
+Chebyshev's inequality states:
+
+$$P(|X-\mu| \geq k\sigma) \leq \frac{1}{k^2}$$
+
+Where:
+
+- $\mu = 9$
+- $\sigma = \sqrt{Var(X)} = \sqrt{10}$
+- For $X \geq 50$: $X-\mu \geq 41$
+- Therefore $k = \frac{41}{\sqrt{10}}$
+
+Calculating:
+
+$$k^2 = \left(\frac{41}{\sqrt{10}}\right)^2 = \frac{1681}{10} = 168.1$$
+
+Thus:
+
+$$P(X \geq 50) \leq \frac{1}{168.1} \approx 0.00595$$
+
+Maximum number of entries $\geq 50$:
+
+$$0.00595 \times 1000 \approx 6 \text{ entries}$$
+
+### Summary of Results
+
+1. Mean: $E[X] = 9$
+2. Second Moment: $E[X^2] = 91$
+3. Variance: $Var(X) = 10$
+4. Markov bound for $X$: Maximum **180 entries** $\geq 50$
+5. Markov bound for $X^2$: Maximum **37 entries** $\geq 50^2$
+6. Chebyshev bound: Maximum **6 entries** $\geq 50$
+
+<div style="
+  border: 2px solid #333;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin: 20px 0;
+">
+
+### Mean vs. Variance
+
+- The mean ($\mu$) represents the central tendency of the data, while the variance ($\sigma^2$) measures how spread out the data is.
+- Knowing the mean and variance allows us to estimate probabilities and proportions using general-purpose inequalities like Markov's and Chebyshev's, without needing the exact distribution of the data.
+
+> Insight: Variance plays a crucial role in determining the tightness of bounds. Lower variance leads to tighter bounds because the data is more concentrated around the mean.
+
+### Markov’s Inequality is Broad but Weak
+
+- Markov's inequality applies to any non-negative random variable and provides an upper bound for the probability that the variable exceeds a threshold. However, it is often loose because it does not account for the distribution shape or variance.
+- Example: For $X\geq 50$, Markov's inequality gave a bound of 180 entries, which is likely an overestimate because it only uses the mean and assumes the "worst case" scenario.
+
+> Takeaway: Markov’s inequality is useful when only the mean is known but tends to give conservative estimates.
+
+### Markov’s Inequality on $X^2$ Can Be More Informative
+
+- Applying Markov’s inequality to $X^2$ instead of $X$ provided a much stricter bound of 37 entries greater than 50. This highlights how inequalities can be more useful when applied to a transformed random variable ($X^2$) with a higher-order moment.
+
+> Takeaway: Carefully selecting the random variable to apply the inequality to can yield tighter bounds.
+
+### Chebyshev’s Inequality Uses Variance for Tighter Bounds
+
+- Chebyshev's inequality takes into account both the mean and variance, making it more specific than Markov’s inequality.
+- For $X\geq 50$, Chebyshev’s inequality gave a bound of 6 entries, which is much stricter than Markov’s.
+
+> Insight: Chebyshev's inequality is especially powerful when the variance is small relative to the threshold. However, it assumes the variable is centered around the mean, so it may not perform well for highly skewed distributions.
+
+</div>
