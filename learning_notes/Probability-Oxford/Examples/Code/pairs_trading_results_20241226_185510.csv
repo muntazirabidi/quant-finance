@@ -1,0 +1,6 @@
+pair,total_return,annualized_return,sharpe_ratio,sortino_ratio,max_drawdown,win_rate,total_trades,avg_trade_duration,profit_factor
+XLE-USO,-49.01%,-15.52%,-0.84,-0.14,-53.53%,38.71%,5,201.2,0.28
+GDX-GLD,-2.02%,-0.51%,-0.66,-0.05,-2.02%,0.00%,1,1006.0,0.00
+XLF-VFH,0.54%,0.13%,0.20,0.08,-1.14%,41.67%,9,111.8,1.17
+QQQ-SPY,-0.40%,-0.10%,-0.07,-0.02,-2.44%,35.00%,4,251.5,0.92
+KO-PEP,-1.73%,-0.44%,-0.15,-0.03,-4.17%,38.89%,4,251.5,0.83
