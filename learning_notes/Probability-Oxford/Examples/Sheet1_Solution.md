@@ -394,3 +394,228 @@ When we look at the maximum of uniform random variables, we discover something f
 But there's something deeper here. The convergence to 1 happens in a very specific way. The rate at which our maximum approaches 1 is precisely characterized by the exponential distribution. This tells us that even when we know the maximum is getting close to 1, there's still randomness in exactly how close it gets, and this randomness follows a predictable pattern.
 
 > This example is part of a larger theory of extreme value distributions. Just as the Central Limit Theorem tells us about the behavior of averages, extreme value theory tells us about the behavior of maxima and minima. The fact that we get an exponential distribution in the limit is not a coincidence - it's related to the broader family of extreme value distributions that arise in different contexts.
+
+# Question 5:
+
+> ## Part a:
+>
+> What is the distribution of the sum of $n$ independent Poisson random variableseach of mean 1? Use the central limit theorem to deduce that:
+>
+> $$\exp\Big(n(1 +n+\frac{n^2}{2!}!+···+\frac{n^n}{n!})\Big)\rightarrow \frac{1}{2} \qquad \text{as } n \rightarrow \infty $$
+>
+> ## Part (b):
+>
+> Let $p \in (0,1) $. What is the distribution of the sum of $n $ independent Bernoulli random variables with parameter $ p$?
+>
+> Let $0 \leq a < b \leq 1 $. Use appropriate limit theorems to determine how the value of:
+>
+> $$
+> \lim_{n \to \infty} \sum_{r \in \mathbb{N}: an \leq r < bn} \binom{n}{r} p^r (1-p)^{n-r}
+> $$
+>
+> depends on $a$ and $b$.
+
+## Solution Part a:
+
+Let $X_1,X_2,\ldots,X_n$ be $n$ independent Poisson random variables, each with mean $\lambda=1$. The sum $S_n=X_1+X_2+\ldots+X_n$ is also a Poisson random variable. The sum of independent Poisson random variables with parameters $\lambda_1,\lambda_2,\ldots,\lambda_n$ is itself a Poisson random variable with parameter $\lambda=\lambda_1+\lambda_2+\cdots+\lambda_n$.
+
+In this case:
+$S_n\sim\text{Poisson}(\lambda=n)$
+
+**Step 2: Central Limit Theorem (CLT) Approximation**
+
+For large $n$, the Poisson distribution can be approximated using the Central Limit Theorem (CLT). Specifically, if $S_n\sim\text{Poisson}(n)$, then the standardized version of $S_n$:
+
+$Z=\frac{S_n-n}{\sqrt{n}}$
+
+approaches the standard normal distribution $N(0,1)$ as $n\to\infty$.
+
+Thus:
+$\Pr(S_n=k)\approx\frac{1}{\sqrt{2\pi n}}\exp\left(-\frac{(k-n)^2}{2n}\right)$
+
+for $n$ large.
+
+**Step 3: Relating the Factorial Term to the Exponential**
+
+The probability mass function of a Poisson random variable $S_n$ with parameter $n$ is given by:
+
+$\Pr(S_n=k)=\frac{n^ke^{-n}}{k!}$
+
+To analyze $e^{-n}(1+n+\frac{n^2}{2!}+\cdots+\frac{n^n}{n!})$, observe that this is the cumulative probability $\Pr(S_n\leq n)$:
+
+$e^{-n}\sum_{k=0}^n\frac{n^k}{k!}=\Pr(S_n\leq n)$
+
+Using the CLT, standardizing $S_n$ as $Z=(S_n-n)/\sqrt{n}$, the cumulative probability can be approximated as:
+
+$\Pr(S_n\leq n)\to\Pr(Z\leq 0)=\Phi(0)$
+
+where $\Phi(z)$ is the cumulative distribution function of the standard normal distribution. Since $\Phi(0)=0.5$, we deduce:
+
+$e^{-n}(1+n+\frac{n^2}{2!}+\cdots+\frac{n^n}{n!})\to\frac{1}{2}$ as $n\to\infty$
+
+## Solution Part b:
+
+Here's the properly formatted solution using LaTeX in Markdown:
+
+Let $X_1,X_2,\ldots,X_n$ be $n$ independent Bernoulli random variables with parameter $p\in(0,1)$. The sum $S_n=\sum_{i=1}^n X_i$ is a Binomial random variable:
+
+$S_n\sim\text{Binomial}(n,p)$
+
+We evaluate:
+$\lim_{n\to\infty}\sum_{r\in\mathbb{N}:an\leq r<bn}\binom{n}{r}p^r(1-p)^{n-r}$
+
+where $0\leq a<b\leq 1$
+
+For large $n$, the binomial distribution approximates normal:
+$S_n\sim\mathcal{N}(np,np(1-p))$
+
+where $\mu=np$ and $\sigma^2=np(1-p)$
+
+Standardizing $S_n$:
+$Z=\frac{S_n-np}{\sqrt{np(1-p)}}\sim\mathcal{N}(0,1)$
+
+The probability mass function:
+$\Pr(S_n=r)=\binom{n}{r}p^r(1-p)^{n-r}$
+
+Therefore:
+$\sum_{r\in\mathbb{N}:an\leq r<bn}\binom{n}{r}p^r(1-p)^{n-r}=\Pr(an\leq S_n<bn)$
+
+Using CLT:
+$\Pr(an\leq S_n<bn)\approx\Pr(\frac{an-np}{\sqrt{np(1-p)}}\leq Z<\frac{bn-np}{\sqrt{np(1-p)}})$
+
+Define:
+$z_a=\frac{an-np}{\sqrt{np(1-p)}}$ and $z_b=\frac{bn-np}{\sqrt{np(1-p)}}$
+
+Then:
+$\Pr(an\leq S_n<bn)\approx\Phi(z_b)-\Phi(z_a)$
+
+where $\Phi(z)$ is the standard normal CDF.
+
+As $n\to\infty$:
+
+- $z_a\to\frac{a-p}{\sqrt{p(1-p)}}$
+- $z_b\to\frac{b-p}{\sqrt{p(1-p)}}$
+
+$\lim_{n\to\infty}\sum_{r\in\mathbb{N}:an\leq r<bn}\binom{n}{r}p^r(1-p)^{n-r}=\Phi(\frac{b-p}{\sqrt{p(1-p)}})-\Phi(\frac{a-p}{\sqrt{p(1-p)}})$
+
+### Points to Learn:
+
+- **The Universal Nature of Normal Distribution:** The problem demonstrates why the Normal distribution is so ubiquitous in statistics. We started with Bernoulli trials - perhaps the simplest possible random process (just success/failure) - yet when we look at many of them together in the right way, we get the Normal distribution. This is a manifestation of what mathematicians call "universality" - different systems often show the same behavior in their limit.
+
+- **The Relationship Between Discrete and Continuous:** This problem beautifully illustrates how discrete probability distributions (Binomial) transition into continuous ones (Normal) as $n$ grows large. What's particularly interesting is that we're seeing this transition happen through a very specific lens - we're watching probabilities over intervals of the form $[an,bn)$ rather than just point probabilities. This connects to a broader principle in mathematics where counting discrete objects often leads to continuous measurements in the limit.
+
+- **The Role of Scaling:** Notice how the final result includes the term $√(p(1-p))$ in the denominator. This scaling factor is crucial and tells us something profound about probability distributions - as we increase n, we need to "zoom in" at just the right rate to see meaningful structure. If we zoomed in too quickly or too slowly, we'd either see everything collapse to a point or spread out to infinity. This connects to the concept of "natural scales" in probability theory.
+
+First, let me format the question properly using LaTeX and Markdown:
+
+# Question 6:
+
+> Let $\{X_n, n\geq 1\}$ be a sequence of random variables defined on the same probability space.
+>
+> (a) Show that if $X_n \to c$ in distribution, where $c$ is a constant, then also $X_n \to c$ in probability.
+>
+> (b) Show that if $E|X_n - X| \to 0$ as $n \to \infty$, then $X_n \to X$ in probability. Is the converse true?
+
+Now, let's solve this step by step:
+
+## Solution:
+
+(a) First, let's show convergence in distribution implies convergence in probability when the limit is a constant.
+
+Let's recall what convergence in distribution means:
+For any continuity point $x$ of the CDF $F(x)$:
+$F_n(x) \to F(x)$ as $n \to \infty$
+
+Since $c$ is a constant, its CDF is:
+$F(x) = \begin{cases} 
+0 & \text{if } x < c \\
+1 & \text{if } x \geq c
+\end{cases}$
+
+To prove convergence in probability, we need to show:
+For any $\epsilon > 0$: $P(|X_n - c| > \epsilon) \to 0$ as $n \to \infty$
+
+Let's write this in terms of CDFs:
+$P(|X_n - c| > \epsilon) = P(X_n > c + \epsilon) + P(X_n < c - \epsilon)$
+$= [1 - F_n(c + \epsilon)] + F_n(c - \epsilon)$
+
+As $n \to \infty$:
+
+- $F_n(c + \epsilon) \to F(c + \epsilon) = 1$
+- $F_n(c - \epsilon) \to F(c - \epsilon) = 0$
+
+Therefore: $P(|X_n - c| > \epsilon) \to 0$
+
+(b) For the first part, we'll use Markov's inequality.
+
+By Markov's inequality:
+$P(|X_n - X| \geq \epsilon) \leq \frac{E|X_n - X|}{\epsilon}$
+
+Since $E|X_n - X| \to 0$ as $n \to \infty$, we have:
+$\lim_{n \to \infty} P(|X_n - X| \geq \epsilon) = 0$
+
+Therefore, $X_n \to X$ in probability.
+
+For the converse:
+The converse is false. Here's a counterexample:
+
+Let $X_n = \begin{cases}
+n & \text{with probability } \frac{1}{n^2} \\
+0 & \text{with probability } 1-\frac{1}{n^2}
+\end{cases}$
+
+Then:
+
+- $P(|X_n - 0| > \epsilon) = \frac{1}{n^2} \to 0$ as $n \to \infty$, so $X_n \to 0$ in probability
+- But $E|X_n - 0| = n \cdot \frac{1}{n^2} = \frac{1}{n} \not\to 0$ as $n \to \infty$
+
+Therefore, convergence in probability does not imply convergence in mean.
+
+This problem illustrates the hierarchy of convergence types in probability theory, showing that:
+
+1. $L^1$ convergence implies convergence in probability
+2. When the limit is a constant, convergence in distribution implies convergence in probability
+3. Convergence in probability does not imply $L^1$ convergence
+
+### Points to Understand:
+
+Let's start with three key types of convergence we're dealing with:
+
+- **Convergence in Distribution:** Think of this as convergence of shapes. Imagine taking photos of different mountains from the same distance. Even if they're different mountains, their silhouettes might look very similar from far away. That's like convergence in distribution - the overall pattern looks the same, even if the specific details might differ.
+- **Convergence in Probability:** This is stronger than convergence in distribution. It's like saying "I'm getting closer and closer to the exact target." Imagine a game of darts where you're getting better - over time, most of your throws land very close to the bullseye.
+- **Convergence in Mean ($L^1$ convergence):** This is even stronger. Not only are you getting close to the target, but your average distance from the target is also shrinking. In the dart game analogy, it means both that you're hitting near the bullseye AND that your rare bad throws aren't too far off.
+
+### Why Part (a) Works
+
+The first part of the question asks why convergence in distribution to a constant implies convergence in probability. Here's why this makes sense:
+If you're converging to a constant (let's say 4.2), there's no randomness in the target - it's just one fixed number. So if your distribution is getting closer to looking like a spike at 4.2, you must actually be getting closer to 4.2 in a real sense.
+
+### Why Part (b) Makes Sense
+
+The relationship between mean convergence and probability convergence is like the relationship between "average accuracy" and "consistency":
+
+If your average error is shrinking (mean convergence), then you must be getting more consistent (probability convergence)
+But you can be consistent without having a good average - like consistently throwing darts that are slightly off-target
+
+### The Counterexample Explained
+
+The counterexample in part (b) is like a dart player who:
+
+Usually throws perfectly (probability converging to perfect throws)
+But occasionally makes a huge mistake, and these mistakes, though rare, are getting bigger and bigger (preventing mean convergence)
+
+**For Time Series Analysis:**
+
+1. If we have convergence in probability, we can use methods that rely on consistent estimation
+2. If only distributional convergence, we might need more robust methods
+3. Example: In financial market analysis, choosing between ARCH and GARCH models based on convergence properties
+
+> ### The Hierarchy
+>
+> These types of convergence form a hierarchy:
+>
+> 1. Convergence in Mean ⟹ Convergence in Probability ⟹ Convergence in Distribution
+> 2. The reverse implications generally don't hold
+> 3. However, when converging to a constant, convergence in distribution implies convergence in probability
+
+> [This App Demonstrates The Convergence](https://claude.site/artifacts/379f748b-7243-4a21-8ba7-ea65518c4014)
