@@ -619,3 +619,207 @@ But occasionally makes a huge mistake, and these mistakes, though rare, are gett
 > 3. However, when converging to a constant, convergence in distribution implies convergence in probability
 
 > [This App Demonstrates The Convergence](https://claude.site/artifacts/379f748b-7243-4a21-8ba7-ea65518c4014)
+
+# Question 7:
+
+> A gambler makes a long sequence of bets against a rich friend. The gambler has initial capital $C$. On each round, a coin is tossed; if the coin comes up tails, he loses 30% of his current capital, but if the coin comes up heads, he instead wins 35% of his current capital.
+>
+> (a) Let $C_n$ be the gambler's capital after $n$ rounds. Write $C_n$ as a product $C Y_1 Y_2...Y_n$ where $Y_i$ are i.i.d. random variables. Find $\mathbb{E}[C_n]$.
+>
+> (b) Find the median of the distribution of $C_{10}$ and compare it to $\mathbb{E}[C_{10}]$.
+>
+> (c) Consider $\log C_n$. What does the law of large numbers tell us about the behaviour of $C_n$ as $n \to \infty$? How is this consistent with the behaviour of $\mathbb{E}[C_n]$?
+
+## Solution a:
+
+Let me solve this step by step.
+
+1. First, let's identify what $Y_i$ represents:
+
+   - For heads (probability 0.5): $Y_i = 1.35$ (gaining 35%)
+   - For tails (probability 0.5): $Y_i = 0.7$ (losing 30%)
+
+2. Since $C_n = C Y_1 Y_2...Y_n$ with $Y_i$ being i.i.d., we can write:
+   $\mathbb{E}[C_n] = C \cdot \mathbb{E}[Y_1] \cdot \mathbb{E}[Y_2] \cdot ... \cdot \mathbb{E}[Y_n]$
+
+3. Calculate $\mathbb{E}[Y_i]$ for any single round:
+   $\mathbb{E}[Y_i] = 0.5(1.35) + 0.5(0.7)$
+   $\mathbb{E}[Y_i] = 1.025$
+
+4. Therefore:
+   $\mathbb{E}[C_n] = C \cdot (1.025)^n$
+
+So after $n$ rounds, the expected capital is the initial capital multiplied by 1.025 raised to the power $n$. This shows that the expected value grows exponentially with the number of rounds, despite the presence of potential losses.
+
+## Solution b:
+
+```python
+import numpy as np
+
+def simulate_gambling(initial_capital=1, n_rounds=10, n_simulations=100000):
+    # Create array of random coin flips (True for heads, False for tails)
+    flips = np.random.rand(n_simulations, n_rounds) >= 0.5
+
+    # Create multipliers array (1.35 for heads, 0.7 for tails)
+    multipliers = np.where(flips, 1.35, 0.7)
+
+    # Calculate final capitals by multiplying along rounds axis
+    final_capitals = initial_capital * np.prod(multipliers, axis=1)
+
+    # Calculate statistics
+    median = np.median(final_capitals)
+    expected_value = initial_capital * (1.025 ** n_rounds)
+
+    return {
+        'median': median,
+        'expected_value': expected_value,
+        'ratio': expected_value/median,
+        'final_capitals': final_capitals
+    }
+
+# Run simulation
+np.random.seed(42)  # for reproducibility
+results = simulate_gambling()
+
+print(f"Median of C_10: {results['median']:.4f}")
+print(f"E[C_10]: {results['expected_value']:.4f}")
+print(f"Ratio E[C_10]/Median: {results['ratio']:.4f}")
+
+# Additional statistics
+percentile_25 = np.percentile(results['final_capitals'], 25)
+percentile_75 = np.percentile(results['final_capitals'], 75)
+print(f"\nAdditional statistics:")
+print(f"25th percentile: {percentile_25:.4f}")
+print(f"75th percentile: {percentile_75:.4f}")
+print(f"Probability of losing money: {(results['final_capitals'] < 1).mean():.4%}")
+
+```
+
+Based on our numerical simulation:
+
+The median of $C_{10}$ is approximately 0.7536C
+$\mathbb{E}[C_{10}] = 1.2801C$ (as calculated in part a)
+$\mathbb{E}[C_{10}]$ is about 1.70 times larger than the median
+
+This is a very interesting result! Despite the expected value being greater than 1 (suggesting growth), the median is actually less than 1 (suggesting decline). This means that:
+
+Most gamblers (more than 50%) will actually lose money after 10 rounds
+The high expected value is driven by relatively rare but very large positive outcomes
+The distribution of $C_{10}$ is heavily right-skewed, with the mean being significantly larger than the median
+
+## Solution c:
+
+1. **Expression for $ \log C_n $:**
+
+   Recall that $ C_n = C \cdot Y_1 Y_2 \cdots Y_n $, where $ Y_i $ are i.i.d. random variables:
+
+   - $ Y_i = 1 - 0.3 = 0.7 $ with probability $ 0.5 $ (tails: loss of 30%).
+   - $ Y_i = 1 + 0.35 = 1.35 $ with probability $ 0.5 $ (heads: gain of 35%).
+
+   Taking the logarithm:
+
+   $$
+    \log C*n = \log C + \sum*{i=1}^n \log Y_i.
+   $$
+
+   The first term, $ \log C $, is constant and independent of $ n $. The behavior of $ \log C*n $ as $ n \to \infty $ is determined by the sum $ \sum*{i=1}^n \log Y_i $.
+
+2. **Expectation of $ \log Y_i $:**
+
+   We calculate $ \mathbb{E}[\log Y_i] $:
+
+   $$
+    \mathbb{E}[\log Y_i] = 0.5 \cdot \log(0.7) + 0.5 \cdot \log(1.35).
+   $$
+
+   Numerically approximating the values:
+
+   - $ \log(0.7) \approx -0.3567 $,
+   - $ \log(1.35) \approx 0.3001 $.
+
+   So:
+
+   $$
+   \mathbb{E}[\log Y_i] \approx 0.5 \cdot (-0.3567) + 0.5 \cdot 0.3001 = -0.0283.
+   $$
+
+   Since $ \mathbb{E}[\log Y_i] < 0 $, the sum $ \sum\_{i=1}^n \log Y_i $ will tend to decrease as $ n \to \infty $.
+
+3. **Law of Large Numbers:**
+
+   By the **law of large numbers**, the average of $\log Y_i$ converges to its expectation as $ n \to \infty $:
+
+   $$
+   \frac{1}{n} \sum*{i=1}^n \log Y_i \xrightarrow{n \to \infty} \mathbb{E}[\log Y_i] \approx -0.0283.
+   $$
+
+   Therefore:
+
+   $$
+   \frac{\log C*n}{n} = \frac{\log C}{n} + \frac{1}{n} \sum*{i=1}^n \log Y_i \xrightarrow{n \to \infty} -0.0283.
+   $$
+
+   This implies:
+
+   $$
+    \log C_n \sim -0.0283 n \quad \text{as } n \to \infty,
+   $$
+
+   or equivalently:
+
+   $$
+   C_n \sim e^{-0.0283 n}.
+   $$
+
+   Thus, $ C_n $ decays exponentially to 0 as $ n \to \infty $.
+
+4. **Consistency with $ \mathbb{E}[C_n] $:**
+
+   In part (a), we found that $ \mathbb{E}[C_n] = C \cdot (\mathbb{E}[Y_i])^n $, where $ \mathbb{E}[Y_i] = 0.5 \cdot 0.7 + 0.5 \cdot 1.35 = 1.025 > 1 $. This implies:
+
+   $$
+   \mathbb{E}[C_n] \to \infty \quad \text{as } n \to \infty.
+   $$
+
+   **Reconciliation:**
+
+   - The **mean** $ \mathbb{E}[C_n] $ grows because of the contribution of rare but large values of $C_n $ (outliers).
+   - However, the **typical value** (as captured by the median or $ \log C_n $) decreases exponentially because most outcomes lead to a steady loss of capital.
+
+As $ n \to \infty $:
+
+- $ C_n $ decays exponentially for a typical gambler ( $ \log C_n \sim -0.0283 n $).
+- $ \mathbb{E}[C_n] $ grows due to rare but significant gains in capital, demonstrating a divergence between the mean and the typical behavior.
+
+## Discussion
+
+First, let's understand what makes this problem special. We have a gambling game that seems favorable at first glance - you can win 35% or lose 30%, and it's a fair coin toss. The expected value of each round is positive (1.025), suggesting you should expect to gain money. Yet, most gamblers end up losing money in the long run. This paradox teaches us several important lessons:
+
+### The Difference Between Additive and Multiplicative Processes
+
+In additive processes, like adding small numbers repeatedly, the mean gives us a good sense of typical behavior. But this gambling game is multiplicative - we keep multiplying our capital by either 1.35 or 0.7. Multiplicative processes behave very differently from additive ones.
+
+Think about it this way: If you lose 30% and then gain 35%, you don't end up with a 5% gain. Instead:
+$100 × 0.7 × 1.35 = 94.5$
+You've actually lost 5.5%! This asymmetry is crucial.
+
+### The Role of Logarithms
+
+This is where logarithms become powerful. When we take the logarithm of our capital, we transform the multiplicative process into an additive one:
+$\log(C_n) = \log(C) + \log(Y_1) + \log(Y_2) + ... + \log(Y_n)$
+Now we can apply the law of large numbers to $\log(C_n)$. The expected value of $\log(Y_i)$ is:
+$0.5 \log(1.35) + 0.5 \log(0.7)$ which is negative!
+This means that while $\mathbb{E}[C_n]$ grows exponentially, $\log(C_n)$ tends to decrease linearly, so $C_n$ itself tends to zero for most paths.
+
+### The Mean-Median Inequality
+
+This example beautifully illustrates why the mean can be misleading for skewed distributions. The distribution of outcomes becomes increasingly right-skewed over time. A few lucky gamblers win enormous amounts, pulling the mean up, while most lose money, keeping the median down.
+This is similar to how wealth distribution works in many economies - the mean wealth can be much higher than the median wealth because a small number of very wealthy individuals pull up the average.
+
+> The key lesson is that in multiplicative processes, volatility is usually harmful to long-term growth, even when expected returns are positive. This is known as "volatility drag" in finance.
+
+This example shows why risk management is crucial. Even if an investment has a positive expected return, too much volatility can make it likely to lose money in the long run. This is why diversification is important in investment - it reduces volatility while preserving expected returns.
+
+The mathematical insight here connects to a fundamental principle: geometric means are always less than or equal to arithmetic means (with equality only when there's no variation). In practical terms, this means that volatility always "costs" something in multiplicative processes.
+
+> Key Takeaway: The divergence between mean and median highlights the impact of **heavy-tailed distributions** and **outliers** in random processes. While the mean is sensitive to extreme values, the median reflects the behavior of the majority.
