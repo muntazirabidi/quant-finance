@@ -544,7 +544,7 @@ We aim to calculate the **expected number of intersections** of two correlated 2
    G(\mathbf{z}, t) = \frac{1}{4 \pi (1-\rho) t} \exp\left(-\frac{|\mathbf{z}|^2}{4(1-\rho)t}\right).
    $$
 
-3. At the origin (\(\mathbf{z} = 0\)), the Green's function simplifies to:
+3. At the origin ($\mathbf{z} = 0$), the Green's function simplifies to:
    $$
    G(0, t) = \frac{1}{4 \pi (1-\rho) t}.
    $$
@@ -565,7 +565,7 @@ We aim to calculate the **expected number of intersections** of two correlated 2
    \mathbb{E}[N(T)] = \int_0^T \frac{1}{4 \pi (1-\rho) t} \, dt.
    $$
 
-3. This integral diverges logarithmically as \(t \to 0\). To regularize it, we introduce a small-time cutoff \(\epsilon\) to handle short-time behavior:
+3. This integral diverges logarithmically as $t \to 0$. To regularize it, we introduce a small-time cutoff $\epsilon$ to handle short-time behavior:
 
    $$
    \mathbb{E}[N(T)] \approx \frac{1}{4 \pi (1-\rho)} \int_\epsilon^T \frac{1}{t} \, dt.
@@ -578,9 +578,9 @@ We aim to calculate the **expected number of intersections** of two correlated 2
 
 ---
 
-## Step 4: Scaling with \(T / \log(T)\)
+## Step 4: Scaling with $T / \log(T)$
 
-1. For large \(T\), the \(\log(\epsilon)\) term becomes negligible compared to \(\log(T)\).
+1. For large $T$, the $\log(\epsilon)$ term becomes negligible compared to $\log(T)$.
 
 2. The expected number of intersections scales as:
 
@@ -588,8 +588,8 @@ We aim to calculate the **expected number of intersections** of two correlated 2
    \mathbb{E}[N(T)] \propto \frac{T}{\log(T)} (1-\rho^2).
    $$
 
-   - The \(T / \log(T)\) scaling comes from the logarithmic divergence regularized by the finite time interval.
-   - The \((1-\rho^2)\) term arises because the diffusivity of the relative motion depends on \((1-\rho)\) in each direction.
+   - The $T / \log(T)$ scaling comes from the logarithmic divergence regularized by the finite time interval.
+   - The $(1-\rho^2)$ term arises because the diffusivity of the relative motion depends on $(1-\rho)$ in each direction.
 
 ---
 
@@ -607,10 +607,10 @@ $$
 
 1. **Logarithmic Correction:**
 
-   - In 2D, Brownian motions have infinite intersections in infinite time. Over finite time, the logarithmic correction captures the reduced likelihood of intersection as \(T\) grows.
+   - In 2D, Brownian motions have infinite intersections in infinite time. Over finite time, the logarithmic correction captures the reduced likelihood of intersection as $T$ grows.
 
-2. **Correlation Factor (\(1-\rho^2\)):**
-   - Correlation reduces the randomness of the relative motion, decreasing the number of intersections. When \(\rho = \pm 1\), the motions are perfectly aligned, so no intersections occur.
+2. **Correlation Factor ($1-\rho^2$):**
+   - Correlation reduces the randomness of the relative motion, decreasing the number of intersections. When $\rho = \pm 1$, the motions are perfectly aligned, so no intersections occur.
 
 This result highlights the delicate interplay between correlation, dimensionality, and stochastic behavior.
 
