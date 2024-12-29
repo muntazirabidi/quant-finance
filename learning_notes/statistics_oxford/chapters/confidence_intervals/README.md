@@ -1,8 +1,19 @@
-# Chapter 2: Confidence Intervals - Statistical Inference
-
-## Overview
+# Chapter 2: Confidence Intervals
 
 This chapter explores the crucial concept of confidence intervals in statistical inference - a fundamental tool for quantifying uncertainty in parameter estimation. We move beyond point estimates to understand how to construct intervals that capture the true parameter value with a specified probability.
+
+| Section | Title                                       | Status       | Last Updated | Key Learning Goals                 |
+| ------- | ------------------------------------------- | ------------ | ------------ | ---------------------------------- |
+| 2.1     | CIs using CLT                               | ✅ Completed | -            | Central Limit Theorem applications |
+| 2.2     | CIs using asymptotic distribution of MLE    | ✅ Completed | -            | Advanced interval estimation       |
+| 2.3     | Distributions related to N(0,1)             | ✅ Completed | -            | Standard normal relationships      |
+| 2.4     | Independence of X and S² for normal samples | ✅ Completed | -            | Normal sample properties           |
+
+## Legend
+
+- ✅ Completed
+- 🚧 In Progress
+- 📝 Not Started
 
 ## Key Topics
 

@@ -1,3 +1,20 @@
+# Fisher
+
+The Fisher Information Matrix $I(\theta)$ can be expressed equivalently as:
+
+1. The negative expectation of the Hessian (second derivative matrix) of the log-likelihood:
+
+   $$
+   I(\theta) = -\mathbb{E}_\theta \left[ \nabla_\theta^2 \log f(X, \theta) \right].
+   $$
+
+2. The expected outer product of the score function:
+   $$
+   I(\theta) = \mathbb{E}_\theta \left[ S(\theta) S(\theta)^\top \right].
+   $$
+
+These two forms are mathematically equivalent under regularity conditions.
+
 # The Cramér–Rao Lower Bound (CRLB)
 
 The Cramér–Rao lower bound (CRLB) is a fundamental result in statistics that provides a theoretical lower limit on the variance of an unbiased estimator. It tells us how "good" an estimator can potentially be in terms of its variance, given a specific statistical model.
@@ -81,3 +98,61 @@ Consider the following scenario:
 - CRLB: $\text{Var}(\hat{\theta}) \geq 1/I(\theta)=\theta/n$
 
 In this case, the variance of the MLE equals the CRLB, demonstrating that the MLE is the most efficient unbiased estimator of $\theta$.
+
+## Key Insight: Connection Between MLE and CRLB
+
+#### Simplified Case: One Parameter ($ p = 1 $)
+
+Suppose we observe $ X_1, \dots, X_n \sim f(x, \theta) $, and the MLE $ \hat{\theta} $ satisfies the score equation:
+
+$$
+S_n(\hat{\theta}) = \frac{1}{n} \sum_{i=1}^n \frac{\partial}{\partial \theta} \log f(X_i, \hat{\theta}) = 0.
+$$
+
+Performing a Taylor expansion of $ S_n(\hat{\theta}) $ around the true parameter $\theta_0 $:
+
+$$
+S_n(\hat{\theta}) \approx S_n(\theta_0) + (\hat{\theta} - \theta_0) \cdot \frac{\partial}{\partial \theta} S_n(\theta_0).
+$$
+
+Rearranging gives:
+
+$$
+\hat{\theta} - \theta_0 \approx -\frac{S_n(\theta_0)}{\frac{\partial}{\partial \theta} S_n(\theta_0)}.
+$$
+
+Using the regularity conditions and properties of $ S_n(\theta) $, we know:
+
+$$
+\frac{\partial}{\partial \theta} S_n(\theta_0) \approx -I_1(\theta_0),
+$$
+
+where $I_1(\theta_0) $ is the Fisher information for a single observation.
+
+Thus:
+
+$$
+\hat{\theta} \approx \theta_0 + \frac{1}{n I_1(\theta_0)} S_n(\theta_0).
+$$
+
+This matches the CRLB when the variance of \( \hat{\theta} \) is:
+
+$$
+\text{Var}(\hat{\theta}) \approx \frac{1}{n I_1(\theta_0)},
+$$
+
+which is the CRLB.
+
+---
+
+### Why MLE Works Well?
+
+The MLE effectively uses all the information from the likelihood function, and the regularity conditions ensure that:
+
+1. The MLE is **asymptotically unbiased**:
+
+$$
+\mathbb{E}[\hat{\theta}] \to \theta_0.
+$$
+
+2. Its variance approaches the CRLB as $ n \to \infty $.
