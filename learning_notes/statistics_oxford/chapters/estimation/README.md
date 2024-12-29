@@ -1,3 +1,21 @@
+## Topic Progress
+
+| Section | Title                            | Status       | Last Updated |
+| ------- | -------------------------------- | ------------ | ------------ |
+| 1.1     | Starting Point                   | ✅ Completed | 2024-12-29   |
+| 1.2     | Delta Method                     | ✅ Completed | 2024-12-29   |
+| 1.3     | Order Statistics                 | ✅ Completed | 2024-12-29   |
+| 1.4     | Q-Q Plots                        | ✅ Completed | 2024-12-29   |
+| 1.5     | Multivariate Normal Distribution | ✅ Completed | 2024-12-29   |
+| 1.6     | Information                      | ✅ Completed | 2024-12-29   |
+| 1.7     | Properties of MLEs               | ✅ Completed | 2024-12-29   |
+
+## Legend
+
+- ✅ Completed
+- 🚧 In Progress
+- 📝 Not Started
+
 ## Chapter 1: Estimation
 
 A comprehensive exploration of statistical estimation methods and their applications in quantitative finance.
