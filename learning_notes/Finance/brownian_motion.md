@@ -618,3 +618,35 @@ This result highlights the delicate interplay between correlation, dimensionalit
     <img src="Code/Figures/2DBM.png" alt="2D Brownian Motion" title="2D Brownian Motion" style="margin-right: 10px; width: 45%;">
     <img src="Code/Figures/countours_2D.png" alt="Contours 2D" title="Contours 2D" style="width: 45%;">
 </div>
+
+For two correlated stocks following Brownian motion, the dynamics are:
+
+$dS_1(t) = \mu_1S_1(t)dt + \sigma_1S_1(t)dW_1(t)$
+
+$dS_2(t) = \mu_2S_2(t)dt + \sigma_2S_2(t)dW_2(t)$
+
+where $dW_1$ and $dW_2$ are correlated Wiener processes with correlation $\rho$:
+
+$E[dW_1dW_2] = \rho dt$
+
+Taking logarithms, we get:
+
+$d\log S_1 = (\mu_1 - \frac{\sigma_1^2}{2})dt + \sigma_1dW_1$
+
+$d\log S_2 = (\mu_2 - \frac{\sigma_2^2}{2})dt + \sigma_2dW_2$
+
+The joint probability density function at time t is:
+
+$$f(x,y,t) = \frac{1}{2\pi t\sqrt{1-\rho^2}}\exp\left(-\frac{1}{2t(1-\rho^2)}(\frac{(x-\mu_1t)^2}{\sigma_1^2} - \frac{2\rho(x-\mu_1t)(y-\mu_2t)}{\sigma_1\sigma_2} + \frac{(y-\mu_2t)^2}{\sigma_2^2})\right)$$
+
+The number of intersections relates to the zeros of the difference process:
+
+$$Z(t) = \log(S_1(t)) - \log(S_2(t))$$
+
+This follows an Ornstein-Uhlenbeck process:
+
+$$dZ(t) = (\mu_1 - \mu_2 - \frac{\sigma_1^2-\sigma_2^2}{2})dt + \sigma_1dW_1 - \sigma_2dW_2$$
+
+The expected number of intersections $N(T)$ in time interval $[0,T]$ is:
+
+$$\mathbb{E}[N(T)] = \frac{T}{\pi}\sqrt{\frac{\sigma_1^2 + \sigma_2^2 - 2\rho\sigma_1\sigma_2}{1-\rho^2}}\exp(-\frac{(\mu_1-\mu_2)^2T}{2(\sigma_1^2 + \sigma_2^2 - 2\rho\sigma_1\sigma_2)})$$
