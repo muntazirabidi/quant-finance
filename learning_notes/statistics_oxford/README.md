@@ -11,6 +11,15 @@ A structured collection of notes from the Statistical Theory course, covering fu
 | 3       | Hypothesis Testing   | 🚧 In Progress | 1/7 Topics | -            |
 | 4       | Bayesian Inference   | 📝 Not Started | 0/5 Topics | -            |
 
+## Example Sheets
+
+| #   | Status         | Last Updated |
+| --- | -------------- | ------------ |
+| 1   | ✅ Completed   | 2024-12-29   |
+| 2   | 🚧 In Progress | -            |
+| 3   | 📝 Not Started | -            |
+| 4   | 📝 Not Started | -            |
+
 ## Legend
 
 - ✅ Completed

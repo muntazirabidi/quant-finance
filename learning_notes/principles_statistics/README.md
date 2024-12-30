@@ -20,6 +20,15 @@ A comprehensive collection of notes and examples from the Principles of Statisti
 | 4       | Multivariate Analysis   | 📝 Not Started | 0/3 Topics  | -            |
 | 5       | Nonparametric Inference | 📝 Not Started | 0/5 Topics  | -            |
 
+## Example Sheets
+
+| #   | Status         | Last Updated |
+| --- | -------------- | ------------ |
+| 1   | 📝 Not Started | -            |
+| 2   | 📝 Not Started | -            |
+| 3   | 📝 Not Started | -            |
+| 4   | 📝 Not Started | -            |
+
 ## Legend
 
 - ✅ Completed

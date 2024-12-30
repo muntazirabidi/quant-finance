@@ -910,3 +910,96 @@ def adjusted_var_for_horizon(daily_var, horizon_days, vol_drag=True):
 > - "Why do leveraged ETFs underperform their multiple of the index return over long periods?"
 > - "How would you adjust a Sharpe ratio calculation for different rebalancing frequencies?"
 > - "Why might continuous-time and discrete-time portfolio optimization give different results?"
+
+# Question 8:
+
+> Let $H_n$ be the $n$-dimensional cube $[-1,1]^n$. For fixed $x \in \mathbb{R}$, show that the proportion of the volume of $H_n$ within distance $(n/3)^{1/2} + x$ of the origin converges as $n \to \infty$, and find the limit.
+>
+> [Hint: Consider a random point whose $n$ coordinates are i.i.d. with Uniform $[-1,1]$ distribution. If $A \subset H_n$, then $\text{vol}(A)/\text{vol}(H_n)$ is the probability that such a point falls in the set $A$. Let $D_n$ represent the distance of such a point from the origin; apply an appropriate limit theorem to $D_n^2$.]
+
+## Solution
+
+Let's start with understanding what the problem is asking:
+
+1. First, let's visualize what we're dealing with:
+   - We have an n-dimensional cube $H_n = [-1,1]^n$
+   - We want to find points within a specific distance from the origin
+   - This distance is $(n/3)^{1/2} + x$ where x is fixed
+   - We need to find what proportion of the cube's volume lies within this distance
+   - Most importantly, we need to find what this proportion converges to as n → ∞
+
+Now, let's use the hint to solve this systematically:
+
+Step 1: Converting to a Probability Problem
+The hint suggests considering a random point in the cube. This is crucial because:
+
+$\frac{\text{vol(region within distance d)}}{\text{vol}(H_n)} = P(\text{random point is within distance d})$
+
+This means if we pick a point randomly from the cube, the probability it falls within our desired distance equals the volume proportion we're looking for.
+
+Step 2: Understanding the Random Variables
+Let's say our random point has coordinates $(X_1, X_2, ..., X_n)$ where:
+
+- Each $X_i$ is independently uniformly distributed on $[-1,1]$
+- We can calculate: $E[X_i] = 0$ (by symmetry)
+- For the variance: $E[X_i^2] = \int_{-1}^1 x^2 \cdot \frac{1}{2}dx = \frac{1}{3}$
+- Therefore: $\text{Var}(X_i) = E[X_i^2] - (E[X_i])^2 = \frac{1}{3}$
+
+Step 3: Analyzing the Distance
+The distance $D_n$ from our random point to the origin is:
+$D_n = \sqrt{X_1^2 + X_2^2 + ... + X_n^2}$
+
+The hint suggests looking at $D_n^2$. Why? Because:
+$D_n^2 = X_1^2 + X_2^2 + ... + X_n^2$
+This is a sum of n independent random variables!
+
+Step 4: Applying the Central Limit Theorem
+For $X_i^2$:
+
+- $E[X_i^2] = \frac{1}{3}$ (as calculated above)
+- $\text{Var}(X_i^2) = E[X_i^4] - (E[X_i^2])^2$
+- $E[X_i^4] = \int_{-1}^1 x^4 \cdot \frac{1}{2}dx = \frac{1}{5}$
+- Therefore: $\text{Var}(X_i^2) = \frac{1}{5} - (\frac{1}{3})^2 = \frac{4}{45}$
+
+By the Central Limit Theorem:
+$\frac{D_n^2 - n/3}{\sqrt{n\cdot 4/45}} \xrightarrow{d} N(0,1)$
+
+Step 5: Finding the Limiting Probability
+We want: $P(D_n \leq (n/3)^{1/2} + x)$
+
+This is equivalent to:
+$P(D_n^2 \leq n/3 + 2x(n/3)^{1/2} + x^2)$
+
+Standardizing:
+$P(\frac{D_n^2 - n/3}{\sqrt{4n/45}} \leq \frac{2x(n/3)^{1/2} + x^2}{\sqrt{4n/45}})$
+
+As n → ∞:
+
+- The left side converges to a standard normal distribution
+- The right side converges to x
+
+Therefore:
+$\lim_{n \to \infty} P(D_n \leq (n/3)^{1/2} + x) = \Phi(x)$
+
+where $\Phi(x)$ is the cumulative distribution function of the standard normal distribution.
+
+Final Answer: The proportion of the volume of $H_n$ within distance $(n/3)^{1/2} + x$ of the origin converges to $\Phi(x)$ as n → ∞.
+
+This is a beautiful result that shows how geometric properties in high dimensions can be understood through probability theory. The normal distribution emerges naturally as a consequence of the Central Limit Theorem applied to the squared coordinates.
+
+### What do learn?
+
+1. The first major insight is about high-dimensional spaces. Our everyday intuition about space, which comes from living in a 3D world, can be very misleading when we move to higher dimensions. This problem shows us that in high dimensions, volume concentrates in unexpected ways. Almost all of the "mass" of a high-dimensional cube ends up being located at a very specific distance from the center. This is fundamentally different from what happens in 2D or 3D, where volume is more evenly distributed.
+
+2. The second key lesson is about the deep connection between geometry and probability. The problem starts as a purely geometric question about volumes, but we solve it by converting it into a probability problem. This transformation isn't just a mathematical trick – it reveals that geometric properties in high dimensions are often best understood through the lens of probability theory. When we randomly select points in high-dimensional spaces, patterns emerge that tell us about the structure of these spaces.
+
+3. The third insight concerns the ubiquity of the normal distribution. Even though we started with uniformly distributed coordinates (each coordinate randomly chosen between -1 and 1), the Central Limit Theorem tells us that their squared sum approaches a normal distribution. This is a beautiful example of how the normal distribution naturally emerges in mathematics, even when we start with very different distributions
+
+### This phenomenon has profound implications:
+
+Think about it this way: In high dimensions, for a point to be much closer to the center than average, many of its coordinates would need to be small simultaneously. For it to be much further than average, many coordinates would need to be large simultaneously. Both become extremely unlikely as dimensions increase.
+This is why we see that the distance concentrates around $\sqrt{n/3}$. It's not just that this is the average distance - it's that almost all points end up being very close to this distance!
+
+- In high dimensions, almost all the volume of our cube is concentrated in a thin "shell"
+- The thickness of this shell, relative to its radius, gets thinner as dimensions increase
+- This is why the normal distribution appears - we're essentially measuring how far points deviate from this concentrated shell
