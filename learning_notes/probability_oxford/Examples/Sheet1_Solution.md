@@ -998,8 +998,115 @@ This is a beautiful result that shows how geometric properties in high dimension
 ### This phenomenon has profound implications:
 
 Think about it this way: In high dimensions, for a point to be much closer to the center than average, many of its coordinates would need to be small simultaneously. For it to be much further than average, many coordinates would need to be large simultaneously. Both become extremely unlikely as dimensions increase.
+
 This is why we see that the distance concentrates around $\sqrt{n/3}$. It's not just that this is the average distance - it's that almost all points end up being very close to this distance!
 
 - In high dimensions, almost all the volume of our cube is concentrated in a thin "shell"
 - The thickness of this shell, relative to its radius, gets thinner as dimensions increase
 - This is why the normal distribution appears - we're essentially measuring how far points deviate from this concentrated shell
+
+# Question 9:
+
+> Let $Y_1, Y_2, \ldots$ be i.i.d. and uniformly distributed on the set $\{1, 2, \ldots, n\}$. Define $X(n) = \min\{k \geq 1 : Y_k = Y_j \text{ for some } j < k\}$, the first time that we see a repetition in the sequence $Y_i$. Interpret the case $n = 365$. Prove that $X(n)/\sqrt{n}$ converges in distribution to a limit with distribution function $F(x) = 1 - \exp(-x^2/2)$ for $x > 0$.
+>
+> [Hint: Observe that $P(X(n) > m) = (1-\frac{1}{n})(1-\frac{2}{n})\cdots(1-\frac{m-1}{n})$. You may find it useful to use bounds such as $-h - h^2 < \log(1-h) < -h$ for sufficiently small positive $h$.]
+
+This problem appears to be the mathematical formulation of the famous birthday problem!
+
+## Solution:
+
+We're randomly drawing numbers between 1 and $n$ (imagine drawing birthdays from 365 days), and we keep drawing until we get a repeat. $X(n)$ represents how many draws it takes until we get our first repeat. For example, if we drew the sequence 3,7,12,7, then $X(n)$ would be 4 because the fourth draw gave us our first repeat.
+
+This problem is a generalization of the famous birthday problem. Instead of just 365 days, we're considering n possible values. The random variable $X(n)$ represents how many draws we need until we see our first repeat. The problem asks us to prove that when normalized by $\sqrt{n}$, this random variable converges to a Rayleigh distribution.
+
+**Part 2: The Probability Formula**
+
+Let's begin by understanding why $P(X(n) > m) = (1-\frac{1}{n})(1-\frac{2}{n})\cdots(1-\frac{m-1}{n})$
+
+To illustrate this, let's think about what it means for $X(n)$ to be greater than $m$. It means our first $m$ draws must all be different numbers. Let's see how this probability unfolds:
+
+1. For the first draw: We can pick any number (probability = 1)
+2. For the second draw: We must avoid 1 number out of n (probability = $1-\frac{1}{n}$)
+3. For the third draw: We must avoid 2 numbers out of n (probability = $1-\frac{2}{n}$)
+
+This continues until the $m$th draw, where we must avoid $m-1$ numbers.
+
+**Part 3: The Convergence Proof**
+
+Let's prove the convergence in several steps:
+
+1. First, let's take the logarithm of our probability:
+
+   $\log P(X(n) > m) = \sum_{k=1}^{m-1} \log(1-\frac{k}{n})$
+
+2. Using the given bounds for small positive $h$: $-h-h^2 < \log(1-h) < -h$
+
+   Therefore:
+   $-\sum_{k=1}^{m-1} (\frac{k}{n} + (\frac{k}{n})^2) < \log P(X(n) > m) < -\sum_{k=1}^{m-1} \frac{k}{n}$
+
+3. Let's evaluate these sums:
+
+   $\sum_{k=1}^{m-1} \frac{k}{n} = \frac{m(m-1)}{2n}$
+
+   $\sum_{k=1}^{m-1} (\frac{k}{n})^2 = \frac{(m-1)m(2m-1)}{6n^2}$
+
+4. Now comes the key step. Let's substitute $m = x\sqrt{n}$ where $x$ is fixed:
+
+   The main term becomes:
+   $\frac{m(m-1)}{2n} = \frac{x\sqrt{n}(x\sqrt{n}-1)}{2n} = \frac{x^2}{2} - \frac{x}{2\sqrt{n}}$
+
+   The squared term becomes:
+   $\frac{(m-1)m(2m-1)}{6n^2} = O(\frac{1}{\sqrt{n}})$
+
+5. Therefore, as $n \to \infty$:
+
+   $\log P(X(n)/\sqrt{n} > x) \to -\frac{x^2}{2}$
+
+   Thus:
+   $P(X(n)/\sqrt{n} > x) \to \exp(-\frac{x^2}{2})$
+
+   And finally:
+   $P(X(n)/\sqrt{n} \leq x) \to 1 - \exp(-\frac{x^2}{2})$
+
+**Part 4: Interpretation for n = 365**
+
+For the birthday problem (n = 365), this result tells us that we need approximately $\sqrt{365} \approx 19$ people to have a good chance of finding a birthday match. More precisely, the probability of finding a match by the $k$ th person follows approximately a Rayleigh distribution when $k$ is scaled by $\sqrt{365}$.
+
+This distribution has some interesting properties:
+
+- The mode (peak) occurs at $x = 1$
+- The mean is $\sqrt{\pi/2}$
+- The median is $\sqrt{2\log(2)}$
+
+These properties help explain why we often find birthday matches in surprisingly small groups of people, a phenomenon that often seems counterintuitive to many people encountering this problem for the first time.
+
+<img src="Code/Figures/rayleigh.png" alt="alt text">
+
+<img src="Code/Figures/birthday_match.png" alt="alt text">
+
+The key insights from these visualizations are:
+
+The normalized waiting time ($X(n)/\sqrt{n}$) follows the Rayleigh distribution very closely, which validates our theoretical proof.
+The characteristic scale of $\sqrt{n}$ is natural because:
+
+- With k people, we have $\binom{k}{2} \approx k^2/2$ possible pairs
+- We expect a match when this number of pairs is about n
+- Solving $k^2/2 \approx n$ gives us $k \approx \sqrt{2n}$
+
+Important properties of the limiting distribution:
+
+- Mode (most likely value): $x = 1$
+- Mean: $\sqrt{\pi/2} \approx 1.25$
+- Median: $\sqrt{2\log(2)} \approx 1.18$
+
+This means that when we normalize by $\sqrt{n}$, most groups will need between 1 and 1.5 times $\sqrt{n}$ people to find a match. For birthdays ($n = 365$), this translates to about 19-23 people for a 50% chance of a match.
+
+What makes this particularly remarkable is that even though there are 365 possible birthdays, we typically only need to see about 23 people to have a 50% chance of finding a match. This counterintuitive result arises because the number of possible pairs grows quadratically with the number of people.
+
+> Imagine you're hosting parties, and at each party, you want to find two people who share the same birthday. Here's the fascinating question: How many people do you need at your party to have a 50% chance of finding a birthday match?
+
+What's really fascinating is that mathematicians have figured out that when we normalize this waiting time (divide by $√365$), we get a very specific pattern called the Rayleigh distribution. This tells us that:
+
+- Most commonly, we find our first match around when we've seen $√365 ≈ 19$ people
+- The average waiting time is about $1.25 × √365 ≈ 24$ people
+- There's a small but real chance we might have to wait much longer

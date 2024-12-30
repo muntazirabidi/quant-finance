@@ -153,6 +153,99 @@ Sellers of options often earn a premium because:
 - Market impact
 - Risk management
 
+Let me help you expand your notes with these new insights, particularly focusing on the risk-neutral pricing framework and general derivative pricing that builds on your existing foundation.
+
+## VI. Risk-Neutral Pricing Framework
+
+This powerful extension lets us price any derivative security, not just options. The framework provides a universal approach to pricing derivatives through the concept of risk-neutral probabilities.
+
+### General Derivative Security Definition
+
+A derivative security is any financial instrument that pays:
+
+- V₁(H) at time one if we get heads (up-move)
+- V₁(T) at time one if we get tails (down-move)
+
+### Replication Process for General Derivatives
+
+The replication portfolio consists of:
+
+```
+Initial wealth: X₀
+Stock position: Δ₀ shares
+Money market position: X₀ - Δ₀S₀
+```
+
+The portfolio value at time one must satisfy:
+
+```
+X₁ = Δ₀S₁ + (1 + r)(X₀ - Δ₀S₀)
+```
+
+### Risk-Neutral Probabilities
+
+These special probabilities (p and q) make the expected return on all assets equal to the risk-free rate:
+
+```
+p = (1 + r - d)/(u - d)    [probability of up-move]
+q = (u - (1 + r))/(u - d)  [probability of down-move]
+```
+
+### The Universal Pricing Formula
+
+For any derivative security:
+
+```
+V₀ = [pV₁(H) + qV₁(T)]/(1 + r)
+```
+
+Where:
+
+- V₀ is the fair price today
+- V₁(H) is the payoff in up-state
+- V₁(T) is the payoff in down-state
+- p, q are risk-neutral probabilities
+- r is the risk-free rate
+
+### Key Insights about Risk-Neutral Pricing
+
+1. **Probability Independence**
+
+   - Actual probabilities don't matter for pricing
+   - Only the possible paths matter, not their likelihood
+   - This is because hedging eliminates all uncertainty
+
+2. **Economic Interpretation**
+
+   - Real-world stock returns usually exceed risk-free rate
+   - Risk-neutral probabilities create a hypothetical world where:
+     - Everything grows at the risk-free rate
+     - Risk preferences don't matter
+     - Pricing becomes simpler
+
+3. **Perfect Hedging**
+   The hedge ratio for any derivative is:
+
+   ```
+   Δ₀ = [V₁(H) - V₁(T)]/[S₁(H) - S₁(T)]
+   ```
+
+4. **Long vs. Short Position Hedging**
+   - Short position: Use Δ₀ shares
+   - Long position: Use -Δ₀ shares
+   - Both achieve perfect risk elimination
+
+### Mathematical Foundation
+
+The replication equations that underlie the framework:
+
+```
+X₀ + Δ₀(S₁(H)/(1+r) - S₀) = V₁(H)/(1+r)
+X₀ + Δ₀(S₁(T)/(1+r) - S₀) = V₁(T)/(1+r)
+```
+
+These equations ensure perfect replication in both states, making the pricing unique and arbitrage-free.
+
 ## Conclusion
 
 This framework provides the foundation for understanding not just options pricing, but many concepts in modern finance, including:
