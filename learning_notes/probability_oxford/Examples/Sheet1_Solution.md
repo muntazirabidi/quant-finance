@@ -1110,3 +1110,77 @@ What's really fascinating is that mathematicians have figured out that when we n
 - Most commonly, we find our first match around when we've seen $√365 ≈ 19$ people
 - The average waiting time is about $1.25 × √365 ≈ 24$ people
 - There's a small but real chance we might have to wait much longer
+
+# Question 10:
+
+> Let $X_i, i \geq 1$, be i.i.d. random variables with $P(X_i = 0) = P(X_i = 1) = \frac{1}{2}$.
+> (a) Define $S_n = \sum_{i=1}^n X_i 2^{-i}$. What is the distribution of $S_n$? Show that the sequence $S_n$ converges almost surely as $n \to \infty$ [Hint: Cauchy sequences converge]. What is the distribution of the limit $S$?
+
+## Solution
+
+Let me provide a comprehensive explanation of this probability problem using clear mathematical notation and intuitive explanations.
+
+First, let's understand what this means in simple terms. We're flipping a fair coin repeatedly where:
+
+- Heads represents $X_i = 1$
+- Tails represents $X_i = 0$
+
+The sequence $S_n$ is constructed by:
+
+$$S_n = \frac{X_1}{2} + \frac{X_2}{4} + \frac{X_3}{8} + ... + \frac{X_n}{2^n}$$
+
+Let's break down the understanding into key parts:
+
+1. **Understanding $S_n$ through Example:**
+
+   If our first four flips give: $X_1 = 1, X_2 = 0, X_3 = 1, X_4 = 0$
+   Then:
+   $S_4 = 1 \cdot \frac{1}{2} + 0 \cdot \frac{1}{4} + 1 \cdot \frac{1}{8} + 0 \cdot \frac{1}{16}$
+   $S_4 = \frac{1}{2} + 0 + \frac{1}{8} + 0 = \frac{5}{8}$
+
+2. **Convergence Analysis:**
+
+   For any $m > n$, the difference between $S_m$ and $S_n$ is:
+   $|S_m - S_n| = |\sum_{i=n+1}^m X_i 2^{-i}|$
+
+   Since $X_i \leq 1$ for all $i$:
+   $|S_m - S_n| \leq \sum_{i=n+1}^m 2^{-i} = 2^{-n}$
+
+This tells us that as $n$ gets larger, the maximum possible change in our sum gets very small. Specifically:
+
+$\text{For any } \epsilon > 0, \text{ choose } N \text{ such that } 2^{-N} < \epsilon$
+$\text{Then for all } m > n > N: |S_m - S_n| < \epsilon$
+
+3. **Binary Decimal Representation:**
+   The key insight is that $S_n$ is creating a binary decimal number:
+
+Where each $X_i$ is randomly either 0 or 1.
+
+4. **Final Distribution:**
+   The limit $S$ follows a Uniform(0,1) distribution because:
+
+$\text{For any interval } [a,b] \subset [0,1]:$
+$P(S \in [a,b]) = b-a$
+
+This is because our process is equivalent to randomly selecting a number between 0 and 1 by randomly choosing each binary digit.
+
+5. **Visual Understanding:**
+   Think of it as repeatedly dividing an interval:
+
+$$
+\text{First flip:} \begin{cases}
+[0, \frac{1}{2}] & \text{if } X_1 = 0 \\
+[\frac{1}{2}, 1] & \text{if } X_1 = 1
+\end{cases}
+$$
+
+Each subsequent flip further divides the active interval in half, eventually pinpointing a specific number in [0,1].
+
+The beauty of this problem lies in how it connects several mathematical concepts:
+
+- Binary representation of numbers
+- Probability and random variables
+- Convergence of series
+- Uniform distribution
+
+Would you like me to elaborate on any of these aspects further?
