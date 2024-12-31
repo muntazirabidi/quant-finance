@@ -527,3 +527,239 @@ To check if a random variable has a real-valued characteristic function:
 
 1. Test if the distribution is symmetric about 0
 2. Or compute $E[\sin(tX)]$ and verify it equals 0 for all $t$
+
+> Remember that characteristics functions are important because they always exist, unlike moment generating functions that might not exist for heavy tail distirbutions for example. And Central Limit Theorem proof uses characteristic functions
+
+> MGFs teach us how transformations affect distributions:
+>
+> - Adding variables → Multiply their MGFs
+> - Linear transformations → Simple MGF adjustments
+> - Mixtures → Weighted averages of MGFs
+
+> In Finance they might be used in Options pricing
+
+# Question 5:
+
+> Suppose $X$ has $Gamma(2,λ)$ distribution, and the conditional distribution of $Y$ given $X=x$ is uniform on $(0,x)$. Find the joint density function of $X$ and $Y$, the marginal density function of $Y$, and the conditional density function of $X$ given $Y=y?$ How would you describe the distribution of $X$ given $Y=y?$ Use this to describe the joint distribution of $Y$ and $X−Y$.
+
+## Solution:
+
+### 1. Joint Density Function
+
+The random variable $X$ follows a $\text{Gamma}(2,\lambda)$ distribution. Its probability density function (PDF) is:
+
+$$f_X(x) = \lambda^2 x e^{-\lambda x}, \quad x \geq 0$$
+
+Given $X = x$, the random variable $Y$ is uniformly distributed on $(0,x)$. The conditional PDF of $Y$ given $X = x$ is:
+
+$$
+f_{Y|X}(y|x) = \begin{cases}
+\frac{1}{x}, & 0 \leq y \leq x \\
+0, & \text{otherwise}
+\end{cases}
+$$
+
+The joint density function $f_{X,Y}(x,y)$ is given by:
+
+$$f_{X,Y}(x,y) = f_{Y|X}(y|x)f_X(x)$$
+
+Substituting the expressions:
+
+$$
+f_{X,Y}(x,y) = \begin{cases}
+\frac{1}{x} \cdot \lambda^2 x e^{-\lambda x}, & 0 \leq y \leq x \\
+0, & \text{otherwise}
+\end{cases}
+$$
+
+Simplifying:
+
+$$
+f_{X,Y}(x,y) = \begin{cases}
+\lambda^2 e^{-\lambda x}, & 0 \leq y \leq x, \; x \geq 0 \\
+0, & \text{otherwise}
+\end{cases}
+$$
+
+### 2. Marginal Density Function of Y
+
+To find the marginal density $f_Y(y)$, integrate $f_{X,Y}(x,y)$ over all possible values of $x$:
+
+$$f_Y(y) = \int_y^\infty f_{X,Y}(x,y) \, dx$$
+
+From the joint density:
+
+$$f_{X,Y}(x,y) = \lambda^2 e^{-\lambda x}, \quad x \geq y$$
+
+Thus:
+
+$$f_Y(y) = \int_y^\infty \lambda^2 e^{-\lambda x} \, dx$$
+
+Evaluating the integral:
+
+$$
+\begin{align*}
+f_Y(y) &= \lambda^2 \int_y^\infty e^{-\lambda x} \, dx \\
+&= \lambda^2 \left[-\frac{1}{\lambda}e^{-\lambda x}\right]_y^\infty \\
+&= \lambda^2 \cdot \frac{1}{\lambda}e^{-\lambda y}
+\end{align*}
+$$
+
+Simplifying:
+
+$$f_Y(y) = \lambda e^{-\lambda y}, \quad y \geq 0$$
+
+This shows that $Y$ follows an exponential distribution with rate parameter $\lambda$.
+
+### 3. Conditional Density Function of X Given Y = y
+
+Using the formula:
+
+$$f_{X|Y}(x|y) = \frac{f_{X,Y}(x,y)}{f_Y(y)}$$
+
+Substituting the expressions:
+
+$$f_{X|Y}(x|y) = \frac{\lambda^2 e^{-\lambda x}}{\lambda e^{-\lambda y}}, \quad x \geq y$$
+
+Simplifying:
+
+$$f_{X|Y}(x|y) = \lambda e^{-\lambda(x-y)}, \quad x \geq y$$
+
+Therefore:
+
+$$X|Y=y \sim y + \text{Exponential}(\lambda)$$
+
+### 4. Joint Distribution of Y and X-Y
+
+Define $Z = X-Y$. Then $X = Y + Z$, where $Z \geq 0$ because $X \geq Y$.
+
+From the conditional distribution $X|Y=y \sim y + \text{Exponential}(\lambda)$, we can conclude that $Z = X-Y$ is independent of $Y$. The distribution of $Z$ is:
+
+$$Z \sim \text{Exponential}(\lambda)$$
+
+Since $Y \sim \text{Exponential}(\lambda)$ and $Z \sim \text{Exponential}(\lambda)$, and $Y$ and $Z$ are independent:
+
+$$f_{Y,Z}(y,z) = f_Y(y)f_Z(z)$$
+
+Substituting the marginal densities:
+
+$$
+\begin{align*}
+f_Y(y) &= \lambda e^{-\lambda y}, \quad y \geq 0 \\
+f_Z(z) &= \lambda e^{-\lambda z}, \quad z \geq 0
+\end{align*}
+$$
+
+Thus:
+
+$$f_{Y,Z}(y,z) = \lambda e^{-\lambda y} \cdot \lambda e^{-\lambda z} = \lambda^2 e^{-\lambda(y+z)}, \quad y \geq 0, \; z \geq 0$$
+
+### Summary
+
+1. Joint density function of $X$ and $Y$:
+   $$f_{X,Y}(x,y) = \lambda^2 e^{-\lambda x}, \quad 0 \leq y \leq x, \; x \geq 0$$
+
+2. Marginal density function of $Y$:
+   $$f_Y(y) = \lambda e^{-\lambda y}, \quad y \geq 0$$
+
+3. Conditional density function of $X$ given $Y=y$:
+   $$f_{X|Y}(x|y) = \lambda e^{-\lambda(x-y)}, \quad x \geq y$$
+
+4. Distribution of $X$ given $Y=y$:
+   $$X|Y=y \sim y + \text{Exponential}(\lambda)$$
+
+5. Joint distribution of $Y$ and $X-Y$:
+   $$f_{Y,Z}(y,z) = \lambda^2 e^{-\lambda(y+z)}, \quad y \geq 0, \; z \geq 0$$
+   where $Z = X-Y$, and $Y$ and $Z$ are independent.
+
+### What do we learn?
+
+Interestingly, despite starting with a Gamma and Uniform distribution, we end up with Exponential distributions in our results
+
+This transformation unexpectedly reveals independence between Y and X-Y, which wasn't obvious from the original setup
+
+<img src="Code/Figures/joint.png" alt="alt text">
+<img src="Code/Figures/joint2.png" alt="alt text">
+
+# Questin 6: Deriving the Density Function of $Z = Y/X$
+
+Suppose now that $X$ and $Y$ are independent standard normal random variables. Show that $Z$ has density
+
+$$f_Z(z) =\frac{1}{π(1 +z^2)}, \qquad −∞< z <∞ $$
+
+## Solution:
+
+Let's derive the density function of $Z = Y/X$ when $X$ and $Y$ have joint density $f(x,y)$. We'll use the transformation method.
+
+To find $Z$'s density, we need to:
+
+1. Express the original variables in terms of the new ones
+2. Calculate the Jacobian of the transformation
+3. Integrate over the appropriate region
+
+Given $Z = Y/X$, we can write $Y = XZ$. This transforms our coordinate system from $(X,Y)$ to $(X,Z)$.
+
+The Jacobian matrix of this transformation is:
+
+$$
+J = \begin{bmatrix}
+\frac{\partial x}{\partial x} & \frac{\partial x}{\partial z} \\
+\frac{\partial y}{\partial x} & \frac{\partial y}{\partial z}
+\end{bmatrix} =
+\begin{bmatrix}
+1 & 0 \\
+z & x
+\end{bmatrix}
+$$
+
+The determinant of the Jacobian is $|x|$.
+
+The joint density of $(X,Z)$ is:
+
+$$
+f_{X,Z}(x,z) = f(x,xz)|x|
+$$
+
+To find $f_Z(z)$, we integrate out $x$:
+
+$$
+f_Z(z) = \int_{-\infty}^{\infty} f_{X,Z}(x,z) dx = \int_{-\infty}^{\infty} |x|f(x,xz) dx
+$$
+
+Now we consider the case where $X$ and $Y$ are independent standard normal random variables.
+
+The joint density is the product of individual densities:
+
+$$
+f(x,y) = \frac{1}{2\pi}e^{-\frac{x^2}{2}}e^{-\frac{y^2}{2}}
+$$
+
+Substituting $y = xz$ into our formula:
+
+$$
+f_Z(z) = \int_{-\infty}^{\infty} |x|\frac{1}{2\pi}e^{-\frac{x^2}{2}}e^{-\frac{(xz)^2}{2}} dx
+$$
+
+Combining the exponential terms:
+
+$$
+f_Z(z) = \frac{1}{2\pi}\int_{-\infty}^{\infty} |x|e^{-\frac{x^2(1+z^2)}{2}} dx
+$$
+
+Using a change of variables $u = x^2$ and noting that the integral is symmetric:
+
+$$
+f_Z(z) = \frac{1}{\pi}\int_{0}^{\infty} e^{-u\frac{(1+z^2)}{2}} du = \frac{1}{\pi(1+z^2)}
+$$
+
+### Verification
+
+The result $f_Z(z) = \frac{1}{\pi(1+z^2)}$ is indeed the density of a Cauchy distribution. We can verify this is a valid density function:
+
+1. It's positive for all $z$
+2. $\int_{-\infty}^{\infty} f_Z(z)dz = 1$
+3. It has the characteristic heavy tails of the ratio of normal random variables
+
+This result showcases a fascinating property: the ratio of two independent standard normal random variables follows a Cauchy distribution.
+
+<img src="Code/Figures/cauchy.png" alt="alt text">
