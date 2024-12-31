@@ -246,3 +246,91 @@ Let's break down how each distribution models a different aspect of this same pr
 - For example: "How long until 3 customers arrive?"
 - It's a generalization: When waiting for just one event (shape = 1), it becomes the exponential distribution
 - The shape parameter (α) represents the number of events we're waiting for
+
+# Question 3:
+
+> A student makes repeated attempts to solve a problem. Suppose the ith attempt takes time $X_i$, where $X_i$ are i.i.d. exponential random variables with parameter $λ$. Each attempt is successful with probability $p$ (independently for each attempt, and independently of the durations). Use moment generating functions to show that the distribution of the total time before the problem is solved has an exponential distribution, and find its parameter
+
+## Solution:
+
+Let's analyze the total time until a student successfully solves a problem, where:
+
+- Each attempt's time $X_i$ is exponentially distributed with parameter $\lambda$
+- Each attempt succeeds with probability $p$, independently
+- We'll use moment generating functions (MGFs) to find the distribution of the total time
+
+1. For each attempt time $X_i$:
+
+   - $X_i \sim \text{Exp}(\lambda)$
+   - MGF: $M_{X_i}(t) = \frac{\lambda}{\lambda-t}$ for $t < \lambda$
+
+2. Number of attempts $N$:
+
+   - $N \sim \text{Geometric}(p)$
+   - $P(N=k) = p(1-p)^{k-1}$ for $k \geq 1$
+
+3. Total time: $T = \sum_{i=1}^N X_i$
+
+### 1. Conditional Distribution
+
+Given $N=k$ attempts:
+
+- $T|N=k = \sum_{i=1}^k X_i$
+- Since $X_i$ are i.i.d., $M_{T|N=k}(t) = (\frac{\lambda}{\lambda-t})^k$
+
+### 2. Total MGF Using Law of Total Expectation
+
+$$M_T(t) = E[e^{tT}] = \sum_{k=1}^{\infty} M_{T|N=k}(t)P(N=k)$$
+
+$$= \sum_{k=1}^{\infty} (\frac{\lambda}{\lambda-t})^k p(1-p)^{k-1}$$
+
+$$= p\sum_{k=1}^{\infty} (\frac{\lambda}{\lambda-t})^k (1-p)^{k-1}$$
+
+### 3. Simplification
+
+Let $r = \frac{\lambda}{\lambda-t}$. Then:
+
+$$M_T(t) = p\sum_{k=1}^{\infty} r^k(1-p)^{k-1}$$
+
+$$= p \cdot \frac{r}{1-r(1-p)}$$
+
+Substituting back:
+
+$$M_T(t) = p \cdot \frac{\lambda/(\lambda-t)}{1-\frac{\lambda}{\lambda-t}(1-p)}$$
+
+$$= \frac{p\lambda}{p\lambda-t}$$
+
+### 4. Result
+
+The final MGF $M_T(t) = \frac{p\lambda}{p\lambda-t}$ is the MGF of an exponential distribution with parameter $p\lambda$.
+
+The total time $T$ until successful problem solution follows an exponential distribution with parameter $p\lambda$:
+
+$$T \sim \text{Exp}(p\lambda)$$
+
+This means the expected time until solution is $\frac{1}{p\lambda}$, which makes intuitive sense as it's the mean attempt time $(\frac{1}{\lambda})$ multiplied by the expected number of attempts $(\frac{1}{p})$.
+
+### What do we learn:
+
+**1. Memoryless Property Preservation**
+
+- The exponential distribution is known for being memoryless
+- Remarkably, even after combining multiple attempts (each exponential) with a random number of trials (geometric), the final distribution is still exponential
+- This preserves the memoryless property, meaning: if a student has been trying for some time without success, their expected remaining time is the same as when they started
+- This is quite profound and not immediately obvious - the system "forgets" its history
+
+**2. Parameter Interpretation**
+
+- The new rate $p\lambda$ is the product of:
+
+  - Original rate of each attempt ($\lambda$)
+  - Probability of success ($p$)
+
+- This means the overall rate is slower than individual attempts
+  Expected time: $E[T] = \frac{1}{p\lambda}$ = $\frac{1}{\lambda} \cdot \frac{1}{p}$
+
+  - $\frac{1}{\lambda}$ is mean attempt time
+  - $\frac{1}{p}$ is mean number of attempts needed
+  - Their product gives total expected time
+
+<img src="Code/Figures/exp3.png" alt="alt text">
