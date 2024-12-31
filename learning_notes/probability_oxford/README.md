@@ -13,7 +13,7 @@
 | #   | Status         | Last Updated |
 | --- | -------------- | ------------ |
 | 1   | ✅ Completed   | 2024-12-30   |
-| 2   | 📝 Not Started | -            |
+| 2   | ✅ Completed   | 2024-12-31   |
 | 3   | 📝 Not Started | -            |
 | 4   | 📝 Not Started | -            |
 

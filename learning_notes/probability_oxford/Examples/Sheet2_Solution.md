@@ -896,3 +896,116 @@ The variance of ϵ must be $σ_Y^2(1-ρ^2)$ to ensure that Y has the correct tot
 ---
 
 <img src="Code/Figures/bivariate.png" alt="alt text">
+
+# Question 10: Distribution of $(UV)^W$
+
+> Let $U$,$V$ and $W be i.i.d. random variables with uniform distribution on $[0,1]$. Find the distribution of $(UV)^W$.
+
+## Solution:
+
+# Derivation of the Distribution of the Product of Two Uniform Random Variables
+
+Let $U$ and $V$ be independent random variables, both uniformly distributed on $[0, 1]$. We aim to find the probability density function (PDF) of their product $X = U \cdot V$.
+
+Since $U, V \in [0, 1]$, their product $X = U \cdot V$ will also lie in the interval $[0, 1]$.
+
+The cumulative distribution function (CDF) of $X$ is defined as:
+
+$$
+F_X(x) = P(X \leq x) = P(U \cdot V \leq x).
+$$
+
+To compute this, consider the region where $U \cdot V \leq x$ in the unit square $[0, 1] \times [0, 1]$. For a fixed $V = v$, we have $U \leq x / v$. Thus:
+
+$$
+F_X(x) = \int_0^1 P\left(U \leq \frac{x}{v}\right) f_V(v) \, dv.
+$$
+
+Since $U \sim \text{Uniform}[0, 1]$, $P(U \leq x / v) = \min(1, x / v)$. And $f_V(v) = 1$ for $V \sim \text{Uniform}[0, 1]$. Therefore:
+
+$$
+F_X(x) = \int_0^1 \min\left(1, \frac{x}{v}\right) \, dv.
+$$
+
+The expression $\min(1, x / v)$ splits the integral into two regions:
+
+1. When $v \leq x$: $\frac{x}{v} \geq 1$, so $\min(1, x / v) = 1$.
+2. When $v > x$: $\frac{x}{v} < 1$, so $\min(1, x / v) = x / v$.
+
+Thus:
+
+$$
+F_X(x) = \int_0^x 1 \, dv + \int_x^1 \frac{x}{v} \, dv.
+$$
+
+Evaluate each term:
+
+1. $\int_0^x 1 \, dv = x$,
+2. $\int_x^1 \frac{x}{v} \, dv = x \int_x^1 \frac{1}{v} \, dv = x \left[\ln(v)\right]_x^1 = x (\ln(1) - \ln(x)) = -x \ln(x).$
+
+Combining these:
+
+$$
+F_X(x) = x - x \ln(x), \quad 0 \leq x \leq 1.
+$$
+
+The PDF is the derivative of the CDF:
+
+$$
+f_X(x) = \frac{d}{dx} \big(x - x \ln(x)\big).
+$$
+
+Differentiate:
+
+$$
+f_X(x) = 1 - (1 + \ln(x)) = -\ln(x), \quad 0 < x \leq 1.
+$$
+
+The product $X = U \cdot V$ has the PDF:
+
+$$
+f_X(x) = -\ln(x), \quad 0 < x \leq 1.
+$$
+
+---
+
+Let $U$, $V$, and $W$ be independent and identically distributed random variables with a uniform distribution on $[0, 1]$. We aim to find the distribution of $(UV)^W$.
+
+1. $U, V, W \sim \text{Uniform}[0, 1]$ (independent random variables).
+2. $UV$ is the product of two independent $\text{Uniform}[0, 1]$ random variables.
+3. $(UV)^W$ is the variable whose distribution we are seeking.
+
+The product of two independent $\text{Uniform}[0, 1]$ random variables, $U$ and $V$, has the PDF:
+
+$$
+f_{UV}(x) = -\ln(x), \quad 0 < x \leq 1.
+$$
+
+This result can be derived using convolution or a geometric argument about the region under the unit square.
+
+Let $Z = (UV)^W$. Then $Z = X^W$, where $X = UV$. Since the PDF of $X$ is $f_X(x) = -\ln(x)$ for $0 < x \leq 1$, the analysis requires transforming $X$ through the random exponentiation by $W$.
+
+Condition on $W$. If $W = w$, the random variable $Z$ becomes:
+
+$$
+Z = X^w,
+$$
+
+where $X \sim f_X(x) = -\ln(x)$ over $[0, 1]$.
+
+Use the joint PDF of $X$ and $W$ (since they are independent):
+
+$$
+f_{Z}(z) = \int_{0}^1 f_X(x) f_W(w) \delta(z - x^w) \, dx \, dw,
+$$
+
+where $f_W(w)$ is the uniform distribution PDF over $[0, 1]$.
+
+Instead of directly deriving the exact form of $f_Z(z)$, observe the qualitative behavior:
+
+- When $W \to 0$, $(UV)^W \to 1$ almost surely, because any number raised to the power of 0 is 1.
+- When $W \to 1$, $(UV)^W \to UV$, which follows $-\ln(x)$ for $0 < x \leq 1$.
+
+The exact distribution is a complex mixture of these effects. Numerical simulation may be the best approach to understand the behavior of $(UV)^W$.
+
+<img src="Code/Figures/uniform_pow.png" alt="alt text">

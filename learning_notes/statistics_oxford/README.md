@@ -16,8 +16,8 @@ A structured collection of notes from the Statistical Theory course, covering fu
 | #   | Status         | Last Updated |
 | --- | -------------- | ------------ |
 | 1   | ✅ Completed   | 2024-12-29   |
-| 2   | 🚧 In Progress | -            |
-| 3   | 📝 Not Started | -            |
+| 2   | ✅ Completed   | -            |
+| 3   | 🚧 In Progress | -            |
 | 4   | 📝 Not Started | -            |
 
 ## Legend
