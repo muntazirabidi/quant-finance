@@ -334,3 +334,196 @@ This means the expected time until solution is $\frac{1}{p\lambda}$, which makes
   - Their product gives total expected time
 
 <img src="Code/Figures/exp3.png" alt="alt text">
+
+# Question 4: Random Variables and Moment Generating Functions
+
+> ## Part (a)
+>
+> Let $X$, $Y$ and $U$ be independent random variables, where $X$ and $Y$ have moment generating functions $M_X(t)$ and $M_Y(t)$, and where $U$ has the uniform distribution on $[0,1]$. Find random variables which are functions of $X$, $Y$ and $U$ and which have the following moment generating functions:
+>
+> (i) $M_X(t)M_Y(t)$
+>
+> (ii) $e^{bt}M_X(at)$
+>
+> (iii) $\int_0^1 M_X(tu)du$
+>
+> (iv) $\frac{M_X(t) + M_Y(t)}{2}$
+
+> ## Part (b)
+>
+> Using characteristic functions or otherwise, find $E[\cos(tX)]$ and $E[\sin(tX)]$ when $X$ has exponential distribution with parameter $\lambda$.
+
+> ## Part (c)
+>
+> Which random variables $X$ have a real-valued characteristic function?
+
+## Solution part (a):
+
+Let's find random variables for each of the given moment generating functions (MGFs).
+
+### (i) For $M_X(t)M_Y(t)$
+
+This one is straightforward - it's a fundamental property of MGFs:
+
+- If we have independent random variables, the MGF of their sum is the product of their MGFs
+- Therefore, $M_{X+Y}(t) = M_X(t)M_Y(t)$
+
+**Answer**: The random variable $X + Y$ has this MGF.
+
+### (ii) For $e^{bt}M_X(at)$
+
+Let's think about this:
+
+- The term $e^{bt}$ is the MGF of a constant $b$
+- $M_X(at)$ is the MGF of $aX$
+
+Therefore:
+
+- If we add a constant $b$ to $aX$, we get:
+- $M_{aX+b}(t) = e^{bt}M_X(at)$
+
+**Answer**: The random variable $aX + b$ has this MGF.
+
+### (iii) For $\int_0^1 M_X(tu)du$
+
+This is trickier. Let's think about it:
+
+- We have uniform random variable $U$ on $[0,1]$
+- Consider the random variable $UX$
+- Its MGF would be:
+  $M_{UX}(t) = E[e^{tUX}] = E[E[e^{tUX}|U]]$
+  $= E[M_X(tU)] = \int_0^1 M_X(tu)du$
+
+**Answer**: The random variable $UX$ has this MGF.
+
+### (iv) For $\frac{M_X(t) + M_Y(t)}{2}$
+
+This represents a mixture:
+
+- Let $I$ be a Bernoulli(1/2) random variable
+- Consider the random variable $Z$ defined as:
+  - $Z = X$ if $I = 1$ (probability 1/2)
+  - $Z = Y$ if $I = 0$ (probability 1/2)
+- The MGF of $Z$ would be:
+  $M_Z(t) = \frac{1}{2}M_X(t) + \frac{1}{2}M_Y(t)$
+
+**Answer**: The random variable $Z$ defined above has this MGF. We can construct it using $I = \mathbb{1}_{U \leq 1/2}$ where $U$ is our given uniform random variable.
+
+### Summary of Results:
+
+1. $X + Y$ has MGF $M_X(t)M_Y(t)$
+2. $aX + b$ has MGF $e^{bt}M_X(at)$
+3. $UX$ has MGF $\int_0^1 M_X(tu)du$
+4. $IX + (1-I)Y$ where $I = \mathbb{1}_{U \leq 1/2}$ has MGF $\frac{M_X(t) + M_Y(t)}{2}$
+
+Let me solve part (b) step by step.
+
+## Part (b): Finding $E[\cos(tX)]$ and $E[\sin(tX)]$ for $X \sim \text{Exp}(\lambda)$
+
+### Method 1: Using Characteristic Functions
+
+1. First, recall that for an exponential distribution with parameter $\lambda$:
+
+   - The characteristic function is: $\phi_X(t) = E[e^{itX}] = \frac{\lambda}{\lambda - it}$
+
+2. Using Euler's formula: $e^{itX} = \cos(tX) + i\sin(tX)$
+
+   - Therefore: $\phi_X(t) = E[\cos(tX)] + iE[\sin(tX)]$
+
+3. Let's expand $\frac{\lambda}{\lambda - it}$:
+
+   - $\frac{\lambda}{\lambda - it} = \frac{\lambda(\lambda + it)}{(\lambda - it)(\lambda + it)}$
+   - $= \frac{\lambda^2 + i\lambda t}{\lambda^2 + t^2}$
+   - $= \frac{\lambda^2}{\lambda^2 + t^2} + i\frac{\lambda t}{\lambda^2 + t^2}$
+
+4. Therefore, by equating real and imaginary parts:
+   - $E[\cos(tX)] = \frac{\lambda^2}{\lambda^2 + t^2}$
+   - $E[\sin(tX)] = \frac{\lambda t}{\lambda^2 + t^2}$
+
+### Method 2: Direct Integration
+
+We can verify this by direct integration:
+
+$E[\cos(tX)] = \int_0^\infty \cos(tx)\lambda e^{-\lambda x}dx$
+
+$E[\sin(tX)] = \int_0^\infty \sin(tx)\lambda e^{-\lambda x}dx$
+
+These integrals can be solved using integration by parts or by recognizing them as standard integrals.
+
+### Verification
+
+We can check our answer:
+
+1. When $t = 0$:
+
+   - $E[\cos(0X)] = 1$ (as expected)
+   - $E[\sin(0X)] = 0$ (as expected)
+
+2. When $t \to \infty$:
+
+   - Both expectations go to 0 (as expected due to rapid oscillation)
+
+3. The results maintain the proper relationship:
+   - $E[\cos(tX)]^2 + E[\sin(tX)]^2 = \frac{\lambda^4 + \lambda^2t^2}{(\lambda^2 + t^2)^2} < 1$
+   - This inequality is expected as expectations of sine and cosine should be damped compared to the original functions
+
+## Interpretation
+
+1. These expectations represent the average of oscillating functions weighted by an exponential decay.
+
+2. The formulas show how the exponential distribution "smooths out" the oscillations of sine and cosine:
+   - At low t: behavior similar to original functions
+   - At high t: decay to zero due to exponential weighting
+
+# Part (c): Identifying Random Variables with Real-Valued Characteristic Functions
+
+1. Recall that the characteristic function is:
+   $\phi_X(t) = E[e^{itX}] = E[\cos(tX)] + iE[\sin(tX)]$
+
+2. For the characteristic function to be real-valued:
+   - $E[\sin(tX)] = 0$ for all $t$
+   - Only $E[\cos(tX)]$ remains
+
+A random variable $X$ has a real-valued characteristic function if and only if $X$ is symmetric about 0 (i.e., $X$ and $-X$ have the same distribution).
+
+### Proof
+
+#### Forward Direction (⇒):
+
+If $X$ has a real-valued characteristic function, then:
+
+1. $\phi_X(t) = E[e^{itX}] = E[\cos(tX)]$ for all $t$
+2. This means $E[\sin(tX)] = 0$ for all $t$
+3. For any $t$:
+   - $\phi_X(t) = E[\cos(tX) + i\sin(tX)] = E[\cos(tX)]$
+   - $\phi_{-X}(t) = E[\cos(-tX) + i\sin(-tX)] = E[\cos(tX) - i\sin(tX)]$
+4. Since $E[\sin(tX)] = 0$, we have $\phi_X(t) = \phi_{-X}(t)$
+5. By the uniqueness theorem for characteristic functions, $X$ and $-X$ must have the same distribution
+
+#### Backward Direction (⇐):
+
+If $X$ is symmetric about 0, then:
+
+1. For any $t$, $E[\sin(tX)] = -E[\sin(tX)]$ (due to symmetry)
+2. This implies $E[\sin(tX)] = 0$
+3. Therefore, $\phi_X(t) = E[\cos(tX)]$, which is real-valued
+
+### Examples
+
+1. **Symmetric Distributions** (have real-valued characteristic functions):
+
+   - Normal(0, σ²)
+   - Uniform(-a, a)
+   - Student's t-distribution
+   - Any distribution of $X$ where $P(X ≤ x) = P(X ≥ -x)$ for all $x$
+
+2. **Asymmetric Distributions** (do not have real-valued characteristic functions):
+   - Exponential(λ)
+   - Log-normal
+   - Chi-squared
+   - Gamma
+
+To check if a random variable has a real-valued characteristic function:
+
+1. Test if the distribution is symmetric about 0
+2. Or compute $E[\sin(tX)]$ and verify it equals 0 for all $t$
