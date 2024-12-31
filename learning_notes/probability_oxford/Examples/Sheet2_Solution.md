@@ -763,3 +763,136 @@ The result $f_Z(z) = \frac{1}{\pi(1+z^2)}$ is indeed the density of a Cauchy dis
 This result showcases a fascinating property: the ratio of two independent standard normal random variables follows a Cauchy distribution.
 
 <img src="Code/Figures/cauchy.png" alt="alt text">
+
+# Question 7: Bivariate Normal Distribution Analysis: Height Relationship Between Spouses
+
+> The distribution of the heights of husband-wife pairs in a particular population is modelled by a bivariate normal distribution. The mean height of the women is 165cm andthe mean height of the men is 175cm. The standard deviation is 6cm for women and 8cm for men. The correlation of height between husbands and wives is 0.5. Let $X$ be the height of a typical wife and $Y$ the height of her husband. Show how $Y$ can be represented as a sum of a term which is a multiple of $X$ and a term which isindependent of $X$. >Hence or otherwise:
+>
+> - (a) Given that a woman has height 168cm, find the expected height of her husband.
+> - (b) Given that a woman has height 168cm, what is the probability that her husbandis above average height?
+> - (c) What is the probability that a randomly chosen man is taller than a randomlychosen woman?
+> - (d) What is the probability that a randomly chosen man is taller than his wife?
+
+## Solution:
+
+The bivariate normal distribution gives us a powerful way to represent the relationship between two normally distributed variables - in this case, the heights of husbands (Y) and wives (X). Let's understand what the equation:
+
+$$Y = μ_Y + ρ\frac{σ_Y}{σ_X}(X-μ_X) + ϵ$$
+
+really means:
+
+1. $μ_Y + ρ\frac{σ_Y}{σ_X}(X-μ_X)$ represents the deterministic part of Y
+
+   - $μ_Y$ (175 cm) is the mean height of husbands
+   - $ρ\frac{σ_Y}{σ_X}(X-μ_X)$ shows how Y deviates from its mean based on X's deviation from its mean
+   - The factor $ρ\frac{σ_Y}{σ_X}$ (where ρ = 0.5) determines how strongly Y responds to changes in X
+
+2. $ϵ$ represents the random part
+   - It accounts for all other factors affecting husband's height
+   - It's independent of X (wife's height)
+   - Its variance $σ_ϵ^2 = σ_Y^2(1-ρ^2)$ ensures the total variance of Y matches observed data
+
+When we substitute the given values:
+
+$$Y = 175 + 0.5 \cdot \frac{8}{6}(X-165) + ϵ$$
+
+This simplifies to:
+
+$$Y = 175 + \frac{4}{3}(X-165) + ϵ$$
+
+where $ϵ \sim N(0, 48)$
+
+### Part (a): Conditional Expectation
+
+For a given wife's height (X = 168 cm), we can predict the expected husband's height using:
+
+$$E[Y|X=x] = μ_Y + ρ\frac{σ_Y}{σ_X}(x-μ_X)$$
+
+This formula represents our best prediction of Y given X, ignoring the random component ϵ. Substituting values:
+
+$E[Y|X=168] = 175 + 0.5 \cdot \frac{8}{6}(168-165) = 179$ cm
+
+### Part (b): Probability Analysis for Above Average Height
+
+The conditional distribution of $Y \mid X = x$ is normal:
+
+$$
+Y \mid X = x \sim N\left(\mathbb{E}[Y \mid X = x], \sigma_Y^2 (1 - \rho^2)\right).
+$$
+
+The mean and variance are:
+
+$$
+\mathbb{E}[Y \mid X = 168] = 179, \quad \text{Var}(Y \mid X = 168) = \sigma_Y^2 (1 - \rho^2) = 48.
+$$
+
+Given X = 168 cm, we know Y follows a normal distribution with:
+$Y|X=168 \sim N(179, 48)$
+
+We want $P(Y > 175|X=168)$, which means finding the probability that the husband is taller than the average male height (175 cm), given his wife is 168 cm tall.
+
+Converting to standard normal:
+$$P(Y > 175|X=168) = P(Z > \frac{175-179}{\sqrt{48}}) = P(Z > -\frac{4}{\sqrt{48}}) = P(Z > -\frac{1}{3})$$
+
+Using the symmetry property and standard normal tables:
+$$P(Z > -\frac{1}{3}) = \Phi(\frac{1}{3}) \approx 0.6306$$
+
+This means there's about a 63.06% chance that a man whose wife is 168 cm tall will be above average height.
+
+### Part (c): Height Difference in Random Pairs
+
+For the difference D = Y - X between random men and women's heights:
+$$D \sim N(μ_Y - μ_X, σ_Y^2 + σ_X^2 - 2ρσ_Xσ_Y)$$
+
+The mean difference is 10 cm (175 - 165) with variance 52. Converting to standard form:
+$$P(D > 0) = P(Z > -\frac{10}{\sqrt{52}}) \approx 0.9177$$
+
+This indicates that in a random pairing, there's about a 91.77% chance that the man is taller than the woman.
+
+### Part (d): Height Difference in Married Couples
+
+Interestingly, the probability calculation for married couples yields the same result as random pairs:
+$P(D' > 0) = 0.9177$
+
+This suggests that the correlation between heights in married couples (ρ = 0.5) doesn't affect the overall probability of the husband being taller than the wife. The main determining factor remains the natural height difference between men and women in the population.
+
+---
+
+## Understanding the Bivariate Normal Formula
+
+The formula $Y = μ_Y + ρ\frac{σ_Y}{σ_X}(X-μ_X) + ϵ$ comes from the properties of conditional expectations in bivariate normal distributions. Here's how we can derive it:
+
+When X and Y follow a bivariate normal distribution, we know that their joint density function is determined by five parameters: $μ_X$, $μ_Y$, $σ_X$, $σ_Y$, and $ρ$.
+
+A key property of bivariate normal distributions is that the conditional expectation $E[Y|X=x]$ is linear in x. This means:
+
+$E[Y|X=x] = a + bx$ for some constants a and b
+
+To find a and b, we use two properties that must hold:
+
+1. The conditional expectation should give the correct mean $μ_Y$ when averaged over all possible x values.
+2. The correlation coefficient $ρ$ must match the specified value.
+
+This leads to:
+$b = ρ\frac{σ_Y}{σ_X}$ and $a = μ_Y - ρ\frac{σ_Y}{σ_X}μ_X$
+
+Putting these together:
+$E[Y|X=x] = (μ_Y - ρ\frac{σ_Y}{σ_X}μ_X) + ρ\frac{σ_Y}{σ_X}x$
+
+Which can be rearranged to:
+$E[Y|X=x] = μ_Y + ρ\frac{σ_Y}{σ_X}(x-μ_X)$
+
+Since Y is not completely determined by X, we add a random term ϵ that:
+
+- Is independent of X
+- Has mean zero
+- Has variance that makes the total variance of Y correct
+
+This gives us our final formula:
+$Y = μ_Y + ρ\frac{σ_Y}{σ_X}(X-μ_X) + ϵ$
+
+The variance of ϵ must be $σ_Y^2(1-ρ^2)$ to ensure that Y has the correct total variance $σ_Y^2$.
+
+---
+
+<img src="Code/Figures/bivariate.png" alt="alt text">
