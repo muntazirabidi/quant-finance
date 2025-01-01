@@ -399,15 +399,15 @@ But there's something deeper here. The convergence to 1 happens in a very specif
 
 > ## Part a:
 >
-> What is the distribution of the sum of $n$ independent Poisson random variableseach of mean 1? Use the central limit theorem to deduce that:
+> What is the distribution of the sum of $n$ independent Poisson random variables each of mean 1? Use the central limit theorem to deduce that:
 >
 > $$\exp\Big(n(1 +n+\frac{n^2}{2!}!+···+\frac{n^n}{n!})\Big)\rightarrow \frac{1}{2} \qquad \text{as } n \rightarrow \infty $$
 >
 > ## Part (b):
 >
-> Let $p \in (0,1) $. What is the distribution of the sum of $n $ independent Bernoulli random variables with parameter $ p$?
+> Let $p \in (0,1)$. What is the distribution of the sum of $n$ independent Bernoulli random variables with parameter $ p$?
 >
-> Let $0 \leq a < b \leq 1 $. Use appropriate limit theorems to determine how the value of:
+> Let $0 \leq a < b \leq 1$. Use appropriate limit theorems to determine how the value of:
 >
 > $$
 > \lim_{n \to \infty} \sum_{r \in \mathbb{N}: an \leq r < bn} \binom{n}{r} p^r (1-p)^{n-r}
@@ -1195,5 +1195,3 @@ The beauty of this problem lies in how it connects several mathematical concepts
 - The uniform distribution that emerges at the end is particularly important in statistics and simulation. When we need to generate random numbers for computer simulations or statistical modeling, we often start by generating uniform random variables. This problem shows us one theoretical way to do this - though in practice, computers use different methods for efficiency.
 
 - Finally, this problem beautifully illustrates how probability interacts with measure theory (a branch of advanced mathematics). The fact that our sequence converges "almost surely" (with probability 1) rather than just in distribution or in probability is a subtle but important distinction that helps mathematicians understand different types of convergence.
-
-<img src="Code/Figures/bivariate.png" alt="alt text">
