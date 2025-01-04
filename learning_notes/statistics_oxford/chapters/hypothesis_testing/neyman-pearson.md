@@ -320,51 +320,112 @@ The trade-off between Type I and Type II errors is fundamental to statistical in
 
 This understanding is crucial for both theoretical statistics and practical applications in research design and analysis.
 
-## 4. Uniformly Most Powerful (UMP) Tests
+I'll enhance and reorganize your notes while maintaining mathematical rigor and clarity.
 
-### Definition and Properties
+# Uniformly Most Powerful (UMP) Tests
 
-A test is UMP for $H_0$ versus $H_1: \theta \in \Theta_1$ if:
+## Theoretical Foundation
 
-1. It maintains size $\alpha$
-2. It has the highest power among all size $\alpha$ tests for every $\theta \in \Theta_1$
+The concept of Uniformly Most Powerful (UMP) Tests extends the Neyman-Pearson Lemma from simple to composite hypotheses. While the Neyman-Pearson Lemma provides the most powerful test for simple hypotheses ($H_0$ vs $H_1$), UMP tests generalize this framework to handle more complex testing scenarios.
 
-### Example Continued
+## Definition and Properties
 
-The normal distribution test above is UMP for:
+A test is considered Uniformly Most Powerful at significance level $\alpha$ if:
 
-- $H_0: \mu = 0$
-- $H_1: \mu > 0$
+1. It maintains size $\alpha$ under $H_0$
+2. For every $\theta \in \Theta_1$, it achieves the highest power among all tests of size $\alpha$
+3. The critical region $C$ remains invariant across all $\theta_1 \in \Theta_1$
 
-This is because:
+Mathematically, for any other test $\phi'$ of size $\alpha$:
 
-1. The critical region $\{\bar{x} > z_\alpha\sigma_0/\sqrt{n}\}$ is the same for all $\mu_1 > 0$
-2. It maintains size $\alpha$
-3. It has maximum power for each possible value of $\mu > 0$
+$$\beta_{\phi}(\theta) \geq \beta_{\phi'}(\theta) \quad \forall \theta \in \Theta_1$$
 
-### Limitations
+where $\beta_{\phi}(\theta)$ represents the power function of test $\phi$ at $\theta$.
 
-UMP tests generally don't exist for:
+## Existence Conditions
 
-1. Two-sided alternatives (e.g., $H_1: \mu \neq 0$)
-2. Complex composite hypotheses
-3. Multiple parameter problems
+UMP tests typically exist under specific circumstances:
 
-## 5. Practical Considerations
+1. One-sided alternatives:
 
-When applying these concepts:
+   - $H_1: \theta > \theta_0$
+   - $H_1: \theta < \theta_0$
 
-1. **Check assumptions**:
+2. Monotone likelihood ratio families
+   - Exponential families often satisfy this condition
+   - The test statistic exhibits stochastic ordering under the parameter
 
-   - Are the hypotheses simple or composite?
-   - Is the distribution family known?
-   - Are all parameters specified?
+## Common Examples
 
-2. **Sample size considerations**:
+### Normal Distribution
 
-   - Larger samples give better power
-   - Can calculate required sample size for desired power
+For $X_1, \ldots, X_n \sim N(\mu, \sigma^2)$ with known $\sigma^2$:
 
-3. **Interpretation**:
-   - Remember that failing to reject $H_0$ is not the same as accepting it
-   - Consider practical significance alongside statistical significance
+- $H_0: \mu = \mu_0$
+- $H_1: \mu > \mu_0$
+
+The UMP test rejects $H_0$ when:
+
+$$\bar{X} > \mu_0 + z_{\alpha}\frac{\sigma}{\sqrt{n}}$$
+
+### Poisson Distribution
+
+For $X_1, \ldots, X_n \sim \text{Poisson}(\lambda)$:
+
+- $H_0: \lambda = \lambda_0$
+- $H_1: \lambda < \lambda_0$
+
+The UMP test rejects $H_0$ when:
+
+$$\sum_{i=1}^n X_i \leq k$$
+
+where $k$ is chosen to achieve size $\alpha$.
+
+## Power Analysis and Sample Size Determination
+
+For UMP tests, power calculations follow these steps:
+
+1. Specify the desired significance level $\alpha$
+2. Choose the effect size of interest $\theta_1 \in \Theta_1$
+3. Set target power $1-\beta$
+4. Solve for required sample size $n$:
+
+$$n = f(\alpha, \beta, \theta_0, \theta_1)$$
+
+where $f$ depends on the specific distribution and test structure.
+
+## Limitations
+
+1. Two-sided alternatives:
+
+   - UMP tests rarely exist for $H_1: \theta \neq \theta_0$
+   - Power optimization creates competing objectives
+
+2. Multiparameter problems:
+
+   - When testing one parameter with others unknown
+   - Complex composite hypotheses
+
+3. Non-parametric settings:
+   - Distribution-free methods often lack UMP tests
+   - Rank-based alternatives may be needed
+
+## Practical Considerations
+
+1. Verification of assumptions:
+
+   - Distribution family
+   - Parameter specifications
+   - Independence conditions
+
+2. Robustness assessment:
+
+   - Sensitivity to violations
+   - Alternative procedures when assumptions fail
+
+3. Implementation guidelines:
+   - Software availability
+   - Computational requirements
+   - Reporting standards
+
+This enhanced structure provides a comprehensive framework for understanding and applying UMP tests in statistical analysis.
