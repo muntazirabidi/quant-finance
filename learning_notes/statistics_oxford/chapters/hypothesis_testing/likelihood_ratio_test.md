@@ -231,3 +231,215 @@ $$\lambda = \frac{L(\text{null model})}{L(\text{genetic model})}$$
 ---
 
 <img src="Code/Figures/tests.png" alt="alt text">
+
+---
+
+# Analysis of Birth Month Distribution in Cambridge and Oxford Admissions
+
+## Question Definition
+
+We aim to determine whether the birth month distribution of students admitted to Cambridge and Oxford follows the general population trend. Specifically, we test the hypothesis that the admissions distribution aligns with average birth rates in the population.
+
+### Data Provided
+
+#### 1. General Population Birth Data
+
+The average births per month in the general population are:
+
+| Month | Average Births |
+| ----- | -------------- |
+| Sep   | 1901           |
+| Oct   | 1838           |
+| Nov   | 1802           |
+| Dec   | 1766           |
+| Jan   | 1773           |
+| Feb   | 1787           |
+| Mar   | 1779           |
+| Apr   | 1775           |
+| May   | 1809           |
+| Jun   | 1834           |
+| Jul   | 1863           |
+| Aug   | 1831           |
+
+#### 2. Observed Admissions Data (Cambridge & Oxford)
+
+The observed number of admissions for each birth month is:
+
+| Month | Admissions |
+| ----- | ---------- |
+| Sep   | 470        |
+| Oct   | 515        |
+| Nov   | 470        |
+| Dec   | 457        |
+| Jan   | 473        |
+| Feb   | 381        |
+| Mar   | 466        |
+| Apr   | 457        |
+| May   | 437        |
+| Jun   | 396        |
+| Jul   | 384        |
+| Aug   | 394        |
+
+## Hypotheses
+
+### Null Hypothesis (\$H_0\$)
+
+The admissions distribution follows the population birth distribution:
+\$\$
+\tilde{p}\_i = \frac{\text{Average Births}\_i}{\text{Total Average Births}} $$
+
+### Alternative Hypothesis ($H_1$)
+
+The admissions distribution does not follow the population birth distribution, i.e., there is a significant deviation.
+
+## Methodology
+
+We use the **Generalized Likelihood Ratio Test (GLRT)** to test the hypotheses.
+
+### Why GLRT Instead of Chi-Squared Test?
+
+1. **Precision of GLRT**: The GLRT directly compares the likelihoods under the null hypothesis ($$H_0$$) and the alternative hypothesis ($$H_1$$).
+2. **Flexibility**: The GLRT allows for maximization of the likelihood under $$H_1$$ without assuming fixed probabilities, making it ideal for this type of problem.
+3. **Chi-Squared Test Limitation**: While simpler, the chi-squared test assumes that deviations are squared and scaled by the expected values, which can lose nuance in cases where probabilities vary significantly.
+
+### Derivation of GLRT Test Statistic Using Lagrange Multipliers
+
+#### Likelihood Function Under $$H_1$$
+
+Under $H_1$, the likelihood is:
+$$ L(p*1, \dots, p_k) = \prod*{i=1}^{k} p_i^{n_i} $$
+where $n_i$ are the observed counts for each category and $$p_i$$ are the probabilities to be estimated.
+
+The log-likelihood is:
+$$ \ell(p*1, \dots, p_k) = \sum*{i=1}^{k} n_i \log(p_i). $$
+
+To maximize this subject to the constraint $\sum_{i=1}^{k} p_i = 1$, we use the Lagrange multiplier method. Define the Lagrangian:
+$$ \mathcal{L}(p*1, \dots, p_k, \lambda) = \sum*{i=1}^{k} n*i \log(p_i) + \lambda \left( 1 - \sum*{i=1}^{k} p_i \right). $$
+
+Differentiating with respect to $p_i$ and $\lambda$:
+
+$$
+\begin{align*}
+\frac{\partial \mathcal{L}}{\partial p_i} &= \frac{n_i}{p_i} - \lambda = 0 \\
+\frac{\partial \mathcal{L}}{\partial \lambda} &= 1 - \sum*{i=1}^{k} p_i = 0.
+\end{align*}
+$$
+
+Solving for $p_i$, we find:
+$$ \hat{p}_i = \frac{n_i}{n}, $$
+where $n = \sum_{i=1}^{k} n_i$ is the total observed count.
+
+#### Likelihood Under $$H_0$$
+
+Under $H_0$, the probabilities $p_i$ are fixed as $\tilde{p}_i$, so the likelihood is:
+$$ L(\tilde{p}_1, \dots, \tilde{p}\_k) = \prod_{i=1}^{k} \tilde{p}\_i^{n_i}. $$
+
+The log-likelihood is:
+$$ \ell(\tilde{p}_1, \dots, \tilde{p}\_k) = \sum_{i=1}^{k} n_i \log(\tilde{p}\_i). $$
+
+#### GLRT Statistic
+
+The GLRT statistic is:
+$$ 2 \log \Lambda = 2 \left( \ell(\hat{p}\_1, \dots, \hat{p}\_k) - \ell(\tilde{p}\_1, \dots, \tilde{p}\_k) \right). $$
+
+Substituting the maximum likelihood estimates under $H_1$ and the fixed probabilities under $H_0$:
+$$ 2 \log \Lambda = 2 \sum*{i=1}^{k} n_i \log \left( \frac{n_i / n}{\tilde{p}\_i} \right) = 2 \sum*{i=1}^{k} n_i \log \left( \frac{n_i}{e_i} \right), $$
+where $e_i = n \tilde{p}_i$ are the expected counts under $H_0$.
+
+### GLRT Test Statistic
+
+The GLRT statistic is given by:
+$$ 2 \log \Lambda = 2 \sum\_{i=1}^{k} n_i \log \left( \frac{n_i}{e_i} \right) $$
+where:
+
+- $n_i$: Observed admissions for month $$i$$
+- $e_i = n \tilde{p}_i$: Expected admissions for month $i$ under $H_0$
+- $n = \sum_{i=1}^{k} n_i$: Total observed admissions
+
+The statistic follows a chi-squared distribution with $k - 1$ degrees of freedom under $H_0$.
+
+## Results
+
+### 1. Probabilities Under $$H_0$$
+
+Using the general population birth data:
+
+| Month | $\tilde{p}_i$ (H0 Probability) |
+| ----- | ------------------------------ |
+| Sep   | 0.0842                         |
+| Oct   | 0.0816                         |
+| Nov   | 0.0801                         |
+| Dec   | 0.0785                         |
+| Jan   | 0.0789                         |
+| Feb   | 0.0795                         |
+| Mar   | 0.0793                         |
+| Apr   | 0.0792                         |
+| May   | 0.0807                         |
+| Jun   | 0.0814                         |
+| Jul   | 0.0827                         |
+| Aug   | 0.0814                         |
+
+### 2. Observed vs. Expected Counts
+
+| Month | Observed Counts | Expected Counts | Difference (Observed - Expected) |
+| ----- | --------------- | --------------- | -------------------------------- |
+| Sep   | 470             | 463.06          | 6.94                             |
+| Oct   | 515             | 447.72          | 67.28                            |
+| Nov   | 470             | 438.95          | 31.05                            |
+| Dec   | 457             | 430.18          | 26.82                            |
+| Jan   | 473             | 431.88          | 41.12                            |
+| Feb   | 381             | 438.04          | -57.04                           |
+| Mar   | 466             | 437.19          | 28.81                            |
+| Apr   | 457             | 436.38          | 20.62                            |
+| May   | 437             | 444.49          | -7.49                            |
+| Jun   | 396             | 450.80          | -54.80                           |
+| Jul   | 384             | 459.11          | -75.11                           |
+| Aug   | 394             | 457.92          | -63.92                           |
+
+### 3. GLRT Statistic
+
+Using the formula for $2 \log \Lambda$, we compute:
+$$ 2 \log \Lambda = 51.85 $$
+
+### 4. Degrees of Freedom
+
+Degrees of freedom: $k - 1 = 12 - 1 = 11$
+
+### 5. Critical Value and $p$-Value
+
+- Critical value for $\chi^2_{11}(\alpha = 0.05)$: $19.68$
+- $p-value: $2.9 \times 10^{-7}$
+
+### Conclusion
+
+Since the GLRT statistic ($51.85$) is significantly larger than the critical value ($19.68$), and the $p$-value is much smaller than 0.05, we reject the null hypothesis $H_0$. This indicates that the distribution of admissions by birth month at Cambridge and Oxford significantly deviates from the general population trend.
+
+## Discussion
+
+The results suggest that the admissions process is influenced by factors beyond population birth trends. Possible reasons include:
+
+1. **Educational System Bias**:
+
+   - Older students (e.g., September-born) may have cognitive and emotional advantages, leading to better academic performance and overrepresentation.
+   - Younger students (e.g., August-born) may face relative disadvantages in standardized testing and assessments.
+
+2. **Selection Bias in Admissions**:
+
+   - Cambridge and Oxford's emphasis on academic excellence and extracurricular achievements may favor older students who are more mature and experienced.
+
+3. **Socioeconomic Factors**:
+
+   - Families of older students may have higher socioeconomic status, providing access to resources like private tutoring and better schooling.
+
+4. **Policy Implications**:
+   - These findings highlight the need to address systemic biases in education and admissions processes to ensure fairness for younger students in a cohort.
+
+## Final Thoughts
+
+This analysis reveals a subtle but statistically significant pattern in Cambridge and Oxford admissions. It underscores the importance of understanding how systemic factors, such as the relative age effect, can influence educational outcomes and equity. Further studies could explore interventions to mitigate these biases and promote fairness in highly competitive academic institutions.
+
+<img src="Code/Figures/births.png" alt="alt text">
+
+<img src="Code/Figures/birth_rates_months.png" alt="alt text">
+
+<img src="Code/Figures/cor_birth_rates.png" alt="alt text">
