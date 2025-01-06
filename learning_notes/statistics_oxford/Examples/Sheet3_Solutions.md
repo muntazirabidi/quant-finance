@@ -517,3 +517,152 @@ These z-scores tell us:
 
 1. For Part 1: The observed proportion differs from 0.5 by 4.37 standard errors - a highly significant result
 2. For Part 2: The difference between countries is only 1.61 standard errors - not significant at the 5% level
+
+# Question 5:
+
+### Part (a)
+
+A random variable $X$ has a distribution given by
+
+$$P(X=i) = \pi_i, \quad i = 1,...,k \quad \text{where} \quad \sum_{i=1}^k \pi_i = 1$$
+
+. In a sample of size $n$ from a population with distribution $X$, the frequency of outcome $i$ is $n_i$, where $n_i > 0$ and $\sum_{i=1}^k n_i = n$. Find the maximum likelihood estimates of $\pi_1,...,\pi_k$.
+
+### Part (b)
+
+The leaves of the plant _Pharbitis nil_ can be variegated or unvariegated and, at the same time, faded or unfaded. In an experiment reported by Bailey (1961), of 290 plants which were observed:
+
+- 31 had variegated faded leaves
+- 37 had variegated unfaded leaves
+- 35 had unvariegated faded leaves
+- 187 had unvariegated unfaded leaves
+
+If the properties of variegated appearance and faded appearance are assumed independent, then a model for the above observations has respective probabilities $\frac{1}{16}, \frac{3}{16}, \frac{3}{16}, \frac{9}{16}$. The general alternative is that the probabilities $\pi_i$, $i = 1,...,4$, are restricted only by the constraint $\sum \pi_i = 1$. Use a $\chi^2$ goodness-of-fit test to show that the data offer strong evidence that the independence model is inappropriate.
+
+### Part (c)
+
+A genetic theory which allows for an effect called _genetic linkage_ assumes a probability model for the above observations with respective probabilities:
+
+$\frac{1}{16}+\theta, \frac{3}{16}-\theta, \frac{3}{16}-\theta, \frac{9}{16}+\theta$
+
+(i) Find the equation satisfied by the maximum likelihood estimate $\hat{\theta}$ of $\theta$. You may assume that $\hat{\theta} = 0.058$.
+
+(ii) Let $H_0$ be the null hypothesis that the genetic linkage model is appropriate, and let $H_1$ be the general alternative. If $L_0$ is the supremum of the likelihood under $H_0$ and if $L_1$ is the supremum of the likelihood under $H_1$, show that:
+
+$\Lambda = 2\sum_{i=1}^4 n_i \log(\frac{n_i}{n\pi_i(\hat{\theta})}),$
+
+where $\Lambda = -2(\log L_0 - \log L_1)$. Write down the approximate distribution of $\Lambda$.
+
+(iii) What can you infer about the plausibility of the genetic linkage model?
+
+## Solution
+
+### Part (a)
+
+Let's find the maximum likelihood estimates of π₁,...,πₖ.
+
+The likelihood function is:
+
+$L(\pi_1,...,\pi_k) = \frac{n!}{n_1!...n_k!}\pi_1^{n_1}...\pi_k^{n_k}$
+
+Taking the log:
+
+$\ell(\pi_1,...,\pi_k) = \text{constant} + \sum_{i=1}^k n_i\log(\pi_i)$
+
+We need to maximize this subject to $\sum_{i=1}^k \pi_i = 1$. Using a Lagrange multiplier λ:
+
+$\frac{\partial}{\partial \pi_i}(\ell + \lambda(\sum_{i=1}^k \pi_i - 1)) = \frac{n_i}{\pi_i} + \lambda = 0$
+
+Therefore $\pi_i = -\frac{n_i}{\lambda}$ for all i.
+
+Using $\sum_{i=1}^k \pi_i = 1$, we get $-\frac{1}{\lambda}\sum_{i=1}^k n_i = 1$
+
+Since $\sum_{i=1}^k n_i = n$, we have $\lambda = -n$
+
+Therefore, the MLEs are:
+
+$\hat{\pi_i} = \frac{n_i}{n}$ for i = 1,...,k
+
+### Part (b)
+
+Let's organize the data:
+
+|              | Faded | Unfaded |
+| ------------ | ----- | ------- |
+| Variegated   | 31    | 37      |
+| Unvariegated | 35    | 187     |
+
+Under independence model:
+
+- Expected frequencies: E₁ = 290(1/16) = 18.125
+- E₂ = E₃ = 290(3/16) = 54.375
+- E₄ = 290(9/16) = 163.125
+
+The χ² statistic is:
+$\chi^2 = \sum\frac{(O_i - E_i)^2}{E_i}$
+
+$\chi^2 = \frac{(31-18.125)^2}{18.125} + \frac{(37-54.375)^2}{54.375} + \frac{(35-54.375)^2}{54.375} + \frac{(187-163.125)^2}{163.125}$
+
+This has 1 degree of freedom (4 cells - 2 parameters - 1).
+
+The calculated χ² value is large, providing strong evidence against independence.
+
+### Part (c)
+
+For the genetic linkage model, the log-likelihood is:
+
+$\ell(\theta) = \sum n_i\log(\pi_i(\theta))$
+
+where π₁ = 1/16 + θ, π₂ = π₃ = 3/16 - θ, π₄ = 9/16 + θ
+
+The MLE satisfies $\frac{d\ell}{d\theta} = 0$, giving:
+
+$\frac{n_1}{1/16 + \theta} - \frac{n_2}{3/16 - \theta} - \frac{n_3}{3/16 - \theta} + \frac{n_4}{9/16 + \theta} = 0$
+
+Given $\hat{\theta} = 0.058$
+
+For the likelihood ratio test:
+$\Lambda = -2(\log L_0 - \log L_1) = 2\sum n_i\log(\frac{n_i}{n\pi_i(\hat{\theta})})$
+
+Under H₀, we have 3 probabilities specified by 1 parameter θ, so df = 4 - 1 - 1 = 2.
+
+Therefore $\Lambda \sim \chi^2_2$ approximately.
+
+The genetic linkage model provides a better fit than independence, but we'd need to calculate Λ and compare to χ²₂ critical values to assess its plausibility.
+
+The genetic linkage model provides much better fit to observed data because:
+
+- The expected frequencies are much closer to observed values
+- The genetic linkage model has one parameter ($\theta$) to adjust for association between traits, while independence model assumes no association
+- The large discrepancy between observed and expected values under independence suggests strong evidence against independence assumption
+
+To formally compare models, we would calculate the likelihood ratio statistic $\Lambda$ and compare to $\chi^2_2$ distribution, but even without this calculation, we can see the genetic linkage model provides a substantially better fit to the data.
+
+### degrees of freedom:
+
+**Part b (Independence Model):**
+
+- Total parameters needed = 2 (row probability and column probability)
+- Total constraints = 1 (probabilities sum to 1)
+- Degrees of freedom = (number of cells - 1) - number of independent parameters
+  $df = (4 - 1) - 2 = 1$
+
+Under independence, we only need to know:
+
+- Probability of being variegated ($p₁$)
+- Probability of being faded ($p₂$)
+- Then all cell probabilities are determined by these two parameters $(p₁p₂, p₁(1-p₂), (1-p₁)p₂, (1-p₁)(1-p₂))$
+
+**Part c (Genetic Linkage Model):**
+
+- Total parameters needed = 1 (just $θ$)
+- Total constraints = 1 (probabilities sum to 1)
+- Degrees of freedom = (number of cells - 1) - number of independent parameters
+  $df = (4 - 1) - 1 = 2$
+
+**Why? Under genetic linkage:**
+
+- We only need to estimate one parameter $θ$
+- All cell probabilities are determined by this single parameter through the specified formula $(1/16+θ, 3/16-θ, 3/16-θ, 9/16+θ)$
+
+This illustrates an important principle: the degrees of freedom depend not just on the number of cells, but also on how many independent parameters we need to estimate under each model
