@@ -874,3 +874,103 @@ $G^2 = 30.02$
    - Independent identification shows little gender difference
 
 This thorough analysis demonstrates both the mathematical application of the independence tests and their practical interpretation in a social science context. The consistency between the two test statistics adds robustness to our conclusions.
+
+# Key Statistical Concepts for Quant Finance - Study Notes
+
+## 1. Hypothesis Testing Framework
+
+### Core Intuition
+
+- Always start with null hypothesis ($H_0$) as the "status quo" or "no effect" scenario
+- Think of hypothesis testing like a legal trial: default is innocence ($H_0$) unless strong evidence suggests otherwise
+- p-value = probability of seeing data this extreme or more extreme _assuming $H_0$ is true_
+
+### Critical Formulas
+
+- Test statistic (z-test): $z = \frac{\bar{x} - \mu_0}{\sigma/\sqrt{n}}$
+- Test statistic (t-test): $t = \frac{\bar{x} - \mu_0}{s/\sqrt{n}}$
+- Power of test = $1 - \beta$ = probability of correctly rejecting false $H_0$
+
+### Interview Tips
+
+- Know when to use z-test (known σ) vs t-test (unknown σ)
+- Understand trade-off between Type I (α) and Type II (β) errors
+- Sample size affects power - larger n means better ability to detect small effects
+
+## 2. Maximum Likelihood Estimation (MLE)
+
+### Core Intuition
+
+- MLE finds parameter values that make observed data most likely
+- Log-likelihood often easier to work with than likelihood
+- For normal data, MLE often gives same result as "common sense" estimators
+
+### Key Formulas
+
+- Likelihood: $L(\theta) = \prod_{i=1}^n f(x_i|\theta)$
+- Log-likelihood: $\ell(\theta) = \sum_{i=1}^n \log f(x_i|\theta)$
+- MLE: $\hat{\theta} = \text{argmax}_\theta \ell(\theta)$
+
+### Interview Tips
+
+- Know that MLE is asymptotically unbiased and efficient
+- For normal distribution: $\hat{\mu} = \bar{x}$, $\hat{\sigma}^2 = \frac{1}{n}\sum(x_i-\bar{x})^2$
+- Can handle censored/truncated data better than method of moments
+
+## 3. Likelihood Ratio Tests
+
+### Core Intuition
+
+- Compare maximized likelihood under $H_0$ vs $H_1$
+- If ratio is small, evidence against $H_0$
+- Powerful for comparing nested models
+
+### Key Formula
+
+$\Lambda = -2\log\left(\frac{L(\theta_0)}{L(\hat{\theta})}\right) \sim \chi^2_k$
+
+### Interview Tips
+
+- Under $H_0$, $\Lambda$ follows $\chi^2$ with df = difference in parameters
+- Can be used for model selection
+- More powerful than Wald test in many cases
+
+## 4. Statistical Independence
+
+### Core Intuition
+
+- Independence means $P(A\cap B) = P(A)P(B)$
+- For contingency tables: expected frequency = $\frac{\text{row total} \times \text{column total}}{\text{grand total}}$
+- Large deviations from expected frequencies suggest dependence
+
+### Key Formulas
+
+- Chi-square statistic: $\chi^2 = \sum \frac{(O-E)^2}{E}$
+- Degrees of freedom = (rows-1)(columns-1)
+
+### Interview Tips
+
+- Know relationship between correlation and independence
+- Independence important for portfolio theory and risk management
+- Can test independence using either $\chi^2$ or likelihood ratio test
+
+## 5. Advanced Topics for Interviews
+
+### Bayesian vs Frequentist
+
+- Frequentist: θ fixed, data random
+- Bayesian: data fixed, θ random
+- Bayesian updates prior beliefs with data
+
+### Delta Method
+
+$g(\bar{X}) \approx N(g(\mu), [g'(\mu)]^2\frac{\sigma^2}{n})$
+
+- Important for transforming estimators
+- Used in financial derivatives pricing
+
+### Asymptotic Properties
+
+- Consistency: $\hat{\theta}_n \xrightarrow{p} \theta$
+- Asymptotic normality: $\sqrt{n}(\hat{\theta}_n - \theta) \xrightarrow{d} N(0,\sigma^2)$
+- Important for large sample inference

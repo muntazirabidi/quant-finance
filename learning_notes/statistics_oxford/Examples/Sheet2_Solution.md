@@ -582,7 +582,7 @@ This interval is indeed quite close to the exact interval $(0.0018, 0.0029)$ obt
 
 Both intervals suggest similar conclusions about the precision of our estimate of $\lambda$.
 
-<img src="../Confidence Intervals/Code/Figures/fisher.png" alt="alt text">
+<img src="../chapters/confidence_intervals/Code/Figures/fisher.png" alt="alt text">
 
 # Question 5: Confidence Intervals for Variance
 
@@ -780,7 +780,7 @@ where $t_{m+n-2,1-\alpha/2}$ is the critical value from the t-distribution with 
 - This scenario is widely applicable in comparing two groups, such as treatment vs. control in clinical trials, or two experimental setups in scientific research.
 - The methodology is a stepping stone for understanding more complex analyses, such as ANOVA or Bayesian approaches, where variance and mean comparisons are central.
 
-<img src="../Confidence Intervals/Code/Figures/two_samples.png" alt="alt text">
+<img src="../chapters/confidence_intervals/Code/Figures/two_samples.png" alt="alt text">
 
 Key intuitions from this simulation:
 
@@ -792,7 +792,7 @@ Key intuitions from this simulation:
 
 The $\chi^2$ distribution looks like a normal distribution due to central limit theorem is we increase the degrees of freedom
 
-<img src="../Confidence Intervals/Code/Figures/chi.png" alt="alt text">
+<img src="../chapters/confidence_intervals/Code/Figures/chi.png" alt="alt text">
 
 # Question 7: Understanding the One-Sample T-Test
 
@@ -944,7 +944,7 @@ The Q-Q plot shows how well our data matches an exponential distribution. The bl
 
 The R-squared value of 0.9831 is quite impressive – it tells us that about 98.31% of the variation in our ordered data can be explained by the exponential model. This is strong evidence in favor of the exponential assumption.
 
-<img src="../Confidence Intervals/Code/Figures/qq_quakes.png" alt="alt text">
+<img src="../chapters/confidence_intervals/Code/Figures/qq_quakes.png" alt="alt text">
 
 > **Confidence Intervals:**
 >
@@ -1089,3 +1089,165 @@ This explains why all three methods converge for large $n$, as observed in our s
    - All methods become practically equivalent
    - Normal approximation is reliable
    - Interval widths properly reflect precision
+
+# Advanced Statistical Concepts for Quant Finance - Study Notes
+
+## 1. Fisher Information & Maximum Likelihood Estimation
+
+### Core Intuition
+
+Fisher Information quantifies how much information a sample provides about an unknown parameter. Think of it as measuring the "curvature" of the log-likelihood - sharper curves mean more precise estimation.
+
+### Key Formula
+
+$I(\theta) = -E[\frac{\partial^2}{\partial \theta^2} \log L(\theta;X)]$
+
+### Critical Applications in Finance
+
+- Used to construct efficient confidence intervals for parameter estimates
+- Essential for option pricing model calibration
+- Helps quantify estimation uncertainty in risk models
+
+Example using blood type data shows practical application:
+
+- When parameters have biological constraints (like probabilities summing to 1)
+- How to handle multinomial data (common in categorical financial data)
+- Constructing confidence intervals for constrained parameters
+
+## 2. Transformations and the Delta Method
+
+### Core Intuition
+
+The delta method lets us understand how uncertainty "transforms" when we apply functions to estimators. This is crucial for finance where we often need to transform parameters.
+
+### Key Formula
+
+For $g(\hat{\theta})$:
+$g(\hat{\theta}) \stackrel{a}{\sim} N(g(\theta), [g'(\theta)]^2 \text{Var}(\hat{\theta}))$
+
+### Financial Applications
+
+- Converting volatility estimates between different time scales
+- Transforming correlation estimates
+- Risk measure calculations (e.g., VaR to Expected Shortfall)
+
+## 3. Consistency of Estimators
+
+### Core Intuition
+
+An estimator is consistent if it gets arbitrarily close to the true parameter as sample size increases. This has important implications for:
+
+- Large vs small sample behavior
+- Asymptotic properties in high-frequency trading
+- Model risk assessment
+
+### Key Result
+
+If $\text{bias}(T_n) \to 0$ and $\text{var}(T_n) \to 0$, then $T_n$ is consistent.
+
+### Important for Quant Interviews
+
+- Understanding trade-offs between bias and variance
+- Role of sample size in estimation accuracy
+- When asymptotic results are reliable
+
+## 4. Advanced Time Series Analysis (Earthquake Data)
+
+### Core Statistical Tools
+
+1. Q-Q Plots for Distribution Assessment
+
+   - Visual check for distributional assumptions
+   - Identifying heavy tails
+   - Detecting regime changes
+
+2. Maximum Likelihood for Rate Parameters
+   - Estimating event frequencies
+   - Confidence intervals for rate parameters
+   - Testing distributional assumptions
+
+### Financial Applications
+
+- Modeling market crash frequencies
+- Risk event analysis
+- Trading volume patterns
+
+## 5. Variance Estimation and Confidence Intervals
+
+### Three Key Methods Compared:
+
+1. Using Sample Variance: $S^2 = \frac{1}{n-1}\sum(X_i - \bar{X})^2$
+2. Using Known Mean: More efficient when mean is known
+3. Using Mean-Only Information: Less efficient but sometimes necessary
+
+### Financial Relevance
+
+- Volatility estimation in options pricing
+- Risk management when some parameters are known
+- Portfolio optimization under uncertainty
+
+## 6. Two-Sample Problems in Finance
+
+### Key Formula
+
+$S^2_p = \frac{1}{n_1+n_2-2}(\sum(X_i-\bar{X})^2 + \sum(Y_j-\bar{Y})^2)$
+
+### Critical Applications
+
+- Comparing trading strategies
+- A/B testing in algorithmic trading
+- Market regime comparison
+
+### Important Properties
+
+- Pooled variance increases efficiency
+- T-distribution for small samples
+- Assumptions about equal variances
+
+## 7. One-Sample Testing and Professional Judgment
+
+### Core Framework
+
+1. Null vs Alternative Hypotheses
+2. Type I vs Type II Errors
+3. Power Analysis
+
+### Financial Context
+
+- Testing trading signals
+- Evaluating model performance
+- Backtesting risk measures
+
+## 8. Exponential Distribution and Waiting Times
+
+### Key Properties
+
+- Memoryless property
+- Relationship with Poisson processes
+- Connection to survival analysis
+
+### Applications
+
+- Time between market events
+- Default modeling
+- Trade arrival processes
+
+## 9. Advanced Confidence Interval Methods
+
+### Three Approaches
+
+1. Exact (Using distribution properties)
+2. Asymptotic (Using Fisher Information)
+3. Delta Method (For transformed parameters)
+
+### Important for Quants
+
+- Understanding when each method is appropriate
+- Trade-offs between accuracy and computational cost
+- Robustness to violations of assumptions
+
+### Practical Implementation Notes
+
+- Small samples require exact methods
+- Large samples allow asymptotic approximations
+- Transformations need careful handling of uncertainty

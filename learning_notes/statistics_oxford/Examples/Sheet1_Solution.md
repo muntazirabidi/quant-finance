@@ -333,7 +333,7 @@ This provides a graphical method to:
 1. Verify if data follows Weibull distribution (check linearity)
 2. Estimate parameters $\alpha$ and $\lambda$ from slope and intercept
 
-<img src="../Estimation/Code/Figures/weibull.png" alt="alt text">
+<img src="../chapters/estimation/Code/Figures/weibull.png" alt="alt text">
 
 # Question 4:
 
@@ -401,7 +401,7 @@ $$I_G(\theta) > I_B(\theta)$$
 
 The geometric distribution provides more information about $\theta$ and will give more precise inference. This is because each geometric observation provides more information about $\theta$ than a single Bernoulli trial, as it captures the entire sequence of trials until success.
 
-<img src="../Estimation/Code/Figures/fisher_geometric_bernoulli.png" alt="alt text">
+<img src="../chapters/estimation/Code/Figures/fisher_geometric_bernoulli.png" alt="alt text">
 
 # Question 5:
 
@@ -549,7 +549,7 @@ This concept of information loss due to rounding extends beyond just exponential
 - Exponential is right-skewed, hence the upward curve
 - Cauchy has the heaviest tails, hence the extreme deviations
 
-<img src="../Estimation/Code/Figures/qq.png" alt="alt text">
+<img src="../chapters/estimation/Code/Figures/qq.png" alt="alt text">
 
 # Question 9
 
@@ -571,7 +571,7 @@ For claim timing (interarrivals):
 - Claims tend to cluster more than a pure random process would suggest
 - This could indicate seasonality or other patterns in claim occurrence
 
-<img src="../Estimation/Code/Figures/interarrivals.png" alt="alt text">
+<img src="../chapters/estimation/Code/Figures/interarrivals.png" alt="alt text">
 
 ## Pareto Q-Q Plot for Claim Amounts:
 
@@ -589,10 +589,211 @@ For claim timing (interarrivals):
 
 The Pareto distribution is particularly good at modeling this kind of "heavy-tailed" behavior
 
-<img src="../Estimation/Code/Figures/claims.png" alt="alt text">
+<img src="../chapters/estimation/Code/Figures/claims.png" alt="alt text">
 
 For claim amounts:
 
 - The Pareto fit suggests a significant probability of very large claims
 - This validates the need for reinsurance to protect against extreme events
 - It helps in pricing insurance policies and setting reserves
+
+# Advanced Statistics for Quant Finance: Sheet 1 Study Notes
+
+## 1. Fisher Information & MLEs (Blood Type Problem)
+
+### Core Concept
+
+Fisher Information I(θ) quantifies how much a sample tells us about an unknown parameter θ.
+
+### Key Formula
+
+$I(\theta) = -E[\frac{\partial^2}{\partial \theta^2} \log L(\theta;X)]$
+
+### Why It Matters in Finance
+
+- More Fisher Information means more precise parameter estimates
+- Helps determine optimal sample sizes for model calibration
+- Crucial for risk measurement uncertainty
+
+### Important Properties
+
+1. Asymptotic distribution of MLE:
+   $\sqrt{n}(\hat{\theta} - \theta) \xrightarrow{d} N(0, I(\theta)^{-1})$
+
+2. Cramér-Rao bound:
+   $\text{Var}(\hat{\theta}) \geq \frac{1}{nI(\theta)}$
+
+## 2. Log-Normal Parameters (Normal Problem)
+
+### Core Understanding
+
+When estimating σ in N(μ,σ²), three key scenarios:
+
+1. Both μ and σ unknown
+2. μ known, σ unknown
+3. Estimating ψ = log(σ)
+
+### Financial Applications
+
+- Volatility estimation in Black-Scholes
+- Risk parameter uncertainty
+- Log returns modeling
+
+### Key Results
+
+1. With known μ:
+
+   - $\hat{\sigma}^2 = \frac{1}{n}\sum(X_i-\mu)^2$
+
+2. For ψ = log(σ):
+   - $\text{Var}(\hat{\psi}) \approx \frac{1}{2n}$ (independent of σ)
+
+## 3. Consistency Theory
+
+### Main Result
+
+For sequence of estimators Tₙ:
+
+- If bias(Tₙ) → 0 and var(Tₙ) → 0
+- Then Tₙ is consistent
+
+### Financial Context
+
+- Large sample properties of estimators
+- Risk measure convergence
+- Backtesting validity
+
+### Practical Implication
+
+As sample size increases:
+
+- Estimators become more accurate
+- Both systematic (bias) and random (variance) errors decrease
+
+## 4. Exponential Distributions & Interarrival Times
+
+### Core Concepts
+
+1. Order Statistics:
+
+   - For X₍ᵣ₎, E[X₍ᵣ₎] = r/(n+1) for U(0,1)
+   - Transform for other distributions
+
+2. QQ Plots:
+   - Visual diagnostic for distribution fit
+   - Linear plot indicates good fit
+
+### Financial Applications
+
+- Market event timing
+- Default modeling
+- Trading intervals
+- High-frequency data analysis
+
+### Key Methods
+
+1. For exponential data:
+
+   - Plot x₍ᵢ₎ vs -log(1-i/(n+1))
+   - Linear plot suggests exponential fit
+
+2. For Pareto tails:
+   - Log-transform data
+   - Linear tail indicates power law
+
+## 5. Multiple Parameter Estimation
+
+### Important Principles
+
+1. When estimating multiple parameters:
+
+   - Consider information matrix
+   - Account for parameter interactions
+   - Use profile likelihood if needed
+
+2. For constrained parameters:
+   - Incorporate constraints in likelihood
+   - Use Lagrange multipliers if needed
+
+### Financial Examples
+
+- Joint volatility-correlation estimation
+- Term structure modeling
+- Credit risk parameters
+
+## 6. Advanced Likelihood Topics
+
+### Core Methods
+
+1. Likelihood Ratio Tests:
+
+   - Compare nested models
+   - -2log(L₀/L₁) ~ χ²
+
+2. Profile Likelihood:
+   - For nuisance parameters
+   - Maximize over nuisance parameters
+
+### Financial Applications
+
+- Model selection
+- Trading strategy comparison
+- Risk model validation
+
+## Interview Tips & Common Questions
+
+1. Always Start With:
+
+   - Data generating process
+   - Parameter constraints
+   - Sample size considerations
+
+2. Be Ready To Discuss:
+
+   - Asymptotic properties
+   - Small sample behavior
+   - Model validation methods
+
+3. Key Derivations:
+
+   - MLE for common distributions
+   - Fisher Information calculations
+   - Confidence interval construction
+
+4. Practical Implementation:
+
+   - Numerical optimization methods
+   - Standard error estimation
+   - Hypothesis testing framework
+
+5. Common Pitfalls:
+   - Small sample bias
+   - Parameter constraints
+   - Model misspecification
+
+## Mathematical Framework Summary
+
+### Essential Formulas
+
+1. Likelihood:
+   $L(\theta) = \prod_{i=1}^n f(x_i|\theta)$
+
+2. Score Function:
+   $U(\theta) = \frac{\partial}{\partial \theta} \log L(\theta)$
+
+3. Fisher Information:
+   $I(\theta) = -E[U'(\theta)]$
+
+4. Asymptotic Normality:
+   $\hat{\theta} \stackrel{a}{\sim} N(\theta, I(\theta)^{-1})$
+
+### Statistical Tests
+
+1. Likelihood Ratio:
+   $\Lambda = -2\log(L_0/L_1)$
+
+2. Score Test:
+   $U(\theta_0)^2/I(\theta_0)$
+
+3. Wald Test:
+   $(\hat{\theta} - \theta_0)^2 I(\hat{\theta})$
