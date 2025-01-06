@@ -666,3 +666,211 @@ Under independence, we only need to know:
 - All cell probabilities are determined by this single parameter through the specified formula $(1/16+θ, 3/16-θ, 3/16-θ, 9/16+θ)$
 
 This illustrates an important principle: the degrees of freedom depend not just on the number of cells, but also on how many independent parameters we need to estimate under each model
+
+# Question 6: Statistical Test of Independence for Two Categorical Variables
+
+Let ordered pairs of random variables $(X_k,Y_k)$, $k=1,...,n$, be independent with:
+
+$P((X_k,Y_k) = (i,j)) = \pi_{ij}$, for $i=1,...,r$ and $j=1,...,c$
+
+where $\sum_{i,j}\pi_{ij}=1$
+
+Let $n_{ij}$ be the frequency of outcome $(i,j)$, where $n_{ij}>0$.
+
+Find the maximum likelihood estimates of the $\pi_{ij}$ under two scenarios:
+
+1. Under the assumption that $\pi_{ij}=\alpha_i\beta_j$ for $i=1,...,r$ and $j=1,...,c$, where $\sum_i\alpha_i=\sum_j\beta_j=1$
+
+2. Without this assumption
+
+Using these results, find test statistics for testing the null hypothesis that the $X_k$ and the $Y_k$ are independent using:
+
+a) The likelihood ratio method
+b) Pearson's $\chi^2$ statistic
+
+What can you say about the distributions of these two statistics for large values of $n$?
+
+## Application
+
+The data below (Agresti, 2007) cross-classifies gender and political party identification in the USA: 2757 individuals indicated whether they identified more strongly with the Democratic or Republican party or as Independents. Is there an association between gender and political party identification?
+
+### Data Table: Party Identification by Gender
+
+| Gender | Democrat | Independent | Republican |
+| ------ | -------- | ----------- | ---------- |
+| Female | 762      | 327         | 468        |
+| Male   | 484      | 239         | 477        |
+
+## Solution
+
+### 1. Maximum Likelihood Estimates (MLEs)
+
+Let's start with the simpler case (2) where we don't assume independence, then build up to case (1).
+
+**Case 2: No Independence Assumption**
+
+Here we need to maximize the likelihood subject only to the constraint that probabilities sum to 1.
+
+The likelihood function is:
+$L(\pi) = \prod_{i=1}^r \prod_{j=1}^c \pi_{ij}^{n_{ij}}$
+
+Taking the log:
+$\ell(\pi) = \sum_{i=1}^r \sum_{j=1}^c n_{ij} \log \pi_{ij}$
+
+We maximize this subject to $\sum_{i=1}^r \sum_{j=1}^c \pi_{ij} = 1$ using a Lagrange multiplier $\lambda$:
+
+$\mathcal{L} = \sum_{i=1}^r \sum_{j=1}^c n_{ij} \log \pi_{ij} - \lambda(\sum_{i=1}^r \sum_{j=1}^c \pi_{ij} - 1)$
+
+Taking derivatives with respect to each $\pi_{ij}$ and setting to zero:
+$\frac{\partial \mathcal{L}}{\partial \pi_{ij}} = \frac{n_{ij}}{\pi_{ij}} - \lambda = 0$
+
+This gives:
+$\pi_{ij} = \frac{n_{ij}}{\lambda}$
+
+Using the constraint $\sum_{i,j} \pi_{ij} = 1$:
+$\sum_{i,j} \frac{n_{ij}}{\lambda} = 1$
+
+Therefore $\lambda = \sum_{i,j} n_{ij} = n$ (total sample size)
+
+So the MLEs without the independence assumption are:
+$\hat{\pi}_{ij} = \frac{n_{ij}}{n}$
+
+**Case 1: With Independence Assumption**
+
+Now we assume $\pi_{ij} = \alpha_i\beta_j$ where $\sum_i \alpha_i = \sum_j \beta_j = 1$
+
+The log-likelihood becomes:
+$\ell(\alpha,\beta) = \sum_{i=1}^r \sum_{j=1}^c n_{ij} \log(\alpha_i\beta_j)$
+$= \sum_{i=1}^r \sum_{j=1}^c n_{ij}(\log \alpha_i + \log \beta_j)$
+
+Using two Lagrange multipliers $\lambda$ and $\mu$ for the two constraints:
+
+$\mathcal{L} = \sum_{i,j} n_{ij}(\log \alpha_i + \log \beta_j) - \lambda(\sum_i \alpha_i - 1) - \mu(\sum_j \beta_j - 1)$
+
+Taking derivatives and setting to zero:
+$\frac{\partial \mathcal{L}}{\partial \alpha_i} = \sum_j \frac{n_{ij}}{\alpha_i} - \lambda = 0$
+$\frac{\partial \mathcal{L}}{\partial \beta_j} = \sum_i \frac{n_{ij}}{\beta_j} - \mu = 0$
+
+This gives:
+$\alpha_i = \frac{n_{i+}}{\lambda}$ and $\beta_j = \frac{n_{+j}}{\mu}$
+
+where $n_{i+} = \sum_j n_{ij}$ and $n_{+j} = \sum_i n_{ij}$ are the row and column totals.
+
+Using the constraints, we find:
+$\hat{\alpha}_i = \frac{n_{i+}}{n}$ and $\hat{\beta}_j = \frac{n_{+j}}{n}$
+
+Therefore under independence:
+$\hat{\pi}_{ij} = \hat{\alpha}_i\hat{\beta}_j = \frac{n_{i+}}{n} \cdot \frac{n_{+j}}{n}$
+
+### 2. Test Statistics
+
+**Likelihood Ratio Test**
+
+The likelihood ratio statistic is:
+$\Lambda = -2\log\left(\frac{\sup_{H_0} L}{\sup_{H_1} L}\right)$
+$= -2\log\left(\frac{L(\hat{\alpha}\hat{\beta})}{L(\hat{\pi})}\right)$
+$= 2\sum_{i,j} n_{ij}\log\left(\frac{n_{ij}n}{n_{i+}n_{+j}}\right)$
+
+**Pearson's Chi-square Test**
+
+$\chi^2 = \sum_{i,j} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}$
+
+where:
+
+- $O_{ij} = n_{ij}$ (observed frequencies)
+- $E_{ij} = \frac{n_{i+}n_{+j}}{n}$ (expected frequencies under independence)
+
+### 3. Large Sample Distribution
+
+Under $H_0$ (independence), both $\Lambda$ and $\chi^2$ follow approximately a $\chi^2$ distribution with $(r-1)(c-1)$ degrees of freedom for large $n$.
+
+### 4. Testing Independence Between Gender and Party Identification
+
+First, let's clearly state what we have:
+
+- Two categorical variables (Gender and Party Identification)
+- A 2×3 contingency table of observed frequencies:
+
+$\begin{array}{l|ccc|c}
+\text{Gender} & \text{Democrat} & \text{Independent} & \text{Republican} & \text{Total} \\
+\hline
+\text{Female} & 762 & 327 & 468 & 1557 \\
+\text{Male} & 484 & 239 & 477 & 1200 \\
+\hline
+\text{Total} & 1246 & 566 & 945 & 2757
+\end{array}$
+
+Under the null hypothesis of independence, expected frequencies are calculated as:
+$E_{ij} = \frac{(\text{row total})_i \times (\text{column total})_j}{\text{total sample size}}$
+
+Let's calculate each expected frequency:
+
+For Female row:
+
+- Democrat: $E_{11} = \frac{1557 \times 1246}{2757} = 703.8$
+- Independent: $E_{12} = \frac{1557 \times 566}{2757} = 319.7$
+- Republican: $E_{13} = \frac{1557 \times 945}{2757} = 533.5$
+
+For Male row:
+
+- Democrat: $E_{21} = \frac{1200 \times 1246}{2757} = 542.2$
+- Independent: $E_{22} = \frac{1200 \times 566}{2757} = 246.3$
+- Republican: $E_{23} = \frac{1200 \times 945}{2757} = 411.5$
+
+### A. Pearson's Chi-square Statistic
+
+$\chi^2 = \sum_{i,j} \frac{(O_{ij} - E_{ij})^2}{E_{ij}}$
+
+Let's calculate each term:
+
+Female row:
+
+- Democrat: $\frac{(762 - 703.8)^2}{703.8} = 4.80$
+- Independent: $\frac{(327 - 319.7)^2}{319.7} = 0.17$
+- Republican: $\frac{(468 - 533.5)^2}{533.5} = 8.12$
+
+Male row:
+
+- Democrat: $\frac{(484 - 542.2)^2}{542.2} = 6.23$
+- Independent: $\frac{(239 - 246.3)^2}{246.3} = 0.22$
+- Republican: $\frac{(477 - 411.5)^2}{411.5} = 10.53$
+
+$\chi^2 = 30.07$
+
+### B. Likelihood Ratio Statistic
+
+$G^2 = 2\sum_{i,j} O_{ij}\log\left(\frac{O_{ij}}{E_{ij}}\right)$
+
+Let me verify this calculation:
+
+$G^2 = 30.02$
+
+## Step 4: Interpretation
+
+1. Degrees of Freedom:
+
+   - For a 2×3 table: df = (r-1)(c-1) = (2-1)(3-1) = 2
+
+2. Critical Values for $\chi^2_2$:
+
+   - At 5% level: 5.99
+   - At 1% level: 9.21
+   - At 0.1% level: 13.82
+
+3. Decision:
+   Both test statistics (χ² = 30.07 and G² = 30.02) are much larger than the critical value even at the 0.1% level (13.82). Therefore, we have extremely strong evidence to reject the null hypothesis of independence.
+
+4. Detailed Analysis:
+   Looking at the contributions to the chi-square statistic, we see:
+
+   - The largest contributions come from Republicans (18.65 total from both genders)
+   - Democrats show the next largest departure from independence (11.03 total)
+   - Independents show relatively small departures (0.39 total)
+
+5. Substantive Conclusion:
+   There is a clear association between gender and party identification:
+   - Women are more likely to identify as Democrats (762 observed vs 703.8 expected)
+   - Men are more likely to identify as Republicans (477 observed vs 411.5 expected)
+   - Independent identification shows little gender difference
+
+This thorough analysis demonstrates both the mathematical application of the independence tests and their practical interpretation in a social science context. The consistency between the two test statistics adds robustness to our conclusions.
