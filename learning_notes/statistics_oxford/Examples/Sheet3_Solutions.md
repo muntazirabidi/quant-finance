@@ -382,3 +382,138 @@ This means:
 
 1. We reject the hypothesis that Spock is as proficient as Uhura if he makes more than 8 inappropriate connections in 10 days
 2. If Spock's true mean rate is 1.3 or more inappropriate connections per day, we have at least a 90% chance of detecting this difference
+
+# Question 4:
+
+When studying the sex ratio in a population using a sample of size $n$, it is usually assumed that, indpendently, each child is male with probability $p$. Renkonen (1956) observed $19,711$ male births out of a total of $38,562$ births in American families withtwo children each. Use the likelihood ratio statistic $Λ$ to test the hypothesis $H0:p=1/2$ against a suitable alternative which you should specify.
+
+Renkonen also found $17,703$ males out of $35,042$ similar births in Finland. Use the generalised likelihood ratio test to test the hypothesis thatphas the same value in eachcountry versus a suitable alternative.
+
+## Solution Part 1: Testing if $p = 1/2$ for American Births
+
+We have data from births in American families with:
+
+- Total births: $n = 38,562$
+- Male births: $x = 19,711$
+- Each birth is independent with probability $p$ of being male
+- Distribution: $X \sim \text{Binomial}(n,p)$
+
+### Hypotheses
+
+- $H_₀: p = 1/2$ (sex ratio is exactly balanced)
+- $H_₁: p ≠ 1/2$ (two-sided alternative)
+
+### Likelihood Ratio Calculation
+
+The likelihood function for a binomial distribution is:
+$L(p) = \binom{n}{x}p^x(1-p)^{n-x}$
+
+Under H₀:
+
+- $p_₀ = 1/2$
+- $L(p_0) = \binom{38562}{19711}(0.5)^{19711}(0.5)^{18851}$
+
+Under $H_₁:$
+
+- MLE is $\hat{p} = \frac{x}{n} = \frac{19711}{38562} = 0.5111$
+- $L(\hat{p}) = \binom{38562}{19711}(0.5111)^{19711}(0.4889)^{18851}$
+
+The likelihood ratio statistic is:
+$\Lambda = -2\log\left(\frac{L(p_0)}{L(\hat{p})}\right)$
+
+$= -2[19711\log(0.5) + 18851\log(0.5) - (19711\log(0.5111) + 18851\log(0.4889))]$
+
+$= 19.18$
+
+Under $H_₀, Λ$ follows a $\chi^2_1$ distribution.
+
+### Decision
+
+- Critical value at $5\%$ level: $\chi^2_1(0.05) = 3.84$
+- Since $19.18 > 3.84$, we reject $H_₀$
+- The p-value is extremely small ($≈ 1.2 × 10^{⁻⁵}$)
+
+## Solution Part 2: Testing Equal Proportions Between Countries
+
+### Additional Data
+
+Finnish births:
+
+- Total births: $n_₂ = 35,042$
+- Male births: $x_₂ = 17,703$
+
+### Hypotheses
+
+- $H_₀: p_₁ = p_₂$ (same proportion in both countries)
+- $H_₁: p_₁ ≠ p_₂$ (different proportions)
+
+### Likelihood Ratio Calculation
+
+Under $H_₁$ (separate proportions):
+
+- US MLE: $\hat{p}_1 = \frac{19711}{38562} = 0.5111$
+- Finnish MLE: $\hat{p}_2 = \frac{17703}{35042} = 0.5052$
+- $L(\hat{p}_1,\hat{p}_2) = \binom{38562}{19711}\hat{p}_1^{19711}(1-\hat{p}_1)^{18851} \times \binom{35042}{17703}\hat{p}_2^{17703}(1-\hat{p}_2)^{17339}$
+
+Under $H_₀$ (common proportion):
+
+- Pooled MLE: $\hat{p} = \frac{x_1 + x_2}{n_1 + n_2} = \frac{19711 + 17703}{38562 + 35042} = 0.5083$
+- $L(\hat{p}) = \binom{38562}{19711}\hat{p}^{19711}(1-\hat{p})^{18851} \times \binom{35042}{17703}\hat{p}^{17703}(1-\hat{p})^{17339}$
+
+The likelihood ratio statistic:
+$\Lambda = -2\log\left(\frac{L(\hat{p})}{L(\hat{p}_1,\hat{p}_2)}\right) = 2.61$
+
+Under $H_₀, Λ$ follows a $\chi^2_1$ distribution.
+
+- Critical value at $5%$ level: $\chi^2_1(0.05) = 3.84$
+- Since $2.61 < 3.84$, we fail to reject $H_₀$
+- Therefore, we don't have sufficient evidence to conclude that the sex ratios differ between countries
+
+### Conclusion
+
+1. We have strong evidence that the sex ratio in the American population deviates from exactly $50-50$, with a slight excess of male births ($p ≈ 0.511$).
+2. However, we cannot conclude that the sex ratios differ between the US and Finland. The estimated proportions (US: $0.511$, Finland: $0.505$) are not significantly different, with a pooled estimate of $0.508.$
+3. The large sample sizes allow detection of even small deviations from $p = 1/2$, but the difference between countries is not statistically significant.
+
+### Effect Size
+
+For comparing a sample proportion to a hypothesized value (Part 1):
+
+$z = \frac{\hat{p} - p_0}{\sqrt{\frac{p_0(1-p_0)}{n}}}$
+
+Let's calculate this for Part 1:
+
+$\hat{p} = \frac{19,711}{38,562} = 0.5111$ (sample proportion)
+
+$p_0 = 0.5$ (hypothesized value)
+
+$n = 38,562$ (sample size)
+
+$z = \frac{0.5111 - 0.5}{\sqrt{\frac{0.5(1-0.5)}{38,562}}}$
+
+$= \frac{0.0111}{\sqrt{\frac{0.25}{38,562}}}$
+
+$= \frac{0.0111}{0.00254} = 4.37$
+
+For comparing two proportions (Part 2):
+
+$z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\frac{\hat{p}_1(1-\hat{p}_1)}{n_1} + \frac{\hat{p}_2(1-\hat{p}_2)}{n_2}}}$
+
+$\hat{p}_1 = \frac{19,711}{38,562} = 0.5111$ (US proportion)
+
+$\hat{p}_2 = \frac{17,703}{35,042} = 0.5052$ (Finnish proportion)
+
+$n_1 = 38,562$ (US sample size)
+
+$n_2 = 35,042$ (Finnish sample size)
+
+$z = \frac{0.5111 - 0.5052}{\sqrt{\frac{0.5111(1-0.5111)}{38,562} + \frac{0.5052(1-0.5052)}{35,042}}}$
+
+$= \frac{0.0059}{\sqrt{0.000006494 + 0.000007225}}$
+
+$= \frac{0.0059}{0.00366} = 1.61$
+
+These z-scores tell us:
+
+1. For Part 1: The observed proportion differs from 0.5 by 4.37 standard errors - a highly significant result
+2. For Part 2: The difference between countries is only 1.61 standard errors - not significant at the 5% level
