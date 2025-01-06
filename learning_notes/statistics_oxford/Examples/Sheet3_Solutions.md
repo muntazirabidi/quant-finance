@@ -149,3 +149,92 @@ This is why the test statistics were so different:
 The paired t-test produced a much larger t-value because it focused specifically on the consistent pattern of increases within each child, rather than just comparing the overall group averages. Each child served as their own control, which made the small but consistent increase in heart rate much more detectable.
 
 This is a classic example of why it's crucial to choose the right statistical test based on how the data was collected. When we have paired measurements (before/after, two conditions on the same subject, etc.), a paired t-test will almost always be more appropriate and powerful than a two-sample t-test
+
+# Question 2: Most Powerful Test for Normal Distribution
+
+Let $X_1,...,X_n$ be independent $N(\theta,\sigma_0^2)$ random variables, where $\sigma_0^2$ is known. Find the most powerful test of size $\alpha$ of
+
+$H_0: \theta = \theta_0$ against $H_1: \theta = \theta_1$, where $\theta_1 > \theta_0$.
+
+Show that the power function $w(\theta)$ of this test is given by:
+
+$w(\theta) = 1 - \Phi(\frac{\sqrt{n}}{\sigma_0}(\theta_0-\theta) + z_\alpha)$
+
+where $\Phi$ is the cumulative distribution function of the standard normal distribution and $\Phi(z_\alpha) = 1-\alpha$.
+
+If $\theta_0 = 0$, $\theta_1 = 0.5$ and $\sigma_0 = 1$, how large must $n$ be if $\alpha = 0.05$ and the power at $\theta_1$ is to be 0.975?
+
+[If $\Phi$ is the $N(0,1)$ cdf, then $\Phi(1.645) = 0.95$ and $\Phi(1.96) = 0.975$.]
+
+## Solution:
+
+Given that we have independent normal random variables $X_1, \ldots, X_n \sim N(\theta, \sigma_0^2)$, their sample mean $\bar{X}$ follows a normal distribution with:
+
+$\bar{X} \sim N(\theta, \frac{\sigma_0^2}{n})$
+
+This is a key result from sampling theory - the sample mean is normally distributed with the same center as the individual observations but with reduced variance (by a factor of n). This reduction in variance illustrates why larger sample sizes lead to more precise estimates.
+
+Our hypotheses are:
+$H_0: \theta = \theta_0$ versus $H_1: \theta = \theta_1$ where $\theta_1 > \theta_0$
+
+### Deriving the Most Powerful Test
+
+The Neyman-Pearson lemma tells us that the most powerful test is based on the likelihood ratio. In our case, because of the monotone likelihood ratio property of the normal distribution, this elegant result simplifies to rejecting $H_0$ when $\bar{X}$ exceeds some critical value $c$.
+
+When $\bar{X}$ follows $N(\theta_0, \frac{\sigma_0^2}{n})$ under $H_0$, we can standardize it:
+
+$Z = \frac{\bar{X} - \theta_0}{\sigma_0/\sqrt{n}} \sim N(0,1)$
+
+For a test of size $\alpha$, we need:
+
+$P(\text{Reject } H_0|H_0 \text{ is true}) = \alpha$
+
+This means:
+$P(Z > \frac{c-\theta_0}{\sigma_0/\sqrt{n}}) = \alpha$
+
+### Finding the Critical Value
+
+Let $z_\alpha$ be the $(1-\alpha)$ quantile of the standard normal distribution, meaning $\Phi(z_\alpha) = 1-\alpha$. Then:
+
+$\frac{c-\theta_0}{\sigma_0/\sqrt{n}} = z_\alpha$
+
+Solving for the critical value:
+$c = \theta_0 + \frac{\sigma_0}{\sqrt{n}}z_\alpha$
+
+### Deriving the Power Function
+
+The power function $w(\theta)$ gives the probability of rejecting $H_0$ when the true parameter is $\theta$. Under any $\theta$, $\bar{X} \sim N(\theta, \frac{\sigma_0^2}{n})$, so:
+
+$w(\theta) = P(\bar{X} > c|\theta) = P(Z > \frac{c-\theta}{\sigma_0/\sqrt{n}})$
+
+Substituting the critical value:
+
+$w(\theta) = 1 - \Phi(\frac{\sqrt{n}}{\sigma_0}(\theta_0-\theta) + z_\alpha)$
+
+### Solving for Required Sample Size
+
+For the specific values:
+
+- $\theta_0 = 0$
+- $\theta_1 = 0.5$
+- $\sigma_0 = 1$
+- $\alpha = 0.05$ (so $z_\alpha = 1.645$)
+- Desired power at $\theta_1$ is 0.975
+
+We solve:
+$0.975 = 1 - \Phi(-0.5\sqrt{n} + 1.645)$
+
+Since $\Phi(1.96) = 0.975$:
+$-0.5\sqrt{n} + 1.645 = -1.96$
+
+Solving:
+$\sqrt{n} = 7.21$
+$n = 52$
+
+### Conclusion
+
+The required sample size is 52 observations. This means we need 52 independent measurements to achieve 97.5% power for detecting a difference of 0.5 units from the null hypothesis value, while maintaining a 5% significance level. The relatively large sample size is needed because we want both a high power (0.975) and are testing for a moderate effect size (0.5 units).
+
+This solution demonstrates how statistical theory can guide practical experimental design decisions, particularly in determining appropriate sample sizes to achieve desired levels of statistical power.
+
+---
