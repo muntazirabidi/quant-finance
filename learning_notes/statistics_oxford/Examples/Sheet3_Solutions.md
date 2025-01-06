@@ -237,4 +237,148 @@ The required sample size is 52 observations. This means we need 52 independent m
 
 This solution demonstrates how statistical theory can guide practical experimental design decisions, particularly in determining appropriate sample sizes to achieve desired levels of statistical power.
 
----
+# Question: Statistical Analysis of Receptionist Performance
+
+A telephone receptionist for a large partnership of financial advisers is responsible for determining the precise nature of each incoming enquiry and connecting the client with an appropriate adviser. The number of inappropriate connections on any given day may be modelled by a random variable $X$ which has a Poisson distribution with mean $\mu$.
+
+Let us examine the following scenario:
+
+If $Z$ is the number of inappropriate connections made over a period of $n$ days, we need to:
+
+1. Determine the distribution of $Z$
+2. Find its expected value
+
+We are given that Uhura, who has been such a receptionist for many years, has been found to have a mean rate of $\mu_U = 0.47$ inappropriate connections per day. For several months she has been training Spock, a new receptionist, with corresponding mean rate $\mu_S$.
+
+At a meeting of senior partners, it was conjectured that Spock was already as proficient as Uhura; accordingly they resolved to keep a daily record of the number of inappropriate connections made by him over his next 10 working days.
+
+Tasks:
+
+1. Find a critical region of size 5% for a test of the hypothesis that Spock is as proficient as Uhura versus the alternative that he is less proficient.
+2. For what values of $\mu_S$ does the probability of type II error fall below 10%?
+
+Note: If $\phi_\mu(k) = \sum_{x=0}^k \frac{\mu^x e^{-\mu}}{x!}$, then:
+
+- $\phi_{4.7}(8) = 0.95$
+- $\phi_{13}(8) = 0.1$
+
+## Solution Part I: Analyzing Inappropriate Connections
+
+Let's start by clearly understanding what we're given:
+
+- Each day, we track inappropriate connections ($X$)
+- $X$ follows a Poisson distribution with mean $\mu$
+- We want to find the distribution and expected value of $Z$, where $Z$ represents inappropriate connections over $n$ days
+
+### Part 1: Determining the Distribution of Z
+
+To find the distribution of $Z$, let's think about what $Z$ represents mathematically:
+
+$Z = X_1 + X_2 + ... + X_n$ where each $X_i$ is the number of inappropriate connections on day $i$
+
+A key property of the Poisson distribution tells us that when we sum independent Poisson random variables, the result is also Poisson distributed. The mean of the sum equals the sum of the individual means.
+
+In our case:
+
+- Each day is independent
+- Each $X_i \sim \text{Poisson}(\mu)$
+- We sum over $n$ days
+
+Therefore:
+$Z \sim \text{Poisson}(n\mu)$
+
+This means that over $n$ days, the number of inappropriate connections follows a Poisson distribution with mean $n\mu$.
+
+### Part 2: Finding the Expected Value
+
+The expected value of a Poisson distribution equals its parameter. Therefore:
+
+$E(Z) = n\mu$
+
+To understand this intuitively:
+
+- If we expect $\mu$ inappropriate connections per day
+- And we're looking at $n$ days
+- Then we expect $n\mu$ inappropriate connections in total
+
+This result also follows from the linearity of expectation:
+$E(Z) = E(X_1 + X_2 + ... + X_n) = E(X_1) + E(X_2) + ... + E(X_n) = n\mu$
+
+## Solution Part II: Hypothesis Testing for Receptionist Proficiency
+
+Let's build on our understanding of the Poisson distribution to analyze Spock's performance compared to Uhura's.
+
+### Given Information:
+
+- Uhura's mean rate: $\mu_U = 0.47$ inappropriate connections per day
+- Test period for Spock: $n = 10$ days
+- Significance level: $\alpha = 0.05$
+- We're told that $\phi_{4.7}(8) = 0.95$ and $\phi_{13}(8) = 0.1$
+
+### Step 1: Setting Up the Hypothesis Test
+
+Let's establish our hypotheses:
+
+$H_0: \mu_S = \mu_U = 0.47$ (Spock is as proficient as Uhura)
+
+$H_1: \mu_S > \mu_U$ (Spock is less proficient)
+
+Under $H_0$, over 10 days:
+
+- Total expected inappropriate connections follows Poisson(10 × 0.47)
+- So $Z \sim \text{Poisson}(4.7)$
+
+### Step 2: Finding the Critical Region
+
+We need a critical region of size 5%. Using the given information:
+$\phi_{4.7}(8) = 0.95$
+
+For a Poisson distribution:
+$P(Z > k) = 1 - P(Z \leq k) = 1 - \phi_\mu(k)$
+
+Let's verify this is our critical value:
+
+$P(Z > 8|\mu = 4.7) = 1 - \phi_{4.7}(8) = 1 - 0.95 = 0.05$
+
+To double-check, let's calculate $\phi_{4.7}(8)$ explicitly:
+
+$\phi_{4.7}(8) = \sum_{x=0}^8 \frac{4.7^x e^{-4.7}}{x!}$
+
+The critical region is $\{Z > 8\}$
+
+- We reject $H_0$ if Spock makes more than 8 inappropriate connections in 10 days
+- This gives us exactly our desired significance level of 5%
+
+To confirm 8 is the optimal critical value:
+
+- If we used 7: $P(Z > 7) > 0.05$ (too large)
+- If we used 9: $P(Z > 9) < 0.05$ (too small)
+
+### Step 3: Type II Error Analysis
+
+For the second part, we need to find values of $\mu_S$ where Type II error probability is below 10%.
+
+Type II error occurs when we fail to reject $H_0$ when $H_1$ is true.
+
+Given that $\phi_{13}(8) = 0.1$:
+
+Let $\beta(\mu_S)$ be the probability of Type II error:
+
+$\beta(\mu_S) = P(\text{fail to reject }H_0|\mu_S) = P(Z \leq 8|10\mu_S)$
+
+We want:
+$\beta(\mu_S) < 0.1$
+
+Since $\phi_{13}(8) = 0.1$, and $\phi_{10\mu_S}(8)$ decreases as $\mu_S$ increases:
+
+$10\mu_S \geq 13$ will give us $\beta(\mu_S) \leq 0.1$
+
+Therefore:
+$\mu_S \geq 1.3$ inappropriate connections per day
+
+### Interpretation:
+
+This means:
+
+1. We reject the hypothesis that Spock is as proficient as Uhura if he makes more than 8 inappropriate connections in 10 days
+2. If Spock's true mean rate is 1.3 or more inappropriate connections per day, we have at least a 90% chance of detecting this difference
