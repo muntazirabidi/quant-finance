@@ -2,7 +2,7 @@
 
 | Section | Title                                          | Status         | Last Updated | Key Learning Goals           |
 | ------- | ---------------------------------------------- | -------------- | ------------ | ---------------------------- |
-| 4.1     | Introduction                                   | 📝 Not Started | -            | Bayesian foundations         |
+| 4.1     | Introduction                                   | 🚧 In Progress | -            | Bayesian foundations         |
 | 4.2     | Inference                                      | 📝 Not Started | -            | Bayesian inferential methods |
 | 4.3     | Prior Information                              | 📝 Not Started | -            | Prior distribution theory    |
 | 4.4     | Hypothesis testing and Bayes factors           | 📝 Not Started | -            | Bayesian hypothesis testing  |
