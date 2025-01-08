@@ -2,9 +2,9 @@
 
 | Section | Title                                          | Status         | Last Updated | Key Learning Goals           |
 | ------- | ---------------------------------------------- | -------------- | ------------ | ---------------------------- |
-| 4.1     | Introduction                                   | 🚧 In Progress | -            | Bayesian foundations         |
-| 4.2     | Inference                                      | 📝 Not Started | -            | Bayesian inferential methods |
-| 4.3     | Prior Information                              | 📝 Not Started | -            | Prior distribution theory    |
+| 4.1     | Introduction                                   | ✅ Completed   | 2025-01-07   | Bayesian foundations         |
+| 4.2     | Inference                                      | ✅ Completed   | 2025-01-07   | Bayesian inferential methods |
+| 4.3     | Prior Information                              | ✅ Completed   | 2025-01-08   | Prior distribution theory    |
 | 4.4     | Hypothesis testing and Bayes factors           | 📝 Not Started | -            | Bayesian hypothesis testing  |
 | 4.5     | Asymptotic normality of posterior distribution | 📝 Not Started | -            | Large sample theory          |
 
