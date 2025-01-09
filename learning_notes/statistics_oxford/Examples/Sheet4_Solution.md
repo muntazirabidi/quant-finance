@@ -1097,3 +1097,152 @@ This is a good example of how an improper prior can still lead to a proper poste
 The intuition here is that the $\frac{1}{\sqrt{\lambda}}$ prior represents minimal information about λ while respecting its role as a rate parameter, and once we observe data, we get a well-defined probability distribution that we can use for inference.
 
 <img src="Code/Figures/poisson.png" alt="alt text">
+
+# Question 8: Binomial Hypothesis Testing Problem
+
+Suppose $X$ is the number of successes in a binomial experiment withntrials and probability of success $θ$. Either $H_0:θ=12$ or $H_1:θ=34$ is true. Show that the posterior probability that $H_0$ is true is greater than the prior probability for $H_0$ if and only if
+
+$$x\log 3 < n\log 2.$$
+
+## Solution:
+
+Let's first establish what we know:
+
+- We have a binomial experiment with $n$ trials
+- $X$ is the number of successes
+- We observe $x$ successes
+- $H_0: \theta = \frac{1}{2}$ and $H_1: \theta = \frac{3}{4}$ are the competing hypotheses
+- Let's call $p_0 = P(H_0)$ the prior probability of $H_0$
+
+The posterior probability of $H_0$ will be greater than its prior probability if and only if the Bayes factor supports $H_0$. Let's show this mathematically:
+
+### 1. Writing out the likelihoods
+
+Under $H_0$:
+$$P(X=x|H_0) = \binom{n}{x}(\frac{1}{2})^x(\frac{1}{2})^{n-x}$$
+
+Under $H_1$:
+$$P(X=x|H_1) = \binom{n}{x}(\frac{3}{4})^x(\frac{1}{4})^{n-x}$$
+
+### 2. Computing the Bayes factor
+
+The Bayes factor $B_{01}$ is the ratio of these likelihoods:
+
+$$B_{01} = \frac{P(X=x|H_0)}{P(X=x|H_1)}$$
+
+$$= \frac{(\frac{1}{2})^x(\frac{1}{2})^{n-x}}{(\frac{3}{4})^x(\frac{1}{4})^{n-x}}$$
+
+$$= \frac{2^{n-x}}{3^x}$$
+
+### 3. Condition for posterior probability being greater than prior
+
+The posterior probability for $H_0$ will be greater than its prior if and only if $B_{01} > 1$
+
+### 4. Working out the inequality
+
+Therefore:
+$$B_{01} > 1$$
+$$\frac{2^{n-x}}{3^x} > 1$$
+$$2^{n-x} > 3^x$$
+
+Taking logarithms:
+$$(n-x)\log(2) > x\log(3)$$
+$$n\log(2) - x\log(2) > x\log(3)$$
+$$x\log(2) + x\log(3) < n\log(2)$$
+$$x(\log(2) + \log(3)) < n\log(2)$$
+$$x\log(6) < n\log(2)$$
+$$x \log(3) < n \log(2)$$
+
+### Conclusion
+
+Therefore, the posterior probability of $H_0$ will be greater than its prior probability if and only if $x \log(3) < n \log(2)$.
+
+This makes intuitive sense: if we observe too many successes (large $x$), we would favor $H_1$ which has the higher probability of success. The inequality gives us the precise threshold for when our evidence starts supporting $H_1$ over $H_0$.
+
+# Question 9: Bayesian Hypothesis Testing for Binomial Data
+
+Let $X \sim \text{Binomial}(n,θ)$, where the prior for $θ$ is uniform on $(0,1)$. Suppose that we wish to compare the hypotheses $H_0:θ < 1/2$ and $H_1:θ >2$.
+
+What are the prior odds of $H_0$ relative to $H_1$?
+
+Find an expression for the posterior odds of $H_0$ relative to $H_1$.
+
+If we observe $X=n$, find the Bayes factor $B$ of $H_0$ relative to $H_1$.
+
+Check that $B→0$ as $n→∞$. Why is this expected?
+
+## Solution:
+
+We'll break it down into several parts and build our understanding step by step.
+
+### Part 1: Finding Prior Odds
+
+First, let's understand what prior odds means and calculate it for our case.
+
+Given:
+
+- $\theta \sim \text{Uniform}(0,1)$ (prior)
+- $H_0: \theta < \frac{1}{2}$
+- $H_1: \theta > \frac{1}{2}$
+
+The prior odds is defined as:
+$$\text{Prior Odds} = \frac{P(H_0)}{P(H_1)} = \frac{P(\theta < \frac{1}{2})}{P(\theta > \frac{1}{2})}$$
+
+Since $\theta$ has a uniform distribution on $(0,1)$:
+$$P(\theta < \frac{1}{2}) = \frac{1}{2}$$
+$$P(\theta > \frac{1}{2}) = \frac{1}{2}$$
+
+Therefore:
+$$\text{Prior Odds} = \frac{\frac{1}{2}}{\frac{1}{2}} = 1$$
+
+This makes intuitive sense because with a uniform prior, we're saying we believe both hypotheses are equally likely before seeing any data.
+
+### Part 2: Posterior Odds
+
+The posterior odds is given by:
+$$\text{Posterior Odds} = \text{Bayes Factor} \times \text{Prior Odds}$$
+
+Where:
+$$\text{Posterior Odds} = \frac{P(H_0|X)}{P(H_1|X)}$$
+
+Using Bayes' theorem:
+$$\frac{P(H_0|X)}{P(H_1|X)} = \frac{\int_0^{1/2} f(X|\theta)\pi(\theta)d\theta}{\int_{1/2}^1 f(X|\theta)\pi(\theta)d\theta} \times \frac{P(H_0)}{P(H_1)}$$
+
+Where:
+
+- $f(X|\theta)$ is the binomial likelihood: $\binom{n}{x}\theta^x(1-\theta)^{n-x}$
+- $\pi(\theta)$ is the uniform prior density (= 1 for $\theta \in (0,1)$)
+
+Therefore:
+$$\text{Posterior Odds} = \frac{\int_0^{1/2} \binom{n}{x}\theta^x(1-\theta)^{n-x}d\theta}{\int_{1/2}^1 \binom{n}{x}\theta^x(1-\theta)^{n-x}d\theta}$$
+
+### Part 3: Bayes Factor when X = n
+
+When we observe $X = n$ (all successes), the likelihood becomes:
+$$f(X=n|\theta) = \theta^n$$
+
+Therefore, the Bayes factor is:
+$$B = \frac{\int_0^{1/2} \theta^n d\theta}{\int_{1/2}^1 \theta^n d\theta}$$
+
+Solving these integrals:
+$$B = \frac{(1/2)^{n+1}/(n+1)}{(1-(1/2)^{n+1})/(n+1)} = \frac{(1/2)^{n+1}}{1-(1/2)^{n+1}}$$
+
+### Part 4: Limit as n → ∞
+
+To check if $B \to 0$ as $n \to \infty$:
+
+As $n \to \infty$:
+
+- $(1/2)^{n+1} \to 0$
+- $1-(1/2)^{n+1} \to 1$
+
+Therefore, $B \to 0$ as $n \to \infty$.
+
+This is intuitively expected because:
+
+1. When we observe all successes ($X=n$), this strongly suggests $\theta$ is large
+2. As $n$ increases, this evidence becomes stronger
+3. Therefore, the evidence increasingly favors $H_1: \theta > 1/2$ over $H_0: \theta < 1/2$
+4. A Bayes factor approaching 0 indicates strong evidence against $H_0$ and in favor of $H_1$
+
+This aligns with our common sense: if we keep flipping a coin and get heads every time, we become increasingly convinced that the coin is biased toward heads (i.e., $\theta > 1/2$).
