@@ -818,3 +818,282 @@ Posterior variance: $0.055836$
 Posterior/Prior ratio: $3.816680$
 
 <img src="Code/Figures/prior2.png" alt="alt text">
+
+# Question 6:
+
+A coin, with probability $θ$ of heads, is flipped $n$ times and $r$ heads are observed.
+
+(a) If the prior for $θ$ is a uniform distribution on $(0,1)$, what is the probability that he next flip is a head?
+
+(b) Can you generalise to the case where $θ$ has a $\text{Beta}(a,b)$ prior and where we wish to find the probability of getting $k$ heads from $m$ further flips?
+
+## Solution:
+
+### Part (a):
+
+For a coin flip scenario with a uniform prior, we can find the probability of getting heads on the next flip by calculating the posterior predictive probability.
+
+The key steps are:
+
+1. Find the posterior distribution for $θ$ given the observed data
+2. Use this to calculate the probability of heads on the next flip
+
+First, let's find the posterior distribution:
+
+- The likelihood for r heads in n flips is $\text{Binomial}(n,θ): f(r|θ) ∝ θʳ(1-θ)ⁿ⁻ʳ$
+- The prior is $\textbf{Uniform}(0,1)$ which is equivalent to $\text{Beta}(1,1)$
+- The posterior is $\text{Beta}(r+1, n-r+1)$
+
+Now for the probability of heads on the next flip. This is the posterior predictive probability, which we can calculate as:
+
+$$
+P(X_{n+1} = \text{heads} | \text{data}) = ∫ P(X_{n+1} = \text{heads} | θ) × π(θ|\text{data}) dθ
+                           = ∫ θ × π(θ|\text{data}) dθ
+                           = E[θ|\text{data}]
+$$
+
+For a $\text{Beta}(α,β)$ distribution, the mean is $α/(α+β)$.
+
+Therefore:
+
+$$
+P(X_{n+1} = \text{heads} | \text{data}) = (r+1)/((r+1)+(n-r+1))
+                           = \frac{(r+1)}{(n+2)}
+$$
+
+This intuitively makes sense - we're taking the number of observed heads plus one (from the uniform prior) and dividing by the total number of trials plus two (the +2 comes from the two parameters of the $\text{uniform/Beta}(1,1)$ prior).
+
+This formula gives us the probability that the next flip will be heads, incorporating both our uniform prior belief and the observed data.
+
+### Part (b):
+
+First, let's recall what we know and then extend it to this more general scenario:
+
+1. For a $\text{Beta}(a,b)$ prior and binomial data with $r$ successes in $n$ trials, the posterior distribution is:
+   $\text{Beta}(a + r, b + n-r)$
+
+2. For this new question, we want to find $P(\text{k heads in m flips} | \text{data})$, which is more complex than just one flip.
+
+Here's how we can find this:
+
+The probability of getting $k$ heads in $m$ further flips, given our data, is:
+
+$$P(k \text{ heads in } m \text{ flips} | \text{data}) = \int P(k \text{ heads in } m \text{ flips} | \theta) \times \pi(\theta|\text{data}) d\theta$$
+
+Let's break this down:
+
+- $P(k \text{ heads in } m \text{ flips} | \theta)$ is binomial: $\binom{m}{k}\theta^k(1-\theta)^{m-k}$
+- $\pi(\theta|\text{data})$ is our posterior Beta(a + r, b + n-r)
+
+Therefore:
+
+$$P(k \text{ heads in } m \text{ flips} | \text{data}) = \binom{m}{k} \int_0^1 \theta^k(1-\theta)^{m-k} \times \frac{\theta^{a+r-1}(1-\theta)^{b+n-r-1}}{B(a+r,b+n-r)} d\theta$$
+
+$$= \binom{m}{k} \frac{B(k+a+r, m-k+b+n-r)}{B(a+r,b+n-r)}$$
+
+This is known as the Beta-Binomial distribution. It gives us the probability of getting exactly k heads in m future flips, taking into account:
+
+- Our prior beliefs (through $a$ and $b$)
+- Our observed data (through $r$ and $n$)
+- The number of future flips ($m$)
+
+For the special case where $m = 1$ (one future flip) and $k = 1$ (we want a head), this reduces to:
+
+$P(\text{head on next flip}|\text{data}) = \frac{a+r}{a+b+n}$
+
+This matches what we found in part (a) when we used $a = b = 1$ for the uniform prior.
+
+The Beta-Binomial distribution is particularly useful because it captures the uncertainty in $θ$, unlike a simple Binomial distribution which assumes we know $θ$ exactly. This makes it more realistic for many real-world applications where we're learning about probabilities from data.
+
+## What do we learn:
+
+**Key Insights:**
+
+1. **Role of Prior Knowledge:** The $\text{Beta}(a,b)$ prior represents our initial beliefs about the coin's fairness. We learned that:
+
+- A $\text{Beta}(1,1)$ prior represents complete uncertainty (uniform distribution)
+- Larger values of $a$ and $b$ indicate stronger prior beliefs
+- The prior's influence diminishes as we collect more data
+
+2. **Learning from Data:** Our observed data ($r$ heads in $n$ flips) updates our beliefs in a very natural way:
+
+- We simply add $r$ to a and $(n-r)$ to $b$
+- This updating demonstrates how Bayesian inference combines prior knowledge with new evidence
+- With more data, our predictions become less influenced by the prior
+
+3. **Making Predictions:** When predicting future flips:
+
+- We don't just use the observed proportion of heads (like $r/n$)
+- Instead, we account for all uncertainty in our estimate of $θ$
+- This often leads to more conservative predictions than using a fixed probability
+- The predictions naturally become more confident as we gather more data
+
+4. **Understanding Uncertainty:** The formula captures three types of uncertainty:
+
+- Prior uncertainty (through $a$ and $b$)
+- Sampling uncertainty (through $r$ and $n$)
+- Future randomness (through $m$ and $k$)
+
+**Practical Takeaways:**
+
+1. Small vs Large Samples
+
+- With small samples (like our $3$ in $5$ example), the prior and uncertainty play larger roles
+- With large samples (like $30$ in $50$), predictions become closer to simple frequency-based calculations
+
+2. Prediction Intervals
+
+- We can calculate probabilities for any number of future heads
+- This gives us a complete picture of likely outcomes
+- The probabilities automatically account for all sources of uncertainty
+
+3. Influence of Priors
+
+- Different priors can significantly affect predictions with small samples
+- Their influence diminishes with more data
+- This matches our intuition about learning from evidence
+
+4. This framework provides a rigorous way to combine:
+
+- What we thought we knew (prior)
+- What we've observed (data)
+- What might happen next (prediction)
+
+All while properly accounting for uncertainty at each step.
+
+# Question 7:
+
+(a) Let $X \sim N(θ,σ^2_0)$, where $σ^2_0$ is known. Find the Jeffreys’ prior for $θ$.
+
+(b) Let $X \sim N(μ_0,σ^2)$, where $μ_0$ is known. Find the Jeffreys’ prior for $σ$.
+
+(c) Let $X$ be Poisson with parameter $λ$. Find the Jeffreys’ prior for $λ$. Check that the posterior distribution of $λ$ given $X=x$ is proper, but that the Jeffreys’ prior is not.
+
+## Solution:
+
+### part (a):
+
+For a location parameter like $θ$ in this case, we can find the Jeffreys' prior by:
+
+1. Finding the log-likelihood
+2. Taking its second derivative with respect to $θ$
+3. Finding the negative expectation of this second derivative
+4. Taking the square root of the result
+
+Let's begin:
+
+First, the likelihood for a single observation $X$ is:
+$$f(x|θ) = \frac{1}{\sqrt{2πσ²₀}} \exp(- \frac{(x-θ)²}{2σ²₀})$$
+
+The log-likelihood is:
+$$ℓ(θ) = -1/2 \log(2πσ²₀) - (x-θ)²/(2σ²₀)$$
+
+Taking the first derivative:
+$$ℓ'(θ) = (x-θ)/σ²₀$$
+
+Taking the second derivative:
+$$ℓ''(θ) = -1/σ²₀$$
+
+The negative expectation of $ℓ''(θ)$ gives us $i(θ)$:
+$$i(θ) = -E(ℓ''(θ)) = 1/σ²₀$$
+
+The Jeffreys' prior is the square root of i(θ):
+$$π(θ) ∝ (1/σ²₀)^(1/2) = 1/σ₀$$
+
+Since $σ₀$ is known, this is just a constant. Therefore:
+
+$π(θ) ∝ 1$
+
+This means the Jeffreys' prior for $θ$ is uniform (constant) over the real line. This makes intuitive sense because $θ$ is a location parameter, and we saw in the lecture notes that Jeffreys' prior for a location parameter is uniform.
+
+This is an improper prior since it cannot be normalized to integrate to 1 over the real line. However, it can still lead to a proper posterior distribution when combined with data.
+
+### Part (b):
+
+1. First, let's write the likelihood for a single observation $X$:
+
+   $f(x|\sigma) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(-\frac{(x-\mu_0)^2}{2\sigma^2}\right)$
+
+2. Taking the log-likelihood:
+
+   $\ell(\sigma) = -\frac{1}{2}\log(2\pi) - \log(\sigma) - \frac{(x-\mu_0)^2}{2\sigma^2}$
+
+3. Taking the first derivative with respect to σ:
+
+   $\ell'(\sigma) = -\frac{1}{\sigma} + \frac{(x-\mu_0)^2}{\sigma^3}$
+
+4. Taking the second derivative:
+
+   $\ell''(\sigma) = \frac{1}{\sigma^2} - \frac{3(x-\mu_0)^2}{\sigma^4}$
+
+5. Now we need to find $-E(\ell''(\sigma))$. Note that $(X-\mu_0)^2 \sim \sigma^2\chi^2_1$, so $E((X-\mu_0)^2) = \sigma^2$:
+
+   $i(\sigma) = -E(\ell''(\sigma)) = -\left(\frac{1}{\sigma^2} - \frac{3E((X-\mu_0)^2)}{\sigma^4}\right)$
+
+   $= -\frac{1}{\sigma^2} + \frac{3\sigma^2}{\sigma^4} = \frac{2}{\sigma^2}$
+
+6. The Jeffreys' prior is the square root of $i(\sigma)$:
+
+   $\pi(\sigma) \propto \sqrt{\frac{2}{\sigma^2}} = \frac{\sqrt{2}}{\sigma}$
+
+Therefore:
+
+$\pi(\sigma) \propto \frac{1}{\sigma}$
+
+This makes sense because σ is a scale parameter, and we saw in the lecture notes that the Jeffreys' prior for a scale parameter is $\frac{1}{\sigma}$. This is an improper prior but can lead to proper posterior distributions when combined with data.
+
+**For Location Parameters $(π(θ) ∝ 1)$:**
+
+A location parameter $θ$ shifts the distribution left or right without changing its shape. Think of it like sliding a bell curve along the x-axis. The key intuition is that a uniform prior $(π(θ) ∝ 1)$ makes sense here because we believe all locations should be treated equally - there's no inherent reason to prefer one location over another. Moving the distribution 5 units left should be considered just as likely as moving it 5 units right.
+
+**For Scale Parameters $(π(σ) ∝ 1/σ)$:**
+
+The intuition for scale parameters is more subtle but equally elegant. A scale parameter $σ$ stretches or squeezes the distribution. The key insight is that we should treat relative changes in scale equally, rather than absolute changes. Here's why: if we're measuring something like height, changing $σ$ from 1cm to 2cm (doubling) should be considered just as significant as changing it from 10cm to 20cm (also doubling). The $1/σ$ prior achieves this by making the prior probability proportional to the relative change rather than the absolute change
+
+### Part (c):
+
+First, let's find the Jeffreys' prior for a Poisson parameter $λ#.
+
+For a single observation $X$:
+
+$f(x|\lambda) = \frac{e^{-\lambda}\lambda^x}{x!}$
+
+The log-likelihood is:
+
+$\ell(\lambda) = -\lambda + x\log(\lambda) - \log(x!)$
+
+Taking derivatives:
+
+$\ell'(\lambda) = -1 + \frac{x}{\lambda}$
+
+$\ell''(\lambda) = -\frac{x}{\lambda^2}$
+
+For the Fisher information, we need $-E(\ell''(\lambda))$. Since $E(X) = \lambda$ for a Poisson:
+
+$i(\lambda) = -E(\ell''(\lambda)) = E\left(\frac{X}{\lambda^2}\right) = \frac{E(X)}{\lambda^2} = \frac{\lambda}{\lambda^2} = \frac{1}{\lambda}$
+
+Therefore, the Jeffreys' prior is:
+
+$\pi(\lambda) \propto \sqrt{i(\lambda)} = \frac{1}{\sqrt{\lambda}}$
+
+Now, let's check if this prior is proper. A proper prior must integrate to a finite value:
+
+$\int_0^\infty \frac{1}{\sqrt{\lambda}} d\lambda = [2\sqrt{\lambda}]_0^\infty = \infty$
+
+So the Jeffreys' prior is improper.
+
+To check if the posterior is proper, recall from Section 4.1 that for a Poisson likelihood with x successes:
+
+$\pi(\lambda|x) \propto \lambda^x e^{-\lambda} \cdot \frac{1}{\sqrt{\lambda}} = \lambda^{x-\frac{1}{2}}e^{-\lambda}$
+
+This has the form of a Gamma distribution with shape parameter $\alpha = x + \frac{1}{2}$ and rate parameter β = 1:
+
+$\pi(\lambda|x) \sim \text{Gamma}(x + \frac{1}{2}, 1)$
+
+Since this is a proper probability distribution when $x ≥ 0$ (which is always true for Poisson data), the posterior is proper.
+
+This is a good example of how an improper prior can still lead to a proper posterior distribution when combined with data. The likelihood function provides enough information to "regularize" the improper prior into a proper posterior distribution.
+
+The intuition here is that the $\frac{1}{\sqrt{\lambda}}$ prior represents minimal information about λ while respecting its role as a rate parameter, and once we observe data, we get a well-defined probability distribution that we can use for inference.
+
+<img src="Code/Figures/poisson.png" alt="alt text">
