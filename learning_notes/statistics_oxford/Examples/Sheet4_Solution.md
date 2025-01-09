@@ -397,8 +397,130 @@ Therefore, $\mu_{posterior}$ must lie between $x$ and $\theta_0$.
 This result has an intuitive meaning: the posterior mean represents a compromise between our prior beliefs ($\theta_0$) and the observed data ($x$). The weights $w$ and $(1-w)$ determine how much we "trust" each piece of information, based on their respective variances $\phi$ and $\phi_0$.
 
 Example 1: Prior mean less than observed value
-<img src="Figures/posterior1.png" alt="alt text">
+
+<img src="Code/Figures/posterior1.png" alt="alt text">
+
 Example 2: Prior mean greater than observed value
-<img src="Figures/posterior2.png" alt="alt text">
+
+<img src="Code/Figures/posterior2.png" alt="alt text">
+
 Example 3: More weight on prior due to smaller prior variance
-<img src="Figures/posterior3.png" alt="alt text">
+
+<img src="Code/Figures/posterior3.png" alt="alt text">
+
+## Solution Part (c): Construction of Highest Posterior Density (HPD) Interval
+
+We know that $\theta|X=x \sim N(\mu_{posterior}, \sigma_{posterior}^2)$ where:
+
+$$\mu_{posterior} = \frac{\frac{x}{\phi}+\frac{\theta_0}{\phi_0}}{\frac{1}{\phi}+\frac{1}{\phi_0}}$$
+
+$$\sigma_{posterior}^2 = \left(\frac{1}{\phi}+\frac{1}{\phi_0}\right)^{-1}$$
+
+### Step 1: Understanding HPD Properties
+
+For a normal distribution, the HPD interval has two key properties:
+
+1. It contains $100(1-\alpha)\%$ of the posterior probability
+2. The posterior density for any point inside the interval is greater than any point outside
+
+### Step 2: Using Normal Distribution Properties
+
+Since our posterior is normally distributed:
+
+- The HPD interval will be symmetric around $\mu_{posterior}$
+- The endpoints will be equidistant from $\mu_{posterior}$
+- For normal distributions, the HPD interval coincides with the equal-tailed interval
+
+### Step 3: Finding the Interval
+
+Let $z_{\alpha/2}$ be the upper $\alpha/2$ quantile of the standard normal distribution.
+The HPD interval is:
+
+$$[\mu_{posterior} - z_{\alpha/2}\sigma_{posterior}, \mu_{posterior} + z_{\alpha/2}\sigma_{posterior}]$$
+
+### Step 4: Explicit Form
+
+Substituting our expressions:
+
+$$\left[\frac{\frac{x}{\phi}+\frac{\theta_0}{\phi_0}}{\frac{1}{\phi}+\frac{1}{\phi_0}} \pm z_{\alpha/2}\sqrt{\left(\frac{1}{\phi}+\frac{1}{\phi_0}\right)^{-1}}\right]$$
+
+To verify this is indeed the HPD interval:
+
+1. The density at both endpoints is equal (due to symmetry)
+2. The interval contains $1-\alpha$ of the posterior probability
+3. All points inside have higher density than points outside (due to normal shape)
+
+For a 95% HPD interval:
+
+- $\alpha = 0.05$
+- $z_{0.025} = 1.96$
+
+The interval would be:
+$$\left[\mu_{posterior} \pm 1.96\sigma_{posterior}\right]$$
+
+<img src="Code/Figures/HPD.png" alt="alt text">
+
+## Solution Part c: Analysis of Posterior Distributions with Different Prior Variances
+
+For both cases:
+
+- Likelihood variance: $\phi = 2$
+- Prior mean: $\theta_0 = 0$
+- Observed value: $x = 4$
+
+### Case 1: $\phi_0 = 2$
+
+The posterior mean is:
+
+$$
+\mu_{posterior} = \frac{\frac{x}{\phi}+\frac{\theta_0}{\phi_0}}{\frac{1}{\phi}+\frac{1}{\phi_0}}
+= \frac{\frac{4}{2}+\frac{0}{2}}{\frac{1}{2}+\frac{1}{2}}
+= \frac{2}{1} = 2
+$$
+
+The posterior variance is:
+
+$$
+\sigma_{posterior}^2 = \left(\frac{1}{\phi}+\frac{1}{\phi_0}\right)^{-1}
+= \left(\frac{1}{2}+\frac{1}{2}\right)^{-1}
+= 1
+$$
+
+### Case 2: $\phi_0 = 18$
+
+The posterior mean is:
+
+$$
+\mu_{posterior} = \frac{\frac{4}{2}+\frac{0}{18}}{\frac{1}{2}+\frac{1}{18}}
+= \frac{2}{0.556}
+\approx 3.6
+$$
+
+The posterior variance is:
+
+$$
+\sigma_{posterior}^2 = \left(\frac{1}{2}+\frac{1}{18}\right)^{-1}
+\approx 1.8
+$$
+
+<img src="Code/Figures/case1.png" alt="alt text">
+
+<img src="Code/Figures/case2.png" alt="alt text">
+
+**Effect of Prior Variance:**
+
+- In Case 1 ($\phi_0 = 2$), the prior is relatively informative, with the same variance as the likelihood. This results in a posterior mean (2) that's halfway between the prior mean (0) and the observed value (4).
+- In Case 2 ($\phi_0 = 18$), the prior is much less informative. The posterior mean (3.6) is closer to the observed value (4) because we're placing less weight on our prior beliefs.
+
+**Posterior Variance:**
+
+- Case 1 has a smaller posterior variance (1) because we're combining two equally precise sources of information.
+- Case 2 has a larger posterior variance (≈1.8) because our prior information is less precise.
+
+**Frequentist Perspective:**
+
+A frequentist statistician would likely prefer the second case ($\phi_0 = 18$) because:
+
+- It represents a more diffuse (less informative) prior, allowing the data to have more influence on the final inference.
+- It's closer to the frequentist principle of letting the data speak for itself, minimizing the impact of subjective prior beliefs.
+  The larger prior variance makes the analysis more similar to traditional frequentist methods, where prior information is not formally incorporated.
