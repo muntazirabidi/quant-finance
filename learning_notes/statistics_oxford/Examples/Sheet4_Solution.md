@@ -1257,4 +1257,119 @@ $$
 
 where, $θ >0$. Calculate the Bayes factor of $H_0$ relative to $H_1$. When $n= 6,∑x_i= 19,θ_0= 2$, find the numerical value of the Bayes factor (i) when $α= 4$ and $β=23$, and (ii) when $α= 36$ and $β= 6$. Compare and interpret the valuesof the Bayes factor in cases (i) and (ii).
 
-# Solution:
+## Solution:
+
+### 1. Posterior under $H_0$ (Simple Hypothesis)
+
+Under $H_0$, we have $\theta = \theta_0$. The likelihood function is given by:
+
+$$P(X|H_0) = f(x|\theta_0) = \frac{e^{-n\theta_0}\theta_0^{\sum x_i}}{\prod_{i=1}^n x_i!}$$
+
+### 2. Posterior under $H_1$ (Composite Hypothesis)
+
+Under $H_1$, $\theta$ follows a prior distribution:
+
+$$\pi(\theta|H_1) = \frac{\beta^\alpha}{\Gamma(\alpha)}\theta^{\alpha-1}e^{-\beta\theta}, \theta > 0$$
+
+The marginal likelihood under $H_1$ is calculated through integration:
+
+$$P(X|H_1) = \int_0^\infty f(x|\theta)\pi(\theta|H_1) d\theta$$
+
+where the likelihood function is:
+
+$$f(x|\theta) = \frac{e^{-n\theta}\theta^{\sum x_i}}{\prod_{i=1}^n x_i!}$$
+
+Combining these expressions:
+
+$$P(X|H_1) = \frac{\beta^\alpha}{\Gamma(\alpha)\prod_{i=1}^n x_i!}\int_0^\infty e^{-n\theta}\theta^{\sum x_i} \cdot \theta^{\alpha-1}e^{-\beta\theta} d\theta$$
+
+The integral simplifies to:
+
+$$P(X|H_1) = \frac{\beta^\alpha}{\Gamma(\alpha)\prod_{i=1}^n x_i!}\int_0^\infty e^{-(n+\beta)\theta}\theta^{\sum x_i + \alpha-1} d\theta$$
+
+Using the Gamma integral formula:
+
+$\int_0^\infty e^{-z}z^{k-1} dz = \Gamma(k)$
+
+We obtain:
+
+$$P(X|H_1) = \frac{\beta^\alpha}{\Gamma(\alpha)\prod_{i=1}^n x_i!} \cdot \frac{\Gamma(\alpha+\sum x_i)}{(n+\beta)^{\alpha+\sum x_i}}$$
+
+### 3. Bayes Factor $B_{01}$
+
+The Bayes factor is defined as the ratio:
+
+$$B_{01} = \frac{P(X|H_0)}{P(X|H_1)}$$
+
+Substituting the expressions for $P(X|H_0)$ and $P(X|H_1)$:
+
+$$B_{01} = \frac{e^{-n\theta_0}\theta_0^{\sum x_i}}{\prod_{i=1}^n x_i!} \cdot \frac{\Gamma(\alpha)\prod_{i=1}^n x_i!}{(n+\beta)^{\alpha+\sum x_i}}\frac{\beta^\alpha}{\Gamma(\alpha+\sum x_i)}$$
+
+Simplifying:
+
+$$B_{01} = \frac{e^{-n\theta_0}\theta_0^{\sum x_i}\beta^\alpha\Gamma(\alpha)}{(n+\beta)^{\alpha+\sum x_i}\Gamma(\alpha+\sum x_i)}$$
+
+### Numerical Calculation of Bayes Factors
+
+Let's calculate the Bayes factors for two different prior specifications using the formula we derived earlier.
+
+- Sample size: $n = 6$
+- Sum of observations: $\sum x_i = 19$
+- Null hypothesis value: $\theta_0 = 2$
+
+### Case (i): First Prior Specification
+
+- Shape parameter: $\alpha = 4$
+- Rate parameter: $\beta = 23$
+
+The Bayes factor is calculated as:
+
+$$B_{01} = \frac{e^{-12} \cdot 2^{19} \cdot \Gamma(4) \cdot 23^4}{\Gamma(23) \cdot (29)^{23}}$$
+
+Let's break this calculation down:
+
+```python
+import math
+from scipy.special import gamma
+
+# Calculate components
+term1 = math.exp(-6 * 2) * 2**19          # Likelihood under H0
+term2 = gamma(4) * (6 + 23)**(4 + 19)     # Denominator components
+term3 = 23**4 * gamma(4 + 19)             # Numerator components
+
+B01_case1 = term1 * term2 / term3
+print(f"B01 (Case i) ≈ {B01_case1:.2e}")  # Scientific notation
+```
+
+Result: $B_{01} \approx 2.65 \times 10^8$
+
+### Case (ii): Second Prior Specification
+
+- Shape parameter: $\alpha = 36$
+- Rate parameter: $\beta = 6$
+
+The Bayes factor is:
+
+$$B_{01} = \frac{e^{-12} \cdot 2^{19} \cdot \Gamma(36) \cdot 6^{36}}{\Gamma(55) \cdot (12)^{55}}$$
+
+```python
+# Calculate components for case (ii)
+term1 = math.exp(-6 * 2) * 2**19          # Likelihood under H0
+term2 = gamma(36) * (6 + 6)**(36 + 19)    # Denominator components
+term3 = 6**36 * gamma(36 + 19)            # Numerator components
+
+B01_case2 = term1 * term2 / term3
+print(f"B01 (Case ii) ≈ {B01_case2:.2f}") # Regular decimal notation
+```
+
+Result: $B_{01} \approx 3.17$
+
+### Interpretation
+
+1. In Case (i), the Bayes factor of $2.65 \times 10^8$ indicates extremely strong evidence in favor of $H_0$ compared to $H_1$. This large value suggests that the data strongly supports the null hypothesis $\theta = 2$ over the alternative.
+
+2. In Case (ii), the Bayes factor of $3.17$ indicates only modest evidence in favor of $H_0$. While still supporting the null hypothesis, the evidence is much weaker than in Case (i).
+
+The dramatic difference between these two Bayes factors demonstrates how sensitive the analysis is to prior specifications. The first prior ($\alpha = 4$, $\beta = 23$) leads to much stronger evidence for $H_0$ than the second prior ($\alpha = 36$, $\beta = 6$). This sensitivity highlights the importance of careful prior selection in Bayesian hypothesis testing.
+
+<img src="Code/Figures/priorQ10.png" alt="alt text">
