@@ -1373,3 +1373,118 @@ Result: $B_{01} \approx 3.17$
 The dramatic difference between these two Bayes factors demonstrates how sensitive the analysis is to prior specifications. The first prior ($\alpha = 4$, $\beta = 23$) leads to much stronger evidence for $H_0$ than the second prior ($\alpha = 36$, $\beta = 6$). This sensitivity highlights the importance of careful prior selection in Bayesian hypothesis testing.
 
 <img src="Code/Figures/priorQ10.png" alt="alt text">
+
+# Key Concepts from Bayesian Statistics (Sheet 4)
+
+## 1. Fundamental Concept: Bayes' Theorem
+
+The cornerstone of Bayesian statistics is Bayes' theorem, which updates prior beliefs with observed data:
+
+$$P(\theta|X) = \frac{P(X|\theta)P(\theta)}{P(X)}$$
+
+where:
+
+- $P(\theta|X)$ is the posterior distribution
+- $P(X|\theta)$ is the likelihood
+- $P(\theta)$ is the prior distribution
+- $P(X)$ is the marginal likelihood
+
+## 2. Beta-Binomial Conjugate Model
+
+When we have binomial data and use a Beta prior, we get a beautiful conjugate relationship:
+
+Prior: $\theta \sim \text{Beta}(a,b)$
+
+Data: $X \sim \text{Binomial}(n,\theta)$
+
+Posterior: $\theta|X \sim \text{Beta}(a + x, b + n - x)$
+
+This has an intuitive interpretation: we simply add successes ($x$) to the first parameter and failures ($n-x$) to the second parameter. The parameters can be thought of as "pseudo-counts" - $a$ represents prior successes and $b$ represents prior failures.
+
+## 3. Normal Distribution with Unknown Mean
+
+For normal data with known variance $\sigma^2$:
+
+Prior: $\theta \sim N(\mu_0, \tau_0^2)$
+
+Data: $X \sim N(\theta, \sigma^2)$
+
+Posterior: $\theta|X \sim N(\mu_n, \tau_n^2)$
+
+where:
+$$\mu_n = \frac{\frac{1}{\tau_0^2}\mu_0 + \frac{n}{\sigma^2}\bar{x}}{\frac{1}{\tau_0^2} + \frac{n}{\sigma^2}}$$
+$$\frac{1}{\tau_n^2} = \frac{1}{\tau_0^2} + \frac{n}{\sigma^2}$$
+
+The posterior mean is a precision-weighted average of the prior mean and sample mean.
+
+## 4. Jeffreys' Non-informative Priors
+
+Jeffreys' priors are designed to be "objective" priors that are invariant under parameter transformations:
+
+- Location parameters: $\pi(\theta) \propto 1$
+- Scale parameters: $\pi(\sigma) \propto \frac{1}{\sigma}$
+- Poisson rate: $\pi(\lambda) \propto \frac{1}{\sqrt{\lambda}}$
+
+## 5. Bayes Factors for Hypothesis Testing
+
+The Bayes Factor comparing hypotheses $H_0$ and $H_1$ is:
+
+$$B_{01} = \frac{P(X|H_0)}{P(X|H_1)}$$
+
+For simple vs. composite hypotheses:
+
+$$B_{01} = \frac{f(X|\theta_0)}{\int f(X|\theta)\pi(\theta|H_1)d\theta}$$
+
+Interpretation:
+
+- $B_{01} > 1$: Evidence favors $H_0$
+- $B_{01} < 1$: Evidence favors $H_1$
+
+## 6. Predictive Distributions
+
+The posterior predictive distribution for future observation $Y$ is given by:
+
+$$P(Y|X) = \int P(Y|\theta)P(\theta|X)d\theta$$
+
+This formula elegantly captures two key sources of uncertainty in our predictions:
+
+1. **Parameter Uncertainty**: Through $P(\theta|X)$, we account for the fact that we don't know the true parameter values with certainty. Instead, we use our posterior distribution that reflects both our prior knowledge and what we've learned from the data.
+
+2. **Sampling Variability**: Through $P(Y|\theta)$, we acknowledge that even if we knew the true parameters, future observations would still be random.
+
+Let's look at a concrete example with the Beta-Binomial model:
+
+Suppose we're predicting future coin flips. After observing $x$ heads in $n$ flips, and starting with a $\text{Beta}(a,b)$ prior, our posterior is $\text{Beta}(a+x, b+n-x)$. The predictive probability of heads on the next flip is:
+
+$$P(Y=1|X) = \int_0^1 \theta \cdot \text{Beta}(\theta|a+x,b+n-x)d\theta = \frac{a+x}{a+b+n}$$
+
+This shows how prediction combines prior beliefs $(a,b)$ with observed data $(x,n)$ in an intuitive way. The denominator $(a+b+n)$ represents our total information: prior $(a+b)$ plus sample size $(n).$
+
+For the Normal case with known variance $\sigma^2$, if our posterior for the mean is $N(\mu_n,\tau_n^2)$, then:
+
+$$Y|X \sim N(\mu_n, \sigma^2 + \tau_n^2)$$
+
+Notice how the predictive variance ($\sigma^2 + \tau_n^2$) is larger than either the parameter uncertainty ($\tau_n^2$) or the sampling variance ($\sigma^2$) alone - this reflects the cumulative effect of both sources of uncertainty.
+
+These distributions are crucial for:
+
+- Making probabilistic forecasts
+- Assessing model fit (via posterior predictive checks)
+- Decision making under uncertainty
+- Cross-validation in Bayesian settings
+
+## 7. Convergence Properties
+
+As sample size increases:
+
+- Posterior distribution concentrates around true parameter value
+- Impact of prior diminishes
+- Posterior variance decreases
+
+Mathematically, if $X_1,...,X_n \sim f(x|\theta)$ and $n \to \infty$:
+
+$$\theta|X_1,...,X_n \xrightarrow{d} N(\theta_0, \frac{1}{nI(\theta_0)})$$
+
+where $I(\theta_0)$ is the Fisher information.
+
+Would you like me to elaborate on any of these concepts or provide more specific examples?
