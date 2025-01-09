@@ -1246,3 +1246,15 @@ This is intuitively expected because:
 4. A Bayes factor approaching 0 indicates strong evidence against $H_0$ and in favor of $H_1$
 
 This aligns with our common sense: if we keep flipping a coin and get heads every time, we become increasingly convinced that the coin is biased toward heads (i.e., $\theta > 1/2$).
+
+# Question 10:
+
+Suppose we have a random sample $X_1,\dots,X_n$ from a Poisson distribution with mean $θ$. Suppose we wish to test the hypothesis $H_0:θ=θ_0$ against $H1:θ \neq θ_0$ and that, under $H_1$, the prior distribution $π(θ|H1)$ for $θ$ is given by
+
+$$
+π(θ|H1) = \frac{β^α}{Γ(α)} θ^{α−1}e^{−βθ}
+$$
+
+where, $θ >0$. Calculate the Bayes factor of $H_0$ relative to $H_1$. When $n= 6,∑x_i= 19,θ_0= 2$, find the numerical value of the Bayes factor (i) when $α= 4$ and $β=23$, and (ii) when $α= 36$ and $β= 6$. Compare and interpret the valuesof the Bayes factor in cases (i) and (ii).
+
+# Solution:
