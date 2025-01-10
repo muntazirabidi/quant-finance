@@ -1486,5 +1486,3 @@ Mathematically, if $X_1,...,X_n \sim f(x|\theta)$ and $n \to \infty$:
 $$\theta|X_1,...,X_n \xrightarrow{d} N(\theta_0, \frac{1}{nI(\theta_0)})$$
 
 where $I(\theta_0)$ is the Fisher information.
-
-Would you like me to elaborate on any of these concepts or provide more specific examples?
