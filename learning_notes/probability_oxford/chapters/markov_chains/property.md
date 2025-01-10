@@ -97,6 +97,78 @@ P_n = n_step_transition(P, n)
 print(f"3-step transition probabilities:\n{P_n}")
 ```
 
+Let me help you understand this important proposition by breaking it down step by step and building an intuitive understanding.
+
+## Constructing Markov Chains
+
+For a random process $(Y_n, n \geq 0)$, if we can write:
+$$Y_{n+1} = f(Y_n, X_{n+1})$$
+where $X_{n+1}$ is independent of $Y_0, Y_1, ..., Y_n$, then $(Y_n)$ is a Markov chain.
+
+Think of this as a "recipe" for building Markov chains. The key insight is that the next state ($Y_{n+1}$) is constructed using:
+
+1. Only the current state ($Y_n$)
+2. Some new, independent randomness ($X_{n+1}$)
+
+### Mathematical Proof Walkthrough
+
+To prove this creates a Markov chain, we need to show:
+$$P(Y_{n+1} = i_{n+1}|Y_n = i_n, ..., Y_0 = i_0) = P(Y_{n+1} = i_{n+1}|Y_n = i_n)$$
+
+The proof follows these steps:
+
+1. First, write out the conditional probability using $f$:
+   $$P(f(i_n, X_{n+1}) = i_{n+1}|Y_n = i_n, ..., Y_0 = i_0)$$
+
+2. Because $X_{n+1}$ is independent of all past $Y$'s:
+   $$= P(f(i_n, X_{n+1}) = i_{n+1})$$
+
+3. This only depends on $i_n$, giving us:
+   $$= P(f(i_n, X_{n+1}) = i_{n+1}|Y_n = i_n)$$
+4. Which is equivalent to:
+   $$= P(Y_{n+1} = i_{n+1}|Y_n = i_n)$$
+
+### Practical Example: Random Walk
+
+Let's see how this works for a simple random walk:
+
+```python
+import numpy as np
+
+def random_walk_step(current_position, step):
+    """
+    f(Y_n, X_{n+1}) for random walk
+    current_position: Y_n
+    step: X_{n+1} (±1 with equal probability)
+    """
+    return current_position + step
+
+# Simulate 10 steps
+Y = [0]  # Start at 0
+for n in range(10):
+    # Generate independent X_{n+1}
+    X_next = np.random.choice([-1, 1])
+    # Apply f to get next state
+    Y_next = random_walk_step(Y[-1], X_next)
+    Y.append(Y_next)
+
+print("Random walk path:", Y)
+```
+
+Here:
+
+- $X_{n+1}$ are independent ±1 steps
+- $f(y,x) = y + x$ is our update function
+- The resulting process is indeed a Markov chain
+
+This proposition gives us a powerful way to:
+
+1. Construct new Markov chains
+2. Verify if a process is Markovian
+3. Understand the structure of existing Markov chains
+
+It's particularly useful because many natural processes can be written in this form, explaining why Markov chains appear so often in practice.
+
 ## 5. Important Properties and Implications
 
 1. **Time Reversibility**:
