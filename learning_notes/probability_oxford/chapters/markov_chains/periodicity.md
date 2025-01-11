@@ -136,3 +136,98 @@ From the lecture notes' Example 5.5:
 - State 7 (absorbing) has period 1
 
 This shows how different periods can exist within the same chain but are consistent within communicating classes.
+
+## 6 Irreducibility
+
+A Markov chain is irreducible if every state can reach every other state. Mathematically:
+
+- For all states $i,j \in I$, we have $i \rightarrow j$
+- Where $i \rightarrow j$ means $P_i(X_n = j) > 0$ for some $n \geq 0$
+
+Think of irreducibility as "connectivity" - can you travel from any point to any other point in your chain?
+
+### 6.1 Random Walk on a Cycle with $M$ Points
+
+Let's examine this beautiful example where we can see both concepts at work:
+
+1. **Irreducibility**:
+
+   - Every position can reach every other position
+   - Just like walking around a circle - you can always get anywhere
+   - This makes the chain irreducible
+
+2. **Periodicity**:
+   When $M$ is even:
+
+   - Must take an even number of steps to return to start
+   - Like alternating between odd and even numbers
+   - Has period 2
+
+   When $M$ is odd:
+
+   - Can return in any sufficiently large number of steps
+   - The odd length breaks any forced patterns
+   - Is aperiodic (period 1)
+
+### 6.2 Random Walk on $\mathbb{Z}^d$
+
+This example shows how periodicity can exist in higher dimensions:
+
+1. **Irreducibility**:
+
+   - Can reach any point by following grid lines
+   - Think of walking on a city street grid
+
+2. **Periodicity**:
+   - Always has period 2
+   - Each step alternates between:
+     - Points with even sum of coordinates
+     - Points with odd sum of coordinates
+
+### 6.3 Card Shuffling Example
+
+This shows how real-world applications can be aperiodic:
+
+1. **Irreducibility**:
+
+   - Can reach any card arrangement
+   - Uses transpositions (swaps) to generate all permutations
+
+2. **Aperiodicity**:
+   - Can stay in same state (no swap)
+   - No forced waiting time between returns
+   - $p_{ii} > 0$ for all states
+
+## 7. Convergence and Long-term Behavior
+
+The interplay between periodicity and irreducibility determines long-term behavior:
+
+### 7.1 Why Both Properties Matter
+
+Consider a Markov chain trying to "forget" its starting point:
+
+1. **Periodicity Problems**:
+   In a period-2 chain:
+
+   - Starting at even state → always even at even times
+   - Starting at odd state → always odd at even times
+   - Never truly "forgets" parity of start
+
+2. **Irreducibility Problems**:
+   With multiple closed classes:
+   - Chain gets "trapped" in one class
+   - Never explores other classes
+   - Starting point determines long-term fate
+
+### 7.2 Convergence Theorem
+
+For convergence to equilibrium, we need:
+
+1. Irreducibility (can explore everywhere)
+2. Aperiodicity (no forced rhythms)
+
+This ensures the chain:
+
+- Fully explores its state space
+- Loses memory of its starting point
+- Approaches a unique stationary distribution

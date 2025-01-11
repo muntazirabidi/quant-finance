@@ -3,8 +3,8 @@
 | 5.1     | Definition of Markov Chains          | ✅ Completed   | 5/5 Sections | 2025-01-10   |
 | 5.2     | Markov Property & n-step Transitions | ✅ Completed   | 4/4 Sections | 2025-01-10   |
 | 5.3     | Class Structure & Communication      | ✅ Completed   | 3/3 Sections | 2025-01-10   |
-| 5.4     | Periodicity                          | 🚧 In Progress | 0/2 Sections | 2025-01-10   |
-| 5.5     | Hitting Probabilities                | 📝 Not Started | 0/2 Sections | 2025-01-10   |
+| 5.4     | Periodicity                          | ✅ Completed   | 2/2 Sections | 2025-01-10   |
+| 5.5     | Hitting Probabilities                | 🚧 In Progress | 0/2 Sections | 2025-01-10   |
 | 5.6     | Gambler's Ruin                       | 📝 Not Started | 0/2 Sections | 2025-01-10   |
 | 5.7     | Recurrence and Transience            | 📝 Not Started | 0/3 Sections | 2025-01-10   |
 | 5.8     | Random Walk in Z^d                   | 📝 Not Started | 0/4 Sections | 2025-01-10   |
