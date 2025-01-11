@@ -491,3 +491,82 @@ p^2 + (1-p)^2 & 2p(1-p) \\
 \end{bmatrix}$
 
 This matrix is symmetric due to the identical behavior when transitioning between states 1 and -1.
+
+# Question 5: Proving Properties of Communicating Classes in Markov Chains
+
+Let $C$ be a communicating class of a Markov chain. Prove the following statements:
+
+(a) Either all states in $C$ are recurrent, or all are transient. _[Hint: use the criterion in terms of $∑p^{(n)}_{ii}$ to show that if $i$ is recurrent and $i↔j$ then also $j$ is recurrent.]\_
+
+(b) If $C$ is recurrent then $C$ is closed. If $C$ is finite and closed, then $C$ is recurrent
+
+## Solution:
+
+Let's explore these fundamental properties of Markov chains through rigorous mathematical proof.
+
+## Part A: Uniformity of Recurrence in Communicating Classes
+
+### Theorem
+
+Let $C$ be a communicating class. Either all states in $C$ are recurrent, or all states are transient.
+
+### Proof
+
+Let's prove this systematically:
+
+1. Recall the criterion for recurrence:
+
+   - A state $i$ is recurrent if $\sum_{n=0}^{\infty} p_{ii}^{(n)} = \infty$
+   - A state $i$ is transient if $\sum_{n=0}^{\infty} p_{ii}^{(n)} < \infty$
+
+2. Consider two states $i, j \in C$ where $i \leftrightarrow j$
+
+   - This means $\exists a, b \in \mathbb{N}$ such that:
+   - $p_{ij}^{(a)} > 0$ (can reach $j$ from $i$ in $a$ steps)
+   - $p_{ji}^{(b)} > 0$ (can reach $i$ from $j$ in $b$ steps)
+
+3. For any path from $i$ to $i$ of length $n$:
+
+   - We can construct a path from $j$ to $j$ of length $n+a+b$ by:
+     - Going from $j$ to $i$ in $b$ steps
+     - Following the $i$ to $i$ path in $n$ steps
+     - Going from $i$ to $j$ in $a$ steps
+
+4. This gives us:
+   $p_{jj}^{(n+a+b)} \geq p_{ji}^{(b)} \cdot p_{ii}^{(n)} \cdot p_{ij}^{(a)} = c \cdot p_{ii}^{(n)}$
+   where $c = p_{ji}^{(b)} \cdot p_{ij}^{(a)} > 0$
+
+5. Therefore:
+   $\sum_{n=0}^{\infty} p_{jj}^{(n)} \geq c \sum_{n=0}^{\infty} p_{ii}^{(n)}$
+
+6. Thus:
+   - If $i$ is recurrent ($\sum p_{ii}^{(n)} = \infty$), then $j$ must also be recurrent
+   - By symmetry, if $j$ is recurrent, then $i$ must be recurrent
+
+## Part B: Properties of Recurrent and Closed Classes
+
+### Theorem
+
+1. If $C$ is recurrent, then $C$ is closed
+2. If $C$ is finite and closed, then $C$ is recurrent
+
+### Proof of Statement 1
+
+Proof by contradiction:
+
+1. Suppose $C$ is recurrent but not closed
+2. $\exists i \in C$ and $j \notin C$ such that $p_{ij} > 0$
+3. This means $P(\text{never returning to }i) > 0$
+4. But this contradicts the definition of recurrence
+5. Therefore $C$ must be closed
+
+### Proof of Statement 2
+
+1. Let $C$ be finite and closed
+2. For any $i \in C$:
+   - The chain must stay in $C$ (since $C$ is closed)
+   - Since $C$ is finite, by the pigeonhole principle, some state must be visited infinitely often
+   - All states communicate $\Rightarrow$ all states are visited infinitely often
+   - Therefore each state is recurrent
+
+This completes our proof of both key properties of communicating classes in Markov chains.
