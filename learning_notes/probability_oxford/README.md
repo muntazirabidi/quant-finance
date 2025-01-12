@@ -6,7 +6,7 @@
 | 2       | Convergenc           | ✅ Completed   | 6/6 Topics  | 2024-12-15   |
 | 3       | Generating functions | ✅ Completed   | 4/4 Topics  | 2024-12-29   |
 | 4       | Joint distribution   | ✅ Completed   | 4/4 Topics  | -            |
-| 5       | Markov chains        | 🚧 In Progress | 3/10 Topics | 2025-01-10   |
+| 5       | Markov chains        | 🚧 In Progress | 7/10 Topics | 2025-01-11   |
 
 ## Example Sheets
 
@@ -14,7 +14,7 @@
 | --- | -------------- | ------------ |
 | 1   | ✅ Completed   | 2024-12-30   |
 | 2   | ✅ Completed   | 2024-12-31   |
-| 3   | 📝 Not Started | -            |
+| 3   | 🚧 In Progress | 2025-01-11   |
 | 4   | 📝 Not Started | -            |
 
 ## Legend

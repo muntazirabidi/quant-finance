@@ -570,3 +570,209 @@ Proof by contradiction:
    - Therefore each state is recurrent
 
 This completes our proof of both key properties of communicating classes in Markov chains.
+
+# Question 6: Gambler's Ruin Problem with Variable Stakes
+
+Consider a gambling scenario where:
+
+Let $X = \{X_n : n \geq 0\}$ represent a gambler's capital after the $n$-th coin toss, where:
+
+- Initial capital is £8 ($X_0 = 8$)
+- Target amount is £10
+- Game involves betting on a fair coin where:
+  - Heads: win amount equal to stake plus stake returned
+  - Tails: lose entire stake
+
+The gambler employs the following strategy:
+
+- If capital $< £5$: stake entire amount
+- If capital $\geq £5$: stake amount needed to reach £10 if won
+
+For example:
+
+- First stake = £2
+- After first toss: $X_1 = \begin{cases} 10 & \text{if heads} \\ 6 & \text{if tails} \end{cases}$
+
+### Part (a)
+
+Describe $(X_n, n \geq 0)$ as a Markov chain.
+
+### Part (b)
+
+Calculate $\mathbb{E}[\tau]$ where $\tau$ is the number of coin tosses until either:
+
+- Reaching £10, or
+- Losing all money
+
+### Part (c)
+
+Prove that $\mathbb{P}(\text{reach £10}) = \frac{4}{5}$
+
+### Part (d)
+
+Show that:
+$$\mathbb{P}(X_1 = 10 \mid \text{eventually reach £10}) = \frac{5}{8}$$
+
+Then describe the distribution of $(X_n, n \geq 0)$ conditional on reaching £10.
+
+### Part (e)
+
+For a Markov chain $(X_n, n \geq 0)$ on $\mathbb{N}$ with:
+
+- $p_{0,0} = 1$
+- $p_{i,i+1} = p = 1 - p_{i,i-1}$ for $i \geq 1$
+- $p > \frac{1}{2}$ (upward bias)
+- $X_0 = j > 0$
+
+Given that the probability of absorption at 0 is $(\frac{1-p}{p})^j$, describe the distribution of $(X_n, n \geq 0)$ conditional on absorption at 0.
+
+## Solution:
+
+Imagine you start with £8 in your pocket and you're trying to turn it into £10. You're playing a simple coin flip game at a casino. Here's how it works:
+When you bet money (let's say £2), one of two things can happen:
+
+1. If the coin lands on heads, you win the same amount you bet (so you'd win £2 and get your original £2 back, meaning you now have £10)
+2. If it lands on tails, you lose whatever you bet (so you'd lose your £2 and now have £6)
+
+The interesting part is how the gambler decides how much to bet. They follow this strategy:
+
+- If they have less than £5, they go "all in" and bet everything they have (desperate times!)
+- If they have £5 or more, they're more careful. They only bet exactly what they need to reach £10 if they win
+
+## Solution Part (a):
+
+The key is to carefully enumerate all possible transitions based on the stated rules. The transitions depend on the gambler's current capital:
+
+1. If $X_n = 0$ or $X_n = 10$, these are absorbing states. Once the gambler's capital reaches £0 or £10, no further changes occur. Thus:
+
+   $P(X_{n+1} = 0|X_n = 0) = 1$ and $P(X_{n+1} = 10|X_n = 10) = 1$
+
+2. If $X_n < 5$, the gambler stakes all their capital, so their possible states after the next toss are:
+
+   - On heads (win), the capital doubles to $2X_n$
+   - On tails (loss), the capital becomes £0
+
+   The transition probabilities are:
+
+   $P(X_{n+1} = 2X_n|X_n) = \frac{1}{2}$ and $P(X_{n+1} = 0|X_n) = \frac{1}{2}$
+
+3. If $5 \leq X_n < 10$, the gambler stakes just enough to reach £10 if they win. If they lose, they drop to $X_n - (10 - X_n) = 2X_n - 10$ (their stake is $10 - X_n$). The transitions are:
+
+   - On heads (win), capital becomes £10
+   - On tails (loss), capital becomes $2X_n - 10$
+
+   The transition probabilities are:
+
+   $P(X_{n+1} = 10|X_n) = \frac{1}{2}$ and $P(X_{n+1} = 2X_n - 10|X_n) = \frac{1}{2}$
+
+4. If $X_n = 5$, the gambler stakes £5 to reach £10 or £0:
+
+   $P(X_{n+1} = 10|X_n = 5) = \frac{1}{2}$ and $P(X_{n+1} = 0|X_n = 5) = \frac{1}{2}$
+
+The transition matrix $P$ for this Markov chain is an 11×11 matrix (for states 0 through 10) given by:
+
+$$
+P = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+\frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+\frac{1}{2} & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 & 0 \\
+\frac{1}{2} & 0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 \\
+\frac{1}{2} & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 \\
+\frac{1}{2} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} \\
+0 & 0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & \frac{1}{2} \\
+0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & \frac{1}{2} \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+\end{bmatrix}
+$$
+
+Let me explain the structure of this transition matrix:
+
+1. Row 0 and row 10 have a single 1 on the diagonal since these are absorbing states - once you reach £0 or £10, you stay there.
+
+2. For states 1-4, on a win (probability 1/2) the capital doubles, and on a loss (probability 1/2) it goes to 0. This creates transitions to either state 0 or state 2×i where i is the current state.
+
+3. For state 5, there's a probability 1/2 of transitioning to 0 and 1/2 of reaching 10.
+
+4. For states 6-9, on a win (probability 1/2) the gambler reaches state 10, and on a loss (probability 1/2) they lose twice their stake, landing at state 2i-10 where i is the current state.
+
+This matrix fully captures the dynamics of the gambling system, showing all possible transitions and their probabilities. Each row sums to 1, as required for a valid transition matrix.
+
+## Part (b):
+
+Starting with £8, let's think about what happens at each step and how to calculate the expected number of tosses until reaching either £0 or £10.
+
+Let's say $m_i$ represents the expected number of tosses needed when starting with £i.
+
+Since we start with £8, let's understand what happens here:
+
+1. When we have £8, we need to reach £10, so we stake £2
+2. After one toss:
+   - With probability 1/2 (heads), we win and reach £10
+   - With probability 1/2 (tails), we lose £2 and drop to £6
+
+We can write this as an equation:
+$m_8 = 1 + \frac{1}{2}m_{10} + \frac{1}{2}m_6$
+
+Since £10 is our target, $m_{10} = 0$. So:
+$m_8 = 1 + \frac{1}{2}m_6$
+
+Now at £6:
+
+- We stake £4 (to reach £10 if we win)
+- With heads, we reach £10
+- With tails, we drop to £2 (losing £4)
+
+So:
+$m_6 = 1 + \frac{1}{2}m_{10} + \frac{1}{2}m_2 = 1 + \frac{1}{2}m_2$
+
+At £2:
+
+- We stake everything (£2)
+- With heads, we reach £4
+- With tails, we lose everything
+
+So:
+
+$m_2 = 1 + \frac{1}{2}m_4 + \frac{1}{2}m_0$
+
+From £8: $m_8 = 1 + \frac{1}{2}m_6$
+
+From £6: $m_6 = 1 + \frac{1}{2}m_2$
+
+From £2: $m_2 = 1 + \frac{1}{2}m_4$
+
+From £4: $m_4 = 1 + \frac{1}{2}m_8$
+
+Let's solve this system of equations by substituting back. First, let's substitute the expression for $m_4$ into the equation for $m_2$:
+
+$m_2 = 1 + \frac{1}{2}(1 + \frac{1}{2}m_8)$
+
+$m_2 = 1 + \frac{1}{2} + \frac{1}{4}m_8$
+
+Now we can substitute this expression for $m_2$ into the equation for $m_6$:
+
+$m_6 = 1 + \frac{1}{2}(1 + \frac{1}{2} + \frac{1}{4}m_8)$
+
+$m_6 = 1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8}m_8$
+
+Finally, we can substitute this into our original equation for $m_8$:
+
+$m_8 = 1 + \frac{1}{2}(1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8}m_8)$
+
+$m_8 = 1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8} + \frac{1}{16}m_8$
+
+Now we can solve for $m_8$:
+
+$\frac{15}{16}m_8 = 1 + \frac{1}{2} + \frac{1}{4} + \frac{1}{8} = \frac{15}{8}$
+
+Therefore:
+
+$m_8 = \frac{15}{8} \times \frac{16}{15} = 2$
+
+So starting with £8, it takes on average 2 tosses until either reaching £10 or losing everything. This makes intuitive sense because:
+
+- With probability 1/2, we win on the first toss and reach £10
+- With probability 1/2, we lose and drop to £6, from where we need on average 2 more tosses
+- So the average is $\frac{1}{2}(1) + \frac{1}{2}(1+2) = 2$ tosses
