@@ -672,19 +672,19 @@ The key is to carefully enumerate all possible transitions based on the stated r
 The transition matrix $P$ for this Markov chain is an 11×11 matrix (for states 0 through 10) given by:
 
 $$
-P = \begin{bmatrix}
+P = \begin{pmatrix}
 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 \frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 \frac{1}{2} & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 & 0 \\
 \frac{1}{2} & 0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 \\
-\frac{1}{2} & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 \\
-\frac{1}{2} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} \\
-0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
-0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} \\
-0 & 0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & \frac{1}{2} \\
+\frac{1}{2} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 \\
 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & \frac{1}{2} \\
+0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} \\
+0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} \\
+0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} & 0 & 0 & 0 & \frac{1}{2} \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & \frac{1}{2} & 0 & \frac{1}{2} \\
 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
-\end{bmatrix}
+\end{pmatrix}
 $$
 
 Let me explain the structure of this transition matrix:
@@ -776,3 +776,246 @@ So starting with £8, it takes on average 2 tosses until either reaching £10 or
 - With probability 1/2, we win on the first toss and reach £10
 - With probability 1/2, we lose and drop to £6, from where we need on average 2 more tosses
 - So the average is $\frac{1}{2}(1) + \frac{1}{2}(1+2) = 2$ tosses
+
+Let me solve part (c) step by step, explaining the reasoning clearly.
+
+## Solution Part (c): Proving P(reach £10) = 4/5
+
+Let's solve this systematically using hitting probabilities.
+
+Let $h(x)$ represent the probability of reaching £10 starting from £x. We need to find $h(8)$ since we start with £8.
+
+First, let's establish our boundary conditions:
+
+- $h(0) = 0$ (if we lose everything, we can't reach £10)
+- $h(10) = 1$ (if we reach £10, we're done)
+
+For any other state $x$, we can write equations based on the next possible transitions:
+
+### For states x < 5:
+
+When our capital is less than £5, we bet everything. From state $x$:
+
+- With probability $\frac{1}{2}$, we lose everything (go to 0)
+- With probability $\frac{1}{2}$, we double our money (go to $2x$)
+
+This gives us:
+$$h(x) = \frac{1}{2}h(0) + \frac{1}{2}h(2x) \text{ for } x < 5$$
+
+### For states x ≥ 5:
+
+When our capital is at least £5, we bet what we need to reach £10. From state $x$:
+
+- With probability $\frac{1}{2}$, we lose our stake (go to $x-(10-x)$)
+- With probability $\frac{1}{2}$, we reach our target (go to 10)
+
+This gives us:
+$$h(x) = \frac{1}{2}h(2x-10) + \frac{1}{2} \text{ for } x \geq 5$$
+
+### Working backwards from our starting state £8:
+
+$$h(8) = \frac{1}{2}h(6) + \frac{1}{2}$$
+$$h(6) = \frac{1}{2}h(2) + \frac{1}{2}$$
+$$h(2) = \frac{1}{2}h(0) + \frac{1}{2}h(4)$$
+$$h(4) = \frac{1}{2}h(0) + \frac{1}{2}h(8)$$
+
+### Solving the system:
+
+1. From $h(2)$ equation:
+   $$h(2) = \frac{1}{2}(0) + \frac{1}{2}h(4) = \frac{1}{2}h(4)$$
+
+2. From $h(4)$ equation:
+   $$h(4) = 0 + \frac{1}{2}h(8)$$
+
+3. Therefore:
+   $$h(2) = \frac{1}{4}h(8)$$
+
+4. From $h(6)$ equation:
+   $$h(6) = \frac{1}{2}h(2) + \frac{1}{2} = \frac{1}{8}h(8) + \frac{1}{2}$$
+
+5. Finally, from $h(8)$ equation:
+   $$h(8) = \frac{1}{2}(\frac{1}{8}h(8) + \frac{1}{2}) + \frac{1}{2}$$
+   $$h(8) = \frac{1}{16}h(8) + \frac{1}{4} + \frac{1}{2}$$
+   $$\frac{15}{16}h(8) = \frac{3}{4}$$
+   $$h(8) = \frac{4}{5}$$
+
+Therefore, starting with £8, the probability of reaching £10 is $\frac{4}{5}$.
+
+## Solution Part (d): Conditional Probabilities Given Success
+
+Part (d) asks us to prove two things:
+
+1. Show that $\mathbb{P}(X_1 = 10 | \text{eventually reach £10}) = \frac{5}{8}$
+2. Describe the distribution of $(X_n, n \geq 0)$ conditional on reaching £10
+
+Let's solve each part and understand the intuition behind them.
+
+### First Part: Computing $\mathbb{P}(X_1 = 10 | \text{eventually reach £10})$
+
+We can use Bayes' rule to solve this. Let's break it down:
+
+$\mathbb{P}(X_1 = 10 | \text{eventually reach £10}) = \frac{\mathbb{P}(X_1 = 10 \text{ AND eventually reach £10})}{\mathbb{P}(\text{eventually reach £10})}$
+
+We know from part (c) that $\mathbb{P}(\text{eventually reach £10}) = \frac{4}{5}$
+
+When $X_1 = 10$, we've already reached £10, so:
+$\mathbb{P}(X_1 = 10 \text{ AND eventually reach £10}) = \mathbb{P}(X_1 = 10) = \frac{1}{2}$
+
+Therefore:
+$\mathbb{P}(X_1 = 10 | \text{eventually reach £10}) = \frac{\frac{1}{2}}{\frac{4}{5}} = \frac{5}{8}$
+
+### Second Part: Distribution Conditional on Success
+
+The conditional process follows what's called an h-transform of the original chain. The key insight is that the transition probabilities are modified by the probability of eventual success from each state.
+
+Let $h(x)$ be the probability of reaching £10 from state x (which we calculated in part c).
+
+The conditional transition probabilities are given by:
+
+$\mathbb{P}(X_{n+1} = j | X_n = i, \text{success}) = p_{ij} \frac{h(j)}{h(i)}$
+
+Where $p_{ij}$ are the original transition probabilities.
+
+For example, from state 8:
+
+- Original probability of going to 10 was $\frac{1}{2}$
+- Original probability of going to 6 was $\frac{1}{2}$
+
+The conditional probabilities become:
+
+- $\mathbb{P}(X_{n+1} = 10 | X_n = 8, \text{success}) = \frac{1}{2} \cdot \frac{1}{h(8)} = \frac{5}{8}$
+- $\mathbb{P}(X_{n+1} = 6 | X_n = 8, \text{success}) = \frac{1}{2} \cdot \frac{h(6)}{h(8)} = \frac{3}{8}$
+
+This makes intuitive sense - conditioning on eventual success makes transitions toward 10 more likely than they were in the original chain.
+
+The process will still eventually reach 10 with probability 1, but it tends to take paths that are "biased upward" compared to the original chain. Once it reaches 10, it stays there (it's still an absorbing state).
+
+This conditional process is itself a Markov chain, but with different transition probabilities that favor paths leading to success. The new transition probabilities can be calculated for each state using the formula above and the hitting probabilities we found in part (c).
+
+---
+
+# The h-Transform in Markov Chains
+
+### Introduction
+
+When analyzing Markov chains conditioned on hitting a specific state, we use an elegant mathematical tool called the h-transform. This transform helps us understand how the process behaves when we only consider paths that lead to our target state.
+
+### Mathematical Formulation
+
+Let $(X_n)_{n\geq0}$ be a Markov chain with transition probabilities $p_{ij}$. Let $h(i)$ be the probability of hitting our target state when starting from state $i$. The h-transform gives us new transition probabilities:
+
+$$\tilde{p}_{ij} = p_{ij}\frac{h(j)}{h(i)}$$
+
+where $\tilde{p}_{ij}$ represents the probability of transitioning from $i$ to $j$ given that we eventually hit our target state.
+
+### Intuition
+
+This formula elegantly captures two key ideas:
+
+1. The original dynamics of the chain ($p_{ij}$)
+2. The relative likelihood of success after the transition ($\frac{h(j)}{h(i)}$)
+
+For example, in our gambling problem where we aim to reach £10:
+
+- Starting from £8, we originally had:
+  $$p_{8,10} = \frac{1}{2} \text{ and } p_{8,6} = \frac{1}{2}$$
+- After the h-transform, we get:
+  $$\tilde{p}_{8,10} = \frac{1}{2}\cdot\frac{1}{4/5} = \frac{5}{8}$$
+  $$\tilde{p}_{8,6} = \frac{1}{2}\cdot\frac{3/5}{4/5} = \frac{3}{8}$$
+
+### Significance
+
+The h-transform maintains the Markov property while incorporating our knowledge about eventual success. The new chain describes the behavior we would observe if we only watched paths that reach our target state.
+
+The transformed chain puts higher probability on transitions that make success more likely, giving us insight into the "typical" path to success.
+
+---
+
+## Solution Part (e): Conditional Distribution of Upward-Biased Random Walk Given Absorption
+
+Let's analyze a Markov chain $(X_n)_{n\geq0}$ on $\mathbb{N}$ with:
+
+- Absorbing state at 0: $p_{0,0} = 1$
+- Upward bias: $p = p_{i,i+1} > \frac{1}{2}$ for all $i \geq 1$
+- Downward probability: $p_{i,i-1} = 1-p$ for all $i \geq 1$
+- Starting state: $X_0 = j > 0$
+
+### Key Insight
+
+We're given that $\mathbb{P}(absorption\text{ at }0|X_0=j) = (\frac{1-p}{p})^j$. Despite the upward bias ($p > \frac{1}{2}$), we want to understand paths that lead to absorption at 0.
+
+### Using the h-Transform
+
+Let $h(i)$ be the probability of absorption at 0 starting from state $i$:
+$$h(i) = (\frac{1-p}{p})^i$$
+
+For the conditional process, new transition probabilities are:
+$$\tilde{p}_{i,i+1} = p\frac{h(i+1)}{h(i)} = p\frac{(\frac{1-p}{p})^{i+1}}{(\frac{1-p}{p})^i} = (1-p)$$
+
+$$\tilde{p}_{i,i-1} = (1-p)\frac{h(i-1)}{h(i)} = (1-p)\frac{(\frac{1-p}{p})^{i-1}}{(\frac{1-p}{p})^i} = p$$
+
+### Interpretation
+
+The conditional process reverses the probabilities of the original chain:
+
+1. Original upward probability $p$ becomes downward probability
+2. Original downward probability $(1-p)$ becomes upward probability
+3. State 0 remains absorbing
+
+This makes intuitive sense: conditioning on absorption at 0 should favor downward movement.
+
+### Distribution Description
+
+The conditional process is:
+
+- A Markov chain on $\mathbb{N}$
+- Starting from $j$
+- With transition probabilities:
+  $$\tilde{p}_{0,0} = 1$$
+  $$\tilde{p}_{i,i+1} = 1-p < \frac{1}{2}$$
+  $$\tilde{p}_{i,i-1} = p > \frac{1}{2}$$
+
+This is a downward-biased random walk that will reach 0 with probability 1. The paths we observe will tend to drift downward, even though the original process had an upward drift.
+
+### Final Note
+
+This is a beautiful example of how conditioning can fundamentally change the behavior of a Markov chain. The h-transform gives us explicit formulas for the new transition probabilities and helps us understand what "typical" paths to absorption look like.
+
+# Conditioning and Bias Reversal in Markov Chains
+
+### Introduction
+
+One of the most fascinating phenomena in Markov chain theory is how conditioning on a future event can dramatically alter the behavior of the process. The transformation of an upward-biased random walk into a downward-biased one, when conditioned on absorption at zero, provides a beautiful illustration of this principle.
+
+### Mathematical Framework
+
+Consider a Markov chain $(X_n)_{n\geq0}$ on $\mathbb{N}$ with transition probabilities:
+$$p_{i,i+1} = p > \frac{1}{2}, \quad p_{i,i-1} = 1-p < \frac{1}{2}$$
+
+The probability of eventual absorption at 0 from state $i$ is:
+$$h(i) = \left(\frac{1-p}{p}\right)^i$$
+
+### The h-Transform
+
+When we condition on absorption at 0, the new transition probabilities become:
+$$\tilde{p}_{i,i+1} = p\frac{h(i+1)}{h(i)} = p\cdot\frac{(\frac{1-p}{p})^{i+1}}{(\frac{1-p}{p})^i} = 1-p$$
+$$\tilde{p}_{i,i-1} = (1-p)\frac{h(i-1)}{h(i)} = (1-p)\cdot\frac{(\frac{1-p}{p})^{i-1}}{(\frac{1-p}{p})^i} = p$$
+
+### Intuitive Understanding
+
+This reversal of bias can be understood through the lens of conditional probability. At each step:
+
+- Moving upward decreases our absorption probability by a factor of $\frac{1-p}{p}$
+- Moving downward increases our absorption probability by a factor of $\frac{p}{1-p}$
+
+The h-transform balances these factors against the original transition probabilities, resulting in a process that favors paths leading to our target state.
+
+### Practical Significance
+
+This phenomenon reminds us that observing a rare event (absorption at 0 in an upward-biased walk) typically occurs through an atypical sequence of steps. The conditional process describes precisely these atypical but successful paths to absorption.
+
+The formula $\tilde{p}_{ij} = p_{ij}\frac{h(j)}{h(i)}$ elegantly captures this interplay between the original dynamics and our knowledge of eventual success.
+
+# Question:
+
+A Markov chain with state space $\{0,1,2,...\}$ is called a _“birth-and-death chain”_ if the only non-zero transition probabilities from state $i$ are to states $i−1$ and $i+ 1$, except when $i= 0$, where the only non-zero transition probabilities are to states $0$ and $1$. Consider a general birth-and-death chain and write $p_i=p_{i,i+1}$ and $q_i=p_{i,i−1}= 1−p_i$. Assume that $p_i$ and $q_i$ are positive for all $i≥1$.
