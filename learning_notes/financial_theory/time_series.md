@@ -1,4 +1,4 @@
-# Time Series Models: A Comprehensive Guide
+# Time Series Models:
 
 ## Introduction to Time Series
 
@@ -51,6 +51,8 @@ Key properties:
 
 <img src="Code/Figures/AR2.png" alt="alt text">
 
+https://juanitorduz.github.io/arma_numpyro/
+
 ## Moving Average (MA) Processes
 
 ### MA(1) Process
@@ -95,7 +97,7 @@ Key properties:
 3. The PACF decays exponentially after lag p
 4. ARMA models are more parsimonious than pure AR or MA models
 
-<img src="Code/Figures/ARMA.png" alt="alt text">
+<img src="Code/Figures/ARMA2.png" alt="alt text">
 
 <img src="Code/Figures/ARMA-vis.png" alt="alt text">
 
@@ -110,6 +112,10 @@ To determine appropriate p and q values:
 ## GARCH(p,q) Processes
 
 While ARMA models assume constant variance, GARCH models explicitly model time-varying volatility, making them crucial for financial applications.
+
+<img src="Code/Figures/garch.png" alt="alt text">
+<img src="Code/Figures/garch1.png" alt="alt text">
+<img src="Code/Figures/garch2.png" alt="alt text">
 
 ### GARCH(1,1)
 
@@ -326,3 +332,19 @@ GARCH recognizes that risk isn't constant but evolves over time. It's like havin
    - Explain why certain patterns require certain models
 
 Remember: In quant interviews, showing this kind of deep understanding - knowing not just how to use these models but why they work and when they fail - is often more valuable than perfect recall of formulas.
+
+## Volatilty Trading
+
+Think of volatility trading like selling insurance, while stock trading is more like betting on which direction a stock will move. Here's why this distinction is important:
+
+**Directional Risk in Stock Trading:**
+
+When you trade stocks, you need to be right about the direction. If you buy a stock at $100, you're betting it will go up. If it drops to $90, you lose money regardless of how volatile the movement was. This is challenging because stock movements are notoriously difficult to predict consistently.
+
+**Volatility Trading Advantage:**
+
+Volatility trading, on the other hand, doesn't require you to predict direction. You're essentially trading the magnitude of movement, not the direction. Think about these scenarios:
+
+- **Non-Directional Profit Opportunities:**: If you're trading volatility through options or VIX futures, you can profit whether the market goes up or down, as long as your volatility prediction is correct. For example, if you predict increased volatility and buy options straddles (both puts and calls), you can profit from big moves in either direction.
+
+- **Mean-Reverting Nature:**: Volatility tends to be mean-reverting, unlike stock prices. This means that periods of high volatility are likely to be followed by lower volatility, and vice versa. Let me demonstrate with code:
