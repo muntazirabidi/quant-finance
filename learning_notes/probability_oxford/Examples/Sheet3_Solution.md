@@ -1019,3 +1019,166 @@ The formula $\tilde{p}_{ij} = p_{ij}\frac{h(j)}{h(i)}$ elegantly captures this i
 # Question:
 
 A Markov chain with state space $\{0,1,2,...\}$ is called a _“birth-and-death chain”_ if the only non-zero transition probabilities from state $i$ are to states $i−1$ and $i+ 1$, except when $i= 0$, where the only non-zero transition probabilities are to states $0$ and $1$. Consider a general birth-and-death chain and write $p_i=p_{i,i+1}$ and $q_i=p_{i,i−1}= 1−p_i$. Assume that $p_i$ and $q_i$ are positive for all $i≥1$.
+
+## Solution Part (a):
+
+We need to prove that:
+
+1. $p_ih_i + q_ih_i = h_i = p_ih_{i+1} + q_ih_{i-1}$
+2. From this, deduce that $u_{i+1} = \frac{q_i}{p_i}u_i$ for all $i \geq 1$
+
+### Step 1: Understanding Hitting Probabilities
+
+By Theorem 5.7 from the notes, hitting probabilities must satisfy certain equations. For any state $i \geq 1$, we can condition on the first step to get:
+
+$h_i = p_ih_{i+1} + q_ih_{i-1}$
+
+This equation emerges because:
+
+- With probability $p_i$, we go to state $i+1$ and then need to hit $0$ (probability $h_{i+1}$)
+- With probability $q_i$, we go to state $i-1$ and then need to hit $0$ (probability $h_{i-1}$)
+
+### Step 2: Looking at the Equation
+
+Note that $p_ih_i + q_ih_i = h_i$ is trivial since $p_i + q_i = 1$. Therefore, the first part is established:
+
+$p_ih_i + q_ih_i = h_i = p_ih_{i+1} + q_ih_{i-1}$
+
+### Step 3: Deducing the Relationship for $u_i$
+
+Recall that $u_i = h_{i-1} - h_i$
+
+From the hitting probability equation:
+$h_i = p_ih_{i+1} + q_ih_{i-1}$
+
+Rearranging to isolate $h_{i-1} - h_i$:
+
+$h_{i-1} - h_i = \frac{p_i}{q_i}(h_i - h_{i+1})$
+
+Therefore:
+$u_i = \frac{p_i}{q_i}u_{i+1}$
+
+Which gives us:
+$u_{i+1} = \frac{q_i}{p_i}u_i$
+
+This completes our proof, showing that consecutive differences in hitting probabilities are related by the ratio of death to birth probabilities at each state.
+
+This relationship will be crucial for understanding the long-term behavior of the chain and determining conditions for recurrence versus transience.
+
+Let me help solve this birth-and-death chain problem step by step, building up from the simpler parts to the more complex conclusions.
+
+## Soluiton Part (b) - Expressing $u_i$ and $h_i$
+
+### Finding $u_i$ in terms of $γ_i$ and $u_1$
+
+From part (a), we found that $u_{i+1} = \frac{q_i}{p_i}u_i$ for all $i \geq 1$.
+
+Let's apply this recursively:
+$u_2 = \frac{q_1}{p_1}u_1$
+$u_3 = \frac{q_2}{p_2}u_2 = \frac{q_1}{p_1}\frac{q_2}{p_2}u_1$
+
+We can see a pattern forming. Given the definition $\gamma_i = \frac{q_1}{p_1}\frac{q_2}{p_2}...\frac{q_{i-1}}{p_{i-1}}$, we can write:
+
+$u_i = \gamma_i u_1$ for all $i \geq 1$
+
+### Finding $h_i$ in terms of $γ_1,\dots,γ_i$ and $u_1$
+
+Since $u_i = h_{i-1} - h_i$, we can write:
+$h_0 - h_1 = u_1$
+$h_1 - h_2 = \gamma_2u_1$
+$h_2 - h_3 = \gamma_3u_1$
+...
+$h_{i-1} - h_i = \gamma_iu_1$
+
+Adding these equations and using $h_0 = 1$ (since we start at 0, we hit 0 with probability 1):
+
+$h_i = 1 - u_1(1 + \gamma_2 + \gamma_3 + ... + \gamma_i)$
+$h_i = 1 - u_1\sum_{j=1}^i \gamma_j$
+
+## Soluiton Part (c) - Finding u1 and Transience Condition
+
+### Determining u1
+
+For hitting probabilities, we need $0 \leq h_i \leq 1$ for all $i$. Also, since they represent probabilities of ever hitting 0, we want the minimal non-negative solution.
+
+Since $h_i = 1 - u_1\sum_{j=1}^i \gamma_j$, and we want the minimal solution:
+
+If $\sum_{i=1}^{\infty} \gamma_i = \infty$, then $u_1 = 0$ (to keep $h_i \geq 0$)
+If $\sum_{i=1}^{\infty} \gamma_i < \infty$, then $u_1 = \frac{1}{\sum_{i=1}^{\infty} \gamma_i}$
+
+### Transience Condition
+
+When $p_{0,1} > 0$, the chain is transient if and only if there's a positive probability of never returning to 0.
+
+Starting from state 1:
+P(never hit 0) = $1 - h_1 = u_1 = \frac{1}{\sum_{i=1}^{\infty} \gamma_i}$ if the sum converges
+= 0 if the sum diverges
+
+Therefore, the chain is transient if and only if $\sum_{i=1}^{\infty} \gamma_i < \infty$
+
+## Solution Part (d) - Special Case
+
+When $p_i = (\frac{i+1}{i})^2q_i$:
+
+$\frac{q_i}{p_i} = (\frac{i}{i+1})^2$
+
+Therefore:
+$\gamma_i = \prod_{j=1}^{i-1} (\frac{j}{j+1})^2 = (\frac{1}{i})^2$
+
+Thus:
+$\sum_{i=1}^{\infty} \gamma_i = \sum_{i=1}^{\infty} \frac{1}{i^2} = \frac{\pi^2}{6}$
+
+Therefore:
+$P(X_n \geq 1 \text{ for all } n \geq 1) = 1 - h_1 = u_1 = \frac{6}{\pi^2}$
+
+Let me explain the key insights and learning lessons from this birth-and-death chain problem.
+
+## Key Lessons and Insights
+
+## 1. The Power of Recursive Relations
+
+This problem beautifully demonstrates how complex Markov chain behavior can be understood through recursive relationships. When we discovered that $u_{i+1} = \frac{q_i}{p_i}u_i$, it gave us a way to understand differences in hitting probabilities at all states in terms of just one value ($u_1$). This teaches us that in Markov chains, local behavior (transition probabilities) can determine global behavior (hitting probabilities) through recursive relationships.
+
+## 2. The Role of Products in Markov Chains
+
+The appearance of $\gamma_i$ as a product ($\gamma_i = \frac{q_1}{p_1}\frac{q_2}{p_2}...\frac{q_{i-1}}{p_{i-1}}$) is not coincidental. In Markov chains, products often emerge when we're looking at probabilities of specific paths through the chain. Each factor $\frac{q_j}{p_j}$ represents the relative likelihood of moving backward versus forward at state j. This teaches us to look for multiplicative structures when analyzing path probabilities in Markov chains.
+
+## 3. The Connection Between Series and Recurrence
+
+One of the most profound insights is how the convergence of an infinite series ($\sum_{i=1}^{\infty} \gamma_i$) determines whether the chain is recurrent or transient. This connects discrete probability theory with classical analysis. In particular:
+
+- If the series converges, the chain is transient (can escape to infinity)
+- If the series diverges, the chain is recurrent (always returns)
+
+This pattern appears frequently in probability theory - the behavior of infinite series often determines long-term probabilistic behavior.
+
+## 4. The Beauty of Specific Solutions
+
+The special case where $p_i = (\frac{i+1}{i})^2q_i$ leads to the remarkable result that $P(X_n \geq 1 \text{ for all } n \geq 1) = \frac{6}{\pi^2}$. This teaches us two things:
+
+1. Carefully chosen parameters can lead to elegant solutions involving fundamental mathematical constants
+2. The connection to $\zeta(2) = \frac{\pi^2}{6}$ isn't coincidental - it emerges from the sum of reciprocal squares in our $\gamma_i$ series
+
+## 5. The Importance of Minimal Solutions
+
+When solving for hitting probabilities, we learned that we need the minimal non-negative solution. This principle - that among multiple mathematical solutions, the physical solution is often the minimal one - appears frequently in probability theory and physics.
+
+## Practical Applications
+
+These insights have practical applications:
+
+- Modeling population growth (where births and deaths occur)
+- Understanding queueing systems
+- Analyzing random walks with drift
+- Studying particle diffusion processes
+
+## Methodological Lessons
+
+The solution process teaches us valuable problem-solving strategies:
+
+1. Break down complex problems into simpler recursive relationships
+2. Look for patterns that can be expressed as products or series
+3. Use physical constraints (like probabilities being in [0,1]) to select appropriate solutions
+4. Connect local behavior (transition probabilities) to global behavior (recurrence/transience)
+
+This problem exemplifies how mathematical analysis can reveal deep structural properties of stochastic processes, connecting discrete probability, analysis, and physical intuition in a remarkable way.
