@@ -514,3 +514,81 @@ This derivation shows that the predictive performance of kernel ridge regression
 3. **Optimal Rates:** For Sobolev-like kernels, KRR achieves MSPE ~ $O(n^{-2/3})$, faster than $O(n^{-1/2})$.
 
 <img src="Code/Figures/kernels.png" alt="alt text">
+
+# Deep Learning vs Kernel Methods
+
+Kernel methods and deep learning are both powerful tools in machine learning, but they have different strengths, weaknesses, and areas of applicability. Here are several key points that explain the usefulness of kernel methods in the current landscape—even as deep learning has become very popular:
+
+---
+
+### 1. **Theoretical Guarantees and Convexity**
+
+- **Convex Optimization:**  
+  Many kernel methods (e.g., support vector machines, kernel ridge regression) involve convex optimization problems. This means that there is a unique global minimum and no local minima issues. In contrast, deep neural networks are trained using non-convex optimization, which can lead to challenges like sensitivity to initialization, local minima, and complicated training dynamics.
+
+- **Theoretical Understanding:**  
+  Kernel methods are backed by well-established statistical learning theory. The framework of reproducing kernel Hilbert spaces (RKHS) provides clear insights into generalization, regularization, and model complexity. This theoretical clarity is valuable in settings where understanding model behavior is important.
+
+---
+
+### 2. **Performance on Small to Moderate-Sized Datasets**
+
+- **Data Efficiency:**  
+  Kernel methods often perform very well when the amount of data is limited. They can be highly effective on small to medium-sized datasets because they incorporate strong prior assumptions (via the choice of kernel) about smoothness or other properties of the target function.
+
+- **Overfitting and Regularization:**  
+  The built-in regularization (for example, in ridge regression or SVMs) can lead to models that generalize very well when there isn’t an abundance of data. Deep learning models, on the other hand, typically require vast amounts of data to avoid overfitting.
+
+---
+
+### 3. **Interpretability and Simplicity**
+
+- **Model Interpretability:**  
+  Many kernel methods have interpretable parameters and clear geometric interpretations. For instance, in support vector machines, the concept of the “margin” is very intuitive, and the role of support vectors (the critical data points that define the decision boundary) can be directly analyzed.
+
+- **Simplicity of the Framework:**  
+  Kernel methods are often simpler to implement and tune on certain tasks. With a good kernel choice, you can often obtain excellent performance without the need to design complex architectures or carry out extensive hyperparameter searches that deep networks typically require.
+
+---
+
+### 4. **Connections to Other Probabilistic Models**
+
+- **Gaussian Processes (GPs):**  
+  Kernel methods have a strong connection to Gaussian processes, which provide a probabilistic framework for learning. GPs not only deliver predictions but also uncertainty estimates. This is particularly useful in applications where understanding the confidence of predictions is critical.
+
+- **Hybrid Approaches:**  
+  There’s ongoing research in combining the strengths of kernel methods with deep learning. For example, “deep kernels” or “neural tangent kernels” seek to explain why deep networks perform well and sometimes combine kernel ideas with deep architectures.
+
+---
+
+### 5. **Computational Considerations**
+
+- **Scalability Challenges:**  
+  A traditional criticism of kernel methods is that they scale poorly with very large datasets (because of the need to compute and store an \(n \times n\) kernel matrix). However, recent advances such as random feature approximations and inducing point methods have mitigated this issue. These techniques allow kernel methods to scale more gracefully and be competitive even on larger datasets.
+
+- **Resource Requirements:**  
+  Deep learning models, particularly deep convolutional or recurrent networks, often require significant computational resources (e.g., GPUs, large-scale distributed systems) for both training and inference. In contrast, kernel methods can be much lighter in terms of computational requirements—especially when data sizes are moderate or when approximate methods are employed.
+
+---
+
+### 6. **When Deep Learning Shines vs. When Kernel Methods Shine**
+
+- **Deep Learning:**  
+  Excels in tasks involving very high-dimensional, structured data such as images, speech, and natural language. When there is an abundance of data, deep neural networks can learn very complex, hierarchical representations.
+
+- **Kernel Methods:**  
+  Are often preferred for problems where the data is not extremely large, where interpretability and theoretical guarantees are important, or where one wants to avoid the complexities of non-convex optimization. They are also valuable when you have domain knowledge that can be encoded into the kernel (for example, using specialized kernels for graphs, strings, or other structured data).
+
+---
+
+### Summary
+
+Even though deep learning has seen impressive success in many areas, kernel methods remain useful because they:
+
+- Provide convex, well-understood optimization problems.
+- Are very effective on small to moderate datasets.
+- Offer interpretable models and strong theoretical guarantees.
+- Have strong ties to probabilistic models (like Gaussian processes) that provide uncertainty quantification.
+- Can be scaled to larger datasets through recent approximate methods.
+
+Thus, the choice between kernel methods and deep learning depends on the specific task, data size, interpretability requirements, computational resources, and desired theoretical properties. In many scenarios—especially in domains with limited data or where interpretability is paramount—kernel methods continue to be a highly attractive option.
