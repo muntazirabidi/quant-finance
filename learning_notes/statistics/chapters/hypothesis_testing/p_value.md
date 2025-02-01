@@ -22,21 +22,21 @@ Sample Size    P-value          Interpretation
 
 ## Understanding the Pattern
 
-### The Small Sample Story (n=10)
+### The Small Sample Story ($n=10$)
 
 With just 10 coin flips, we get a p-value of about 0.17. This means that even if the coin were perfectly fair, we'd see results this extreme about 17% of the time. It's like trying to hear a whisper in a noisy room - the random variation (noise) drowns out the subtle bias (signal) we're trying to detect.
 
-### The Medium Sample Story (n=100)
+### The Medium Sample Story ($n=100$)
 
-Interestingly, our p-value actually increases to 0.69 with 100 flips. This demonstrates an important principle: small samples can sometimes give misleading results in either direction. It's similar to how taking a small survey in just one neighborhood might give you a skewed view of an entire city.
+Interestingly, our $p$-value actually increases to $0.69$ with $100$ flips. This demonstrates an important principle: small samples can sometimes give misleading results in either direction. It's similar to how taking a small survey in just one neighborhood might give you a skewed view of an entire city.
 
-### The Large Sample Story (n=1000)
+### The Large Sample Story ($n=1000$)
 
-Now something remarkable happens. With 1000 flips, our p-value plummets to 0.00008. The subtle bias becomes clearly detectable. It's like using a sensitive microscope - we can now see details that were invisible to the naked eye.
+Now something remarkable happens. With $1000$ flips, our p-value plummets to $0.00008$. The subtle bias becomes clearly detectable. It's like using a sensitive microscope - we can now see details that were invisible to the naked eye.
 
-### The Very Large Sample Story (n=10000)
+### The Very Large Sample Story ($n=10000$)
 
-At 10000 flips, our p-value becomes vanishingly small (3e-22). We've now accumulated so much evidence that it becomes virtually impossible to attribute our results to chance.
+At $10000$ flips, our p-value becomes vanishingly small ($3e^{-22}$). We've now accumulated so much evidence that it becomes virtually impossible to attribute our results to chance.
 
 ## The Mathematical Foundation
 

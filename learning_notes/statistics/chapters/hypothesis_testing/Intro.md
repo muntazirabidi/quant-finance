@@ -50,7 +50,7 @@ _Important to remember:_
 The t-statistic measures how many standard errors the sample mean is from the hypothesized mean:
 
 \[
-$t\_{\text{obs}} = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}$
+$t_{\text{obs}} = \frac{\bar{x} - \mu_0}{s / \sqrt{n}}$
 \]
 
 For our low-dose data:
@@ -60,19 +60,19 @@ $\bar{x} = 0.75, \quad s^2 = 3.2, \quad n = 10, \quad \mu_0 = 0$
 
 Leading to:
 \[
-$t\_{\text{obs}} = \frac{0.75 - 0}{\sqrt{3.2} / \sqrt{10}} = 1.326$
+$t_{\text{obs}} = \frac{0.75 - 0}{\sqrt{3.2} / \sqrt{10}} = 1.326$
 \]
 
 ### Results Analysis
 
 Under \($H_0$\), our test statistic follows a $t$-distribution with n-1 degrees of freedom:
 \[
-$t(X) \sim t*{n-1}$
+$t(X) \sim t_{n-1}$
 \]
 
-The $p$-value represents the probability of seeing our observed result (or more extreme) if $H*0$ is true:
+The $p$-value represents the probability of seeing our observed result (or more extreme) if $H_0$ is true:
 \[
-$p = P(t(X) > t*{\text{obs}}) = 0.109$
+$p = P(t(X) > t_{\text{obs}}) = 0.109$
 \]
 
 ### Normal Dose Comparison
@@ -84,7 +84,7 @@ $1.9, 0.8, 1.1, 0.1, -0.1, 4.4, 5.5, 1.6, 4.6, 3.4$
 
 With statistics:
 \[
-$\bar{x} = 2.33, \quad s^2 = 4.0, \quad n = 10, \quad t\_{\text{obs}} = 3.68, \quad p = 0.0025$
+$\bar{x} = 2.33, \quad s^2 = 4.0, \quad n = 10, \quad t_{\text{obs}} = 3.68, \quad p = 0.0025$
 \]
 
 ### P-value Interpretation Guide
