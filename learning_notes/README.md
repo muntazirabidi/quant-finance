@@ -67,21 +67,9 @@ Each additional topic provides specialized knowledge for quantitative finance:
 Each course directory maintains a consistent structure:
 
 - **chapters/**: Detailed notes organized by topic
-  - Comprehensive lecture summaries
-  - Theorem statements and complete proofs
-  - Key definitions and concepts
 - **example_sheets/**: Practice materials
-  - Problem sets with full solutions
-  - Past examination questions
-  - Additional exercises
 - **code/**: Implementation resources
-  - Python notebooks with documented examples
-  - Algorithm implementations
-  - Computational exercises
 - **figures/**: Visual resources
-  - Statistical plots and graphs
-  - Theoretical diagrams
-  - Concept visualizations
 
 ## Usage Guide
 
