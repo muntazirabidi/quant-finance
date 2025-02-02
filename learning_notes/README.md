@@ -1,4 +1,13 @@
-
+- [Course Overview](#course-overview)
+- [Course Materials Structure](#course-materials-structure)
+  - [Mathematics Tripos Courses](#mathematics-tripos-courses)
+    - [Statistics (Part I)](#statistics-part-i)
+    - [Probability (Part I)](#probability-part-i)
+    - [Principles of Statistics (Part II)](#principles-of-statistics-part-ii)
+    - [Modern Statistics (Part III)](#modern-statistics-part-iii)
+  - [Additional Topics](#additional-topics)
+- [Directory Organization](#directory-organization)
+- [Usage Guide](#usage-guide)
 
 ## Course Overview
 
