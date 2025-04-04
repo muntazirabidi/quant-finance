@@ -37,4 +37,4 @@ This repo follows the structure of the Cambridge Tripos:
 
 ---
 
-Follow me here and on [LinkedIn](https://www.linkedin.com/in/muntazirabidi/) or [YouTube]((https://www.youtube.com/@muntazirabidi)) for more updates!
+Follow me here and on [LinkedIn](https://www.linkedin.com/in/muntazirabidi/) or [YouTube](https://www.youtube.com/@muntazirabidi) for more updates!
