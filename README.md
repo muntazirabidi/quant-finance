@@ -1,6 +1,6 @@
 # Quant Finance Learning & Interview Prep
 
-This repository contains my structured notes, code, and project work for preparing quant interviews, drawn from the Cambridge Mathematical Tripos and real quant interviews at SIG, Man Group, and Tudor.
+This repository contains my structured notes, code, and project work for preparing quant interviews, drawn from the Cambridge Mathematical Tripos.
 
 ## 📚 Course Material Overview
 
