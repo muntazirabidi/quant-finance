@@ -26,14 +26,6 @@ This repo follows the structure of the Cambridge Tripos:
 
 ## 🛠️ Projects
 - `PairTrading`: Cointegration-based backtesting engine
-- `Volatility Dashboard`: Dynamic visualization of clustering patterns
-- `AlgoTrading`: MACD / RSI based BackTrader strategies
-
-## 💡 Usage Guide
-1. Start with `learning_notes/` for theory
-2. Explore `projects/` for applied examples
-3. Practice using `interview_prep/` and `example_sheets/`
-4. Check `docs/` for firm-specific prep insights
 
 ---
 
